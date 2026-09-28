@@ -1,4 +1,4 @@
-# Wrenfield Learn - class prototype
+# SMU Learn (Super Management University) - class prototype
 
 A term-paper prototype for a decision-architecture course. It copies three screens of a university LMS under a fictional brand: Home, a Course page and the PGPD workshop page. The aim is to test a redesign of how students decide what to do before class.
 

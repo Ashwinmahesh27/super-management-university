@@ -23,7 +23,7 @@ export default function Shell({ go, courseTitle, nav, activeNav, onNav, children
       <header className="minibar">
         <div className="mb-left">
           <button className="logo" onClick={() => go('home')} aria-label="My Home">
-            <span className="logo-mark">W</span>
+            <span className="logo-mark">SMU</span>
             <span className="logo-text">{brand.university}<small>{brand.product}</small></span>
           </button>
           {courseTitle && <button className="mb-course" onClick={() => go('course', 'home')}>{courseTitle}</button>}

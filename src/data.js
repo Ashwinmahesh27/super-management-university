@@ -3,8 +3,8 @@
 // Variant A mirrors the real LMS as captured on 2026-09-28 (see AUDIT.md for the dated screenshots).
 
 export const brand = {
-  university: 'Wrenfield University',
-  product: 'Wrenfield Learn',
+  university: 'SMU - Super Management University',
+  product: 'SMU Learn',
   poweredBy: 'Powered by a generic LMS',
 };
 
@@ -30,7 +30,7 @@ export const lastLogin = {
   when: 'Monday, 28 Sept 2026, 12:04:46 pm',
   location: 'SG - Singapore',
   help: 'If this is not your last login, please contact :',
-  email: 'helpdesk@wrenfield.example',
+  email: 'helpdesk@super-mgmt.example',
 };
 
 // Tile art is CSS gradients, standing in for stock photos on the real tiles.
@@ -41,7 +41,7 @@ export const courses = [
   { id: 'ait', code: 'MGT688-G1', title: 'MGT688-G1-Leading Transformation with AI', term: '2026-27 August Term', ends: 'Ends December 20, 2026 at 12:00 AM', pinned: true, art: 'seats' },
   { id: 'pd1', title: 'PGPD - Modelling and Optimization of Business Decisions through Spreadsheets', term: 'Ongoing', art: 'sky' },
   { id: 'pd2', title: 'PGPD - User Experience (UX) Visual Design & Psychology', term: 'Ongoing', art: 'sky' },
-  { id: 'ori', title: 'Student Orientation to Wrenfield Learn 2026-27', term: '2026-27 Term 1', art: 'bricks', badge: '99+' },
+  { id: 'ori', title: 'Student Orientation to SMU Learn 2026-27', term: '2026-27 Term 1', art: 'bricks', badge: '99+' },
   { id: 'pd3', title: 'PGPD - Sustainability and the Corporation: An Introduction', term: 'Ongoing', art: 'forest' },
   { id: 'pd4', title: 'PGPD - Mindfulness and Meditation for Sustainable Effectiveness', term: 'Ongoing', art: 'drops' },
   { id: 'pgpd', title: 'PG Professional Development Course', term: 'Ongoing', art: 'arrow' },
@@ -66,7 +66,7 @@ export const course = {
   integrity: {
     title: 'Code of Academic Integrity',
     heading: 'Reminder on Code of Academic Integrity',
-    body: 'Wrenfield adopts a Code of Academic Integrity. There are serious penalties, including expulsion, for cheating, plagiarism, fabrication, multiple submissions, misrepresentation, facilitating academic dishonesty, attempting to gain advantage, etc. Details of this code are available in the student portal (Alternatively, click here).',
+    body: 'SMU adopts a Code of Academic Integrity. There are serious penalties, including expulsion, for cheating, plagiarism, fabrication, multiple submissions, misrepresentation, facilitating academic dishonesty, attempting to gain advantage, etc. Details of this code are available in the student portal (Alternatively, click here).',
   },
   updates: '1 Quizzes Not Attempted',
   calendarDate: 'Monday, September 28, 2026',
@@ -129,7 +129,7 @@ export const pgpd = {
       'Please look out for email notifications to sign up for workshops on a first-come-first-served basis during the terms, unless pre-allocation for selected workshop topics has been specifically made for your respective programmes.',
       'Note: a) There will be a post-workshop assessment in the form of a quiz and/or short assignment of various formats to be completed within a stipulated period after each workshop. Absences during class or non-participation or non-completion of post-workshop assessment(s) may result in students not fulfilling the workshop requirements, and would need to retake the same or different workshop offering at the next PGPD round. No exemption will be allowed, unless otherwise specifically informed. b) All acts of academic dishonesty (including, but not limited to, plagiarism, cheating, fabrication, facilitation of acts of academic dishonesty by others, unauthorized possession of exam questions, or tampering with the academic work of other students) are serious offences. Any student caught violating this policy may result in the student receiving a fail grade for the workshop.',
     ],
-    contact: 'For more information, please email your respective programme managers or the programme office at: masters@wrenfield.example',
+    contact: 'For more information, please email your respective programme managers or the programme office at: masters@super-mgmt.example',
     attachment: 'FAQs - PGPD workshops as at Aug23.pdf (124.34 KB)',
   },
   // Dummy record for Alex: 1 of 4 done. In A this is only visible under My Results.

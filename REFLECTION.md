@@ -1,4 +1,4 @@
-# REFLECTION.md - Wrenfield Learn (LMS) · Group [N]
+# REFLECTION.md - SMU Learn (LMS) · Group [N]
 **Length:** about 1,000-1,500 words for the group. Each member initials the parts they wrote, e.g. (AB, CD).
 
 ## Part A - Critical thinking

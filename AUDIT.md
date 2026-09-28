@@ -1,4 +1,4 @@
-# AUDIT.md - Wrenfield Learn (a university LMS) · the decision: what to do before this week's class
+# AUDIT.md - SMU Learn (a university LMS, parody brand) · the decision: what to do before this week's class
 
 > **DRAFT, not yet agreed.** Severity ratings are blank on purpose: each member rates alone first (brief, slide 22).
 > Predictions marked `[to agree]` are proposals. Once the group signs off, commit this file **before any prompt for variant B**.
@@ -6,7 +6,7 @@
 
 **Group:** [N] · **Members:** CC = Chak, [AB], [CD], [EF]
 **Screenshots taken:** 2026-09-28, MacBook, Chrome, the real LMS (D2L Brightspace, live version on that date). Kept outside this repo because they show a real student's name: `Desktop/28September/eLearn screenshots (2026-09-28)/`. The paper uses cropped, name-blurred copies.
-**Brand in the prototype:** fictional ("Wrenfield University", "Wrenfield Learn"), per the brief. Course codes and the student are made up too.
+**Brand in the prototype:** fictional ("SMU - Super Management University", "SMU Learn" (a parody name chosen by CC)), per the brief. Course codes and the student are made up too.
 **Scope:** three screens only: Home, Course page (course home + Content tab), and PGPD (professional development workshops). Everything else is out of scope; see `SCOPE.md`.
 
 **Decision sentence:** When a postgraduate student opens the LMS in a normal week, and decides what to do before the next class (which readings to do, what is due, whether they are on track for the workshop requirement), the screens make "nothing to do" the easiest conclusion. They do it through missing and saturated progress cues (W2 goal gradient), misleading completion labels (W5) and a loss-framed wall of rules (W4).
