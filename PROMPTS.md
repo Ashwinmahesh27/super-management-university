@@ -1,6 +1,6 @@
 # PROMPTS.md - SMU Learn (LMS) · Group [N]
 **Members:** CC = Chak, [AB = name], [CD = name], [EF = name]
-**Live link:** [Vercel production URL, once imported]
+**Live link:** https://super-management-university.vercel.app (Vercel Hobby, account c-c-for-code, imported from this repo on 2026-09-28)
 **Tool used so far:** an AI browser agent (Aside, a Claude model) with access to the course folder and CC's logged-in LMS. We logged its prompts here in the same format as AI Studio prompts.
 
 ---

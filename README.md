@@ -13,6 +13,6 @@ Files: `AUDIT.md` (findings and predictions), `PROMPTS.md` (AI prompts log), `RE
 npm install
 npm run dev
 ```
-Deploy: import the repo on Vercel with the Vite preset. No environment variables.
+Live: https://super-management-university.vercel.app (Vercel, Vite preset, no environment variables; every push to main redeploys).
 
 Note: `package.json` pins esbuild and rollup to their WebAssembly builds (see `overrides`). This works on any machine, including ones that block native binaries. Vercel builds it the same way.
