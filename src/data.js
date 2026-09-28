@@ -142,7 +142,7 @@ export const debrief = {
   title: 'Thank you. That was the whole session.',
   body: [
     'Nothing was registered, submitted or saved. The courses, readings and workshops are made up for a class project.',
-    'Two quick questions help us compare designs. There are no right or wrong answers about you, only about the screens.',
+    'Three quick questions help us compare designs. There are no right or wrong answers about you, only about the screens.',
   ],
   q1: { text: 'How much of the Designing Decisions reading list has Alex finished?', options: ['All of it', 'Most of it', 'About a third', 'Hardly any', 'I couldn\'t tell'], correct: 'About a third' },
   q2: { text: 'How many PGPD workshops does Alex still need to graduate?', options: ['0', '1', '2', '3', '4', 'I couldn\'t tell'], correct: '3' },

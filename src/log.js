@@ -8,7 +8,7 @@ export function logEvent(name) {
 }
 
 export function summary() {
-  const first = (n) => { const e = events.find((x) => x.name === n); return e ? e.s : '-'; };
+  const first = (n) => { const e = events.find((x) => x.name === n); return e ? e.s : 'x'; };
   return {
     seconds: Math.round((Date.now() - t0) / 1000),
     openedReadings: first('open_readings'),
