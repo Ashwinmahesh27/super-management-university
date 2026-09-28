@@ -12,11 +12,36 @@ export const user = { name: 'Alex Tan', initials: 'AT' };
 
 export const today = { label: 'Monday, 28 Sept 2026', short: 'Sep 28, 2026' };
 
+// Variant A = screenshots of the live LMS. Coordinates are CSS pixels on a 1440 px wide page.
+export const shotsA = {
+  home: { src: '/a/home.jpg', w: 1440, h: 1806, alt: 'LMS homepage, as captured on 28 Sep 2026',
+    hot: [
+      { label: 'Open the Decision Architecture course', x: 400, y: 500.6, width: 230, height: 270, to: 'a-course-home', event: 'open_course' },
+      { label: 'Open the PG Professional Development course', x: 645, y: 1056.6, width: 230, height: 255, to: 'a-pgpd', event: 'open_pgpd' },
+    ] },
+  'course-home': { src: '/a/course-home.jpg', w: 1440, h: 1569, alt: 'Course homepage, as captured on 28 Sep 2026',
+    hot: [
+      { label: 'My Home', x: 135, y: 4, width: 104.6, height: 90, to: 'a-home' },
+      { label: 'Content', x: 201.3, y: 113.75, width: 62.3, height: 20.5, to: 'a-course-readings', event: 'open_readings' },
+    ] },
+  'course-readings': { src: '/a/course-readings.jpg', w: 1440, h: 1347, alt: 'Content, Course Readings module, as captured on 28 Sep 2026',
+    hot: [
+      { label: 'My Home', x: 135, y: 4, width: 104.6, height: 90, to: 'a-home' },
+      { label: 'Course home', x: 135, y: 113.75, width: 46.3, height: 20.5, to: 'a-course-home' },
+    ] },
+  pgpd: { src: '/a/pgpd.jpg', w: 1440, h: 3181, alt: 'PG Professional Development course homepage, as captured on 28 Sep 2026',
+    hot: [
+      { label: 'My Home', x: 135, y: 4, width: 104.6, height: 90, to: 'a-home' },
+    ] },
+};
+
+export const methodNote = 'A note on method: the real LMS sits behind the university\'s Microsoft 365 sign-in, with multi-factor authentication. Our design and build tools could not load those pages, so we could not rebuild design A as an accurate source copy. Design A therefore uses dated screenshots of the live site (28 Sep 2026, student name removed), with clickable areas added by prompting.';
+
 export const consent = {
   title: 'Before you start',
   body: [
-    'This is a class prototype for a term paper. It copies the layout of a university learning site under a made-up name.',
-    'Nothing here is real: no course, no grade, no registration and no personal data. We do not collect your name or contact details.',
+    'This is a class prototype for a term paper about how a university learning site shapes what students do before class.',
+    'Nothing you do here is real: no course, grade or registration changes, and we do not collect your name or contact details.',
     'Take about three minutes. Look around as you would on a normal Monday before class. Click "End session" at the bottom right when you are done.',
   ],
   button: 'Continue',
@@ -141,11 +166,11 @@ export const pgpd = {
 export const debrief = {
   title: 'Thank you. That was the whole session.',
   body: [
-    'Nothing was registered, submitted or saved. The courses, readings and workshops are made up for a class project.',
+    'Nothing was registered, submitted or saved. Design A was screenshots of the real site; design B used made-up progress figures for a fictional student.',
     'Three quick questions help us compare designs. There are no right or wrong answers about you, only about the screens.',
   ],
-  q1: { text: 'How much of the Designing Decisions reading list has Alex finished?', options: ['All of it', 'Most of it', 'About a third', 'Hardly any', 'I couldn\'t tell'], correct: 'About a third' },
-  q2: { text: 'How many PGPD workshops does Alex still need to graduate?', options: ['0', '1', '2', '3', '4', 'I couldn\'t tell'], correct: '3' },
+  q1: { text: 'How much of the course reading list has this student finished?', options: ['All of it', 'Most of it', 'About a third', 'Hardly any', 'I couldn\'t tell'], correct: 'About a third' },
+  q2: { text: 'How many PGPD workshops does this student still need to graduate?', options: ['0', '1', '2', '3', '4', 'I couldn\'t tell'], correct: '3' },
   q3: { text: 'How pressured did the site make you feel? (1 = not at all, 5 = very)', options: ['1', '2', '3', '4', '5'] },
   codeLabel: 'Your result code (paste it into the group form):',
 };

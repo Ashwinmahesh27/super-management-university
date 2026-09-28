@@ -7,6 +7,7 @@
 **Group:** [N] · **Members:** CC = Chak, [AB], [CD], [EF]
 **Screenshots taken:** 2026-09-28, MacBook, Chrome, the real LMS (D2L Brightspace, live version on that date). Kept outside this repo because they show a real student's name: `Desktop/28September/eLearn screenshots (2026-09-28)/`. The paper uses cropped, name-blurred copies.
 **Brand in the prototype:** fictional ("SMU - Super Management University", "SMU Learn" (a parody name chosen by CC)), per the brief. Course codes and the student are made up too.
+**How variant A was made:** the real LMS sits behind the university's Microsoft 365 sign-in, with multi-factor authentication. Our design and build tools could not load those pages, so we could not rebuild A as an accurate source copy. A is therefore four dated screenshots of the live site (28 Sep 2026, student name and one slide password removed), with clickable areas added by prompting (`public/a/`). The same note appears on the consent screen. Our first HTML rebuild of A (`src/screens/Home.jsx`, `Course.jsx`, `Pgpd.jsx`) is kept as the starting layout for B.
 **Scope:** three screens only: Home, Course page (course home + Content tab), and PGPD (professional development workshops). Everything else is out of scope; see `SCOPE.md`.
 
 **Decision sentence:** When a postgraduate student opens the LMS in a normal week, and decides what to do before the next class (which readings to do, what is due, whether they are on track for the workshop requirement), the screens make "nothing to do" the easiest conclusion. They do it through missing and saturated progress cues (W2 goal gradient), misleading completion labels (W5) and a loss-framed wall of rules (W4).
@@ -66,7 +67,7 @@
 ## Course page
 
 ## Finding 3 - The reading list reads "100% complete" after one click
-- **Where:** Course page › Content › "Course Readings". The module holds one topic, "Reading List" (an external tool). Opening it once gives "1 of 1 topics complete", a full green bar and a tick in the table of contents.
+- **Where:** Course page › Content › "Course Readings". The module holds one topic, "Reading List" (an external tool). Opening it once gives "1 of 1 topics complete", a full progress bar at 100% and a tick in the table of contents.
 - **What the user sees and does:** A student who has read 6 of 19 readings sees 100% and a green tick, and has no reason to go back.
 - **Principle:** W2 goal gradient. Effort rises as people near a goal (Kivetz, Urminsky & Zheng 2006, cited in the Week 6 brief). Finer-grained progress raises perceived progress and completion (Zhou & Soman 2003, Week 1 slides: 40 pages of 10 lines beat 20 pages of 20 lines).
 - **Mechanism, whose goal wins:** The goal is marked reached at the first step, so there is no gradient left to climb. Neither side's goal wins. · MISSED NUDGE (the tool exists but counts the wrong thing)
@@ -151,6 +152,7 @@
 1. Do we agree the primary metric is M1 (reading progress accuracy), or should it be M3 (behaviour: opening the list)?
 2. Keep Finding 2 in B? It needs a fourth debrief question.
 3. Do we pilot on classmates only (a pilot), or recruit beyond the class to reach 42 per arm?
+4. A is now real screenshots, so A shows a real student's reading status, not the fictional student's. Should M1 count "All of it" (believing the 100% bar) as the A error, instead of scoring against the fictional answer?
 
 ## Added after building
 [Dated. From the first prompt for B, nothing above this heading changes.]

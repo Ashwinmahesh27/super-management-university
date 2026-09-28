@@ -146,3 +146,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .tiles { grid-template-columns: 1fr; }
   .mb-icon { display: none; }
 }
+
+/* variant A: screenshots of the live LMS */
+.shot-wrap { background: #f6f7f8; min-height: 100vh; }
+.shot { position: relative; max-width: 1440px; margin: 0 auto; }
+.shot img { display: block; width: 100%; height: auto; }
+.hot { position: absolute; background: transparent; border-radius: 4px; }
+.hot:hover { outline: 2px solid rgba(0, 111, 191, .35); }
+.method-note { margin-top: 18px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }

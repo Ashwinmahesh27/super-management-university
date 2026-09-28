@@ -1,5 +1,5 @@
 import React from 'react';
-import { brand, consent } from '../data.js';
+import { brand, consent, methodNote } from '../data.js';
 
 export default function Consent({ onContinue }) {
   return (
@@ -9,6 +9,7 @@ export default function Consent({ onContinue }) {
         <h1>{consent.title}</h1>
         {consent.body.map((p) => <p key={p}>{p}</p>)}
         <button className="proto-btn" onClick={onContinue}>{consent.button}</button>
+        <p className="method-note">{methodNote}</p>
       </div>
     </div>
   );

@@ -3,6 +3,10 @@
 Agreed scope (CC, 2026-09-28): **Home, Course page, PGPD registration.** Everything else in the real LMS is out of scope.
 The brief warns that a whole super-app is a weak candidate ("too many decisions at once", slide 11), so we audit one decision across three screens.
 
+## How variant A is shown
+Variant A is four screenshots of the live LMS, captured 2026-09-28, with the student name and a slide password removed. They are in `public/a/`: `home.jpg`, `course-home.jpg`, `course-readings.jpg`, `pgpd.jpg`. Clickable areas: Home → the course tile and the PGPD tile; course home → Content; any page → My Home. Everything else in the screenshots is not clickable (ignored).
+Why screenshots: the LMS sits behind the university's Microsoft 365 sign-in with multi-factor authentication, so the tools could not load it to rebuild an accurate copy.
+
 ## In scope
 | Screen in the prototype | Real screen it copies (captured 2026-09-28) | Screenshot file |
 |---|---|---|

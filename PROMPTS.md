@@ -53,4 +53,12 @@ Don't call it wrenfield, call it SMU - Super Management University. check what e
 **Our judgement, and what we changed next:** [CC to fill in]
 **Principle check:** none: production only.
 
-## Entry 7 - [next prompt] · [date, time] · sent by [initials] · [tool]
+## Entry 7 - A from screenshots · 2026-09-28, ~17:50 · sent by CC · Aside
+```
+for now, what you can do is take screenshots of the current eLearn page and use that on the web site, say because of the MS365 security issue we were unable to created version A which was the source copy as accurately, so we used screenshots and prompting instead
+```
+**What came back:** Four fresh full-page screenshots (Home, course home, Content › Course Readings, PGPD). The student name, avatar, one slide password and a staff name were removed before capture. Variant A now shows these images with clickable areas. A method note is on the consent screen and in AUDIT.md, SCOPE.md and README.md. The HTML rebuild stays in the repo as the base for B.
+**Our judgement, and what we changed next:** [CC to fill in]
+**Principle check:** none: production only. Risk noted: the screenshots show the real university logo (brief, slide 16).
+
+## Entry 8 - [next prompt] · [date, time] · sent by [initials] · [tool]
