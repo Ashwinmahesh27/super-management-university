@@ -165,3 +165,5 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .bp-list { padding-left: 20px; }
 .bp-list li { margin: 6px 0; }
 @media (max-width: 600px) { .mh-note { display: none; } }
+
+.seen { font-size: 22px; margin: 0 0 4px; }

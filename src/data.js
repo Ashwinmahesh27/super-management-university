@@ -195,5 +195,8 @@ export const debrief = {
   q1: { text: 'How much of the course reading list has this student finished?', options: ['All of it', 'Most of it', 'About a third', 'Hardly any', 'I couldn\'t tell'], correct: 'About a third' },
   q2: { text: 'How many PGPD workshops does this student still need to graduate?', options: ['0', '1', '2', '3', '4', 'I couldn\'t tell'], correct: '3' },
   q3: { text: 'How pressured did the site make you feel? (1 = not at all, 5 = very)', options: ['1', '2', '3', '4', '5'] },
-  codeLabel: 'Your result code (paste it into the group form):',
+  seenNote: {
+    A: 'Design A is the current site, shown as screenshots.',
+    B: 'Design B is the redesign. Its progress figures are made up for a fictional student.',
+  },
 };

@@ -77,4 +77,12 @@ I want to view optioni A vs B as a toggle on the masthead
 **Our judgement, and what we changed next:** [CC to fill in]
 **Principle check:** W1 randomisation: a switcher visible to testers would break the A/B test, so it is review-only.
 
-## Entry 10 - [next prompt] · [date, time] · sent by [initials] · [tool]
+## Entry 10 - no result code · 2026-09-28, ~19:18 · sent by CC · Aside
+```
+I dont wnat to enter a code, just a or b   [with a screenshot of the debrief's "A-A-3-5-4-x-x-7" result code]
+```
+**What came back:** The result code is removed. The debrief now says only "You saw design A" (or B), with one line on what that design is.
+**Our judgement, and what we changed next:** [CC to fill in]
+**Principle check:** W1 test plan: answers are no longer captured in the app, so the pilot needs a form or a facilitator (AUDIT.md open question 5).
+
+## Entry 11 - [next prompt] · [date, time] · sent by [initials] · [tool]

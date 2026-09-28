@@ -31,14 +31,14 @@
 |---|---|---|---|
 | M1 | Share of testers who correctly state how much of the reading list Alex has finished ("About a third") | **Primary** | Debrief question 1 |
 | M2 | Share of testers who correctly state how many PGPD workshops Alex still needs ("3") | Secondary | Debrief question 2 |
-| M3 | Share of testers who open the reading list during the session | Secondary (behaviour) | Event `open_readings` in the result code |
+| M3 | Share of testers who open the reading list during the session | Secondary (behaviour) | Observed by the facilitator (no in-app record) |
 | G1 | Felt pressure, 1 to 5 | **Guardrail:** B is not higher than A by more than 0.5 | Debrief question 3 |
-| G2 | Seconds in session | Guardrail: B is not longer than A by more than 30% | Result code |
+| G2 | Seconds in session | Guardrail: B is not longer than A by more than 30% | Timed by the facilitator |
 
 **Assignment:** random at page load, kept in localStorage; `?v=A` or `?v=B` overrides it for demos.
 **Sample size:** with M1 expected at 30% in A and 60% in B, the brief's table gives 42 per arm (84 in total, α = .05, power = .80). If we reach fewer, we call it a pilot.
 **Ethics:** consent screen first; no names, emails or real data; the debrief says the student and the progress figures were made up.
-**Collection:** no network calls. The debrief shows a short result code, which testers paste into the group's form.
+**Collection:** no network calls. The debrief tells each tester only which design they saw (A or B). Answers are not stored, so the pilot needs a separate form (open question 5).
 
 ---
 
@@ -152,6 +152,7 @@
 1. Do we agree the primary metric is M1 (reading progress accuracy), or should it be M3 (behaviour: opening the list)?
 2. Keep Finding 2 in B? It needs a fourth debrief question.
 3. Do we pilot on classmates only (a pilot), or recruit beyond the class to reach 42 per arm?
+5. How do we collect answers? The debrief only shows A or B (CC's call, 2026-09-28). Options: a short Google Form linked from the debrief, or a facilitator writes them down.
 4. A is now real screenshots, so A shows a real student's reading status, not the fictional student's. Should M1 count "All of it" (believing the 100% bar) as the A error, instead of scoring against the fictional answer?
 
 ## Added after building

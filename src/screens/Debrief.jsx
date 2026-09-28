@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { debrief } from '../data.js';
-import { summary } from '../log.js';
 
 export default function Debrief({ assigned, shown, toggled }) {
   const [a, setA] = useState({});
-  const s = summary();
   const qs = ['q1', 'q2', 'q3'];
   const answered = qs.every((q) => a[q]);
-  const idx = (q) => debrief[q].options.indexOf(a[q]);
-  const code = [shown + (toggled ? 't' : ''), assigned, idx('q1'), idx('q2'), idx('q3'), s.openedReadings, s.openedResults, s.seconds].join('-');
 
   return (
     <div className="proto-screen">
@@ -27,9 +23,8 @@ export default function Debrief({ assigned, shown, toggled }) {
         ))}
         {answered && (
           <div className="code">
-            <p>{debrief.codeLabel}</p>
-            <code>{code}</code>
-            <p className="small muted">You saw design {shown}. The progress figures in this prototype were made up for a fictional student.</p>
+            <p className="seen">You saw design <strong>{shown}</strong></p>
+            <p className="small muted">{debrief.seenNote[shown]}</p>
           </div>
         )}
       </div>
