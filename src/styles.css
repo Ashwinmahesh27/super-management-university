@@ -154,3 +154,14 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .hot { position: absolute; background: transparent; border-radius: 4px; }
 .hot:hover { outline: 2px solid rgba(0, 111, 191, .35); }
 .method-note { margin-top: 18px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
+
+/* review-only design switcher */
+.masthead { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 8px 16px; background: #202122; color: #fff; font-size: 13px; }
+.mh-label { font-weight: 700; }
+.mh-toggle { display: inline-flex; background: #3a3c3e; border-radius: 18px; padding: 3px; }
+.mh-opt { color: #d7d9db; padding: 5px 14px; border-radius: 15px; font-size: 13px; }
+.mh-opt.on { background: #fff; color: #202122; }
+.mh-note { color: #a9adb1; font-size: 12px; margin-left: auto; }
+.bp-list { padding-left: 20px; }
+.bp-list li { margin: 6px 0; }
+@media (max-width: 600px) { .mh-note { display: none; } }

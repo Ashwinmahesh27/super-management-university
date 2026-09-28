@@ -61,4 +61,20 @@ for now, what you can do is take screenshots of the current eLearn page and use 
 **Our judgement, and what we changed next:** [CC to fill in]
 **Principle check:** none: production only. Risk noted: the screenshots show the real university logo (brief, slide 16).
 
-## Entry 8 - [next prompt] · [date, time] · sent by [initials] · [tool]
+## Entry 8 - host on Vercel, keep private · 2026-09-28, ~18:10 · sent by CC · Aside
+```
+Once this is done, do not share it with prof roh; private repo, host it on vercel, share me the link
+```
+**What came back:** Imported to Vercel (Hobby, Vite preset). Live at https://super-management-university.vercel.app. The repo stays private.
+**Our judgement, and what we changed next:** [CC to fill in]
+**Principle check:** none: production only.
+
+## Entry 9 - A/B toggle in the masthead · 2026-09-28, ~18:25 · sent by CC · Aside
+```
+I want to view optioni A vs B as a toggle on the masthead
+```
+**What came back:** A dark bar at the top with "A Current / B Redesign". It shows only on links with ?v= (review links). The bare URL, which participants get, keeps random assignment and hides the bar, so testers cannot switch arms. B shows a "not built yet" card listing the planned repairs. The debrief code marks a toggled session with "t".
+**Our judgement, and what we changed next:** [CC to fill in]
+**Principle check:** W1 randomisation: a switcher visible to testers would break the A/B test, so it is review-only.
+
+## Entry 10 - [next prompt] · [date, time] · sent by [initials] · [tool]

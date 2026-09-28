@@ -37,6 +37,29 @@ export const shotsA = {
 
 export const methodNote = 'A note on method: the real LMS sits behind the university\'s Microsoft 365 sign-in, with multi-factor authentication. Our design and build tools could not load those pages, so we could not rebuild design A as an accurate source copy. Design A therefore uses dated screenshots of the live site (28 Sep 2026, student name removed), with clickable areas added by prompting.';
 
+export const masthead = {
+  label: 'Design',
+  A: 'Current',
+  B: 'Redesign',
+  note: 'Review view: test participants do not see this bar',
+};
+
+export const bPending = {
+  kicker: 'Design B · redesign',
+  title: 'Design B is not built yet',
+  body: [
+    'Our brief asks us to commit our audit and predictions (AUDIT.md) before building the redesign, so the predictions come first.',
+    'Once the group agrees AUDIT.md, design B will change only these parts of design A:',
+  ],
+  repairs: [
+    'Home: a "This week" panel with the next class, readings left and items due',
+    'Home: Work To Do lists everything due in the next 7 days',
+    'Course page: reading progress counts readings, not clicks ("6 of 19 read"), in weekly steps',
+    'Course page: "Opened" instead of "complete"; this week first, rules last',
+    'PGPD: "1 of 4 workshops done", with the next round and a reminder you set',
+  ],
+};
+
 export const consent = {
   title: 'Before you start',
   body: [

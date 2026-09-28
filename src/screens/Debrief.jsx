@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { debrief } from '../data.js';
 import { summary } from '../log.js';
 
-export default function Debrief({ assigned, shown }) {
+export default function Debrief({ assigned, shown, toggled }) {
   const [a, setA] = useState({});
   const s = summary();
   const qs = ['q1', 'q2', 'q3'];
   const answered = qs.every((q) => a[q]);
   const idx = (q) => debrief[q].options.indexOf(a[q]);
-  const code = [shown, assigned, idx('q1'), idx('q2'), idx('q3'), s.openedReadings, s.openedResults, s.seconds].join('-');
+  const code = [shown + (toggled ? 't' : ''), assigned, idx('q1'), idx('q2'), idx('q3'), s.openedReadings, s.openedResults, s.seconds].join('-');
 
   return (
     <div className="proto-screen">
