@@ -1,18 +1,13 @@
 # SMU Learn (Super Management University) - class prototype
 
-A term-paper prototype for a decision-architecture course. It copies three screens of a university LMS under a fictional brand: Home, a Course page and the PGPD workshop page. The aim is to test a redesign of how students decide what to do before class.
+A term-paper prototype for a decision-architecture course: the university LMS as it is today (A) and a redesign (B), in one static page.
 
-- `?v=A` shows the current design as dated screenshots of the live LMS (the LMS sits behind a Microsoft 365 sign-in, so the tools could not rebuild an accurate copy), `?v=B` the redesign (**B is not built yet**; it waits for `AUDIT.md`).
-- With no `?v`, each visitor is assigned A or B at random once, kept in localStorage.
-- Front end only: no server, no database, no network calls, no personal data.
+- `?v=A` opens version A, the as-is LMS. Screens that were captured are dated screenshots (31 Oct 2026); the rest are rebuilt in HTML from the same layout and the course data the LMS returned that day.
+- `?v=B` opens version B, the redesign: Home with what is due, My Courses (present and past), Content with a topic list and preview, Assignments, Discussions, People, Quick access search, and light, dark and glass appearance.
+- In the page, press `V` to switch versions, `S` for the screen list, `/` to search (B).
+- Front end only: no server, no database, no network calls.
+- Names and course codes are fictional. Classmates and teaching staff are characters from Harry Potter, Game of Thrones, Marvel and DC, and each course has a made-up code.
 
-Files: `AUDIT.md` (findings and predictions), `PROMPTS.md` (AI prompts log), `REFLECTION.md`, `SCOPE.md` (what we ignored).
+Files: `public/index.html` (the prototype), `public/a/` (earlier version A screenshots), `AUDIT.md`, `PROMPTS.md`, `REFLECTION.md`, `SCOPE.md`.
 
-## Run
-```
-npm install
-npm run dev
-```
-Live: https://super-management-university.vercel.app (Vercel, Vite preset, no environment variables; every push to main redeploys).
-
-Note: `package.json` pins esbuild and rollup to their WebAssembly builds (see `overrides`). This works on any machine, including ones that block native binaries. Vercel builds it the same way.
+Live: https://super-management-university.vercel.app (Vercel, static, no build step; every push to main redeploys).

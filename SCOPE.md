@@ -11,7 +11,7 @@ Why screenshots: the LMS sits behind the university's Microsoft 365 sign-in with
 | Screen in the prototype | Real screen it copies (captured 2026-09-28) | Screenshot file |
 |---|---|---|
 | Home | LMS homepage (My Home) | `01 Home.png` |
-| Course page: course home | A course homepage | `02 Course home (MGMT6108).png` |
+| Course page: course home | A course homepage | `02 Course home (AVG403).png` |
 | Course page: Content tab and reading list | Content › Course Readings › Reading List | `03 Content.png`, `03b Content - Course Readings.png` |
 | PGPD | PG Professional Development course home, and My Results | `07 PGPD course home.png`, `08 PGPD public info page.png` |
 
