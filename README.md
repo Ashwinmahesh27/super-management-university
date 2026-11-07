@@ -1,12 +1,11 @@
-# SMU Learn (Super Management University) - class prototype
+# WeLearn (Super Management University) - class prototype
 
-A term-paper prototype for a decision-architecture course: a redesign of the university LMS (version B), in one static page. Version A, the as-is LMS, is no longer part of this page: the finalized standalone Version A is stored separately in `version-a-elearn/` (single-file prototype, sitemap, handoff notes and build scripts).
+A term-paper prototype for MGMT 6108 Decision Architecture for Managers: one site that shows the as-is LMS (version A) and a redesign (version B). Names, courses, dates and people are fictional samples.
 
-- The page opens version B, the redesign (`?v=B` also works): Home with what is due, My Courses (present and past), Content with a topic list and preview, Assignments, Discussions, People, Quick access search, and light, dark and glass appearance.
-- In the page, press `S` for the screen list and `/` to search.
-- Front end only: no server, no database, no network calls.
-- Names and course codes are fictional. Classmates and teaching staff are characters from Harry Potter, Game of Thrones, Marvel and DC, and each course has a made-up code.
+- One address: `/?v=A` shows version A, `/?v=B` shows version B. With no `?v`, a version is picked at random and kept for the visit. A consent screen comes first, and the Finish button opens the debrief.
+- Version B is rebuilt on version A's own content (same courses, announcement, due items, schedule and course tabs), rearranged so the audited elements stand out: a visible "x of y" count, the next deadline, and one primary action.
+- Front end only: no server, no database, no API keys, no login.
 
-Files: `public/index.html` (the prototype), `version-a-elearn/` (version A: standalone prototype and notes, not deployed), `AUDIT.md`, `PROMPTS.md`, `REFLECTION.md`, `SCOPE.md`.
+Files: `public/index.html` (router, consent, debrief), `public/a.html` (version A), `public/b.html` (version B), `AUDIT.md`, `PROMPTS.md`, `REFLECTION.md`, `SCOPE.md`, `vercel.json`.
 
-Live: https://super-management-university.vercel.app (Vercel, static, no build step; every push to main redeploys).
+Live: https://super-management-university.vercel.app (Vercel, static, no build step; every push to main by the project owner redeploys).
