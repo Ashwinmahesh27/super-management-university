@@ -1,2 +1,0 @@
-const h=require('http'),fs=require('fs'),p=require('path');const root=process.argv[2];
-h.createServer((q,r)=>{let f=p.join(root,decodeURIComponent(q.url.split('?')[0]));if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end('no');return}r.writeHead(200,{'content-type':f.endsWith('.html')?'text/html':f.endsWith('.png')?'image/png':'application/octet-stream'});r.end(d)})}).listen(18423,'127.0.0.1');
