@@ -157,3 +157,11 @@
 
 ## Added after building
 [Dated. From the first prompt for B, nothing above this heading changes.]
+
+### 2026-11-07 - variant A replaced; the deployed page now shows B only
+- The four screenshots of variant A (`public/a/`) and the old variant A inside `public/index.html` (its screens and clickable areas, the A/B toggle in the masthead, the `?v=A` link and the V and H keys) were deleted.
+- Variant A was replaced by a new standalone page, `version-a-elearn/elearn_version_a.html`: the as-is LMS rebuilt in HTML from the live site, with masked sample data, 76 screens at phone, tablet and desktop widths. Its notes, sitemap and build scripts are in `version-a-elearn/`. It is stored in the repo but is not served by the page.
+- Effect on the test above: the deployed page no longer has an A arm. Random assignment, `?v=A` and the A baseline for M1 to M3 do not run on the live page. Everything above this heading is left as written, because it records what was agreed and predicted.
+- Open question 4 (A showed a real student's reading status) no longer applies to the new A, which uses masked sample data. Whether the new A can serve as the M1 baseline has not been checked.
+- Decision for the group: to run the pilot, link or re-add A to the page, or compare B with the standalone A some other way.
+- Variant B was checked after the change: all 54 screens show the same text as before the edit, with no console errors.

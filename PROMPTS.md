@@ -85,4 +85,39 @@ I dont wnat to enter a code, just a or b   [with a screenshot of the debrief's "
 **Our judgement, and what we changed next:** [CC to fill in]
 **Principle check:** W1 test plan: answers are no longer captured in the app, so the pilot needs a form or a facilitator (AUDIT.md open question 5).
 
-## Entry 11 - [next prompt] · [date, time] · sent by [initials] · [tool]
+## Entry 11 - commit the new variant A to the repo · 2026-11-07 · sent by [initials] · Aside
+```
+commit version a to this git hub repo : https://github.com/c-c-for-code/super-management-university
+commit version a changes to this repo https://github.com/c-c-for-code/super-management-university
+```
+**What came back:** Git is not installed on this machine, so the files were added through GitHub's web upload in the signed-in browser. A new folder `version-a-elearn/` holds the standalone page `elearn_version_a.html`, `sitemap.md`, `handoff.md`, `session_handoff.json`, `BOOT.md` and the build scripts. It sits outside `public/`, so the deployed page was not changed.
+**Our judgement, and what we changed next:** [to fill in]
+**Principle check:** none: production only.
+
+## Entry 12 - replace the old variant A with the finalized folder · 2026-11-07 · sent by [initials] · Aside
+```
+Can you update the GitHub repo with the contents in this device, this particular folder? Ignore version A that was old, replace it entirely with what we finalized here.
+If the issue is a web approves 25 MB file limit, break it down and then upload the shared.json file. Do this for other files as well. I just want the version A uploaded alone. Ignore deployment on Vercel.
+```
+**What came back:** The folder "To share" (257 files) was uploaded as `version-a-elearn/`, replacing the earlier partial upload. The one file over the 25 MB web limit, `shared.json` (57 MB), was split into three parts (20, 20 and 17 MB); `build.js` reads the parts directly. Every uploaded file was fetched back and matched the local copy byte for byte. Vercel was not touched.
+**Our judgement, and what we changed next:** [to fill in]
+**Principle check:** none: production only.
+
+## Entry 13 - delete the old variant A · 2026-11-07 · sent by [initials] · Aside
+```
+Delete the old version A screenshots and the old version A files. I just want the new version A files to be stored on the repo alone.
+[answer to the follow-up question "what should the repo hold when I'm done?": "Keep B, remove old A"]
+```
+**What came back:** The four screenshots in `public/a/` were deleted. Variant A was cut out of `public/index.html` (its screens and clickable areas, the A/B toggle, the V and H keys, 43 of the 54 embedded screenshots); the page went from 5.4 MB to 1.4 MB. Variant B was kept. In a local test all 54 B screens showed the same text as before and there were no console errors. Entering `?v=A` or an old `#a/` link now opens B.
+**Our judgement, and what we changed next:** [to fill in] Note: the deployed page no longer has an A arm for the A/B test (AUDIT.md, 2026-11-07).
+**Principle check:** W1 randomisation: without an A arm on the page the test cannot run as planned; the group needs to decide how A is shown to testers.
+
+## Entry 14 - bring the four notes up to date · 2026-11-07 · sent by [initials] · Aside
+```
+edit them as well- merge these 4 files of old version a with new version B
+```
+**What came back:** `AUDIT.md` got a dated entry under "Added after building" and nothing above that heading changed. `SCOPE.md` now describes the new variant A and keeps the screenshot approach as "earlier approach". `README.md` was updated in the previous step. This file got entries 11 to 14. `REFLECTION.md` got a dated note. The notes were kept as four separate files, because the brief asks for them by name; they were not combined into one.
+**Our judgement, and what we changed next:** [to fill in]
+**Principle check:** none: documentation only.
+
+## Entry 15 - [next prompt] · [date, time] · sent by [initials] · [tool]

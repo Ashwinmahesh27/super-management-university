@@ -4,7 +4,9 @@ Agreed scope (CC, 2026-09-28): **Home, Course page, PGPD registration.** Everyth
 The brief warns that a whole super-app is a weak candidate ("too many decisions at once", slide 11), so we audit one decision across three screens.
 
 ## How variant A is shown
-Variant A is four screenshots of the live LMS, captured 2026-09-28, with the student name and a slide password removed. They are in `public/a/`: `home.jpg`, `course-home.jpg`, `course-readings.jpg`, `pgpd.jpg`. Clickable areas: Home → the course tile and the PGPD tile; course home → Content; any page → My Home. Everything else in the screenshots is not clickable (ignored).
+**Update 2026-11-07:** the four screenshots in `public/a/` were deleted and variant A was replaced by a standalone page, `version-a-elearn/elearn_version_a.html`: the as-is LMS rebuilt in HTML from the live site, with masked sample data, 76 screens at phone, tablet and desktop widths. Its notes and build scripts are in `version-a-elearn/`. The deployed page (`public/index.html`) now shows variant B only and no longer links to A.
+
+**Earlier approach (replaced):** variant A was four screenshots of the live LMS, captured 2026-09-28, with the student name and a slide password removed. They were in `public/a/` (deleted 2026-11-07): `home.jpg`, `course-home.jpg`, `course-readings.jpg`, `pgpd.jpg`. Clickable areas: Home → the course tile and the PGPD tile; course home → Content; any page → My Home. Everything else in the screenshots is not clickable (ignored).
 Why screenshots: the LMS sits behind the university's Microsoft 365 sign-in with multi-factor authentication, so the tools could not load it to rebuild an accurate copy.
 
 ## In scope
@@ -43,4 +45,4 @@ These appear as links or tabs in variant A so the layout looks right, but they d
 | `PROMPTS.md` | Yes, written as we work | Started, entries 1 to 4 |
 | `REFLECTION.md` | Yes, after the pilot | Template only |
 | `SCOPE.md` | No (our own) | This file |
-| `README.md` | No | Short run and deploy notes |
+| `README.md` | No | Short run and deploy notes; updated 2026-11-07 for the new variant A location |
