@@ -11,7 +11,7 @@
     --leaf:#2f7d4f; --leaf-soft:#d6eadc; --bark:#6b4428;
     --c1:#4f63c9; --c2:#2a9171; --c3:#c95b8e; --c4:#8a5bc2;
     --alert:#d8452b;
-    --sky-day:#d9ecf6; --sky-dusk:#f2dcc8; --sky-night:#1d2a44;
+    --sky-day:#d9ecf6; --sky-dusk:#f2dcc8; --sky-night:#FFFFFF;
     --radius-lg:22px; --radius-md:14px; --radius-sm:8px;
     --font:"Avenir Next","Nunito Sans","Segoe UI",system-ui,sans-serif;
   }
@@ -175,7 +175,7 @@
 </style>
 
 <style id="v2">
-  :root{--side:#123a2e;--side-mute:#9fc2b2;--mint:#d9efe2}
+  :root{--side:#2C557F;--side-mute:#9fc2b2;--mint:#d9efe2}
   body{background:#eef1ee}
   .app{display:grid;grid-template-columns:304px minmax(0,1fr);min-height:100vh;align-items:start}
   .stage{min-width:0}
@@ -369,26 +369,175 @@
   .more-home summary{cursor:pointer;font-weight:700}
   .more-home dl{margin:10px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:6px 18px;font-size:14px}.more-home dt{font-weight:600}.more-home dd{margin:0;color:var(--ink-2)}
   @media(max-width:560px){.hero{padding:18px}.hero .big{font-size:22px}.card{padding:16px}}
+  .homegrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;align-items:stretch;margin-bottom:18px}
+  .homegrid .tree-wrap,.homegrid .hero{margin:0}
+  .homegrid .hero{align-content:start}
+  @media(max-width:999px){.homegrid{grid-template-columns:1fr;gap:12px}}
+  .tree-caption{margin:10px auto 0;text-align:center;font-size:17px;font-weight:700;max-width:34ch}
+  .tree-caption small{display:block;font-weight:500;font-size:13.5px;color:var(--ink-2);margin-top:2px}
+  @media(max-width:560px){.tree-wrap{padding:16px 16px 14px!important}.tree-head p,.homegrid .legend{display:none}.tree-head h1{font-size:20px}.tree{max-height:200px}.tree-caption{font-size:15px;margin-top:6px}.tree-caption small{display:none}.hero .tag{display:none}.hero{padding:16px!important;gap:8px}.hero .big{font-size:19px}.hero .nx{font-size:13.5px}.cn{display:none}.courses .pane-head h2{display:none}.courses{padding-top:10px}.courses .brand{padding-bottom:6px}.tree{max-height:172px}.tree-caption{margin-top:2px}.mob-toggle{margin-top:0;padding:10px 14px}}
+  .helper-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+  .helper-line{font-size:16px;font-weight:600;margin:10px 0 0}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .chip-q{border:2px solid #cfd6cf;background:#fff;border-radius:20px;padding:8px 14px;font-weight:600;cursor:pointer}
+  .chip-q:hover{border-color:var(--side)}
+  .reply{margin-top:12px;background:#f1f4f0;border-radius:14px;padding:12px 14px;font-size:14.5px}
+  .reply a{font-weight:600}
   .odlink{justify-self:start;color:var(--ink-2);font-size:14px;text-underline-offset:3px}
   .courses .c-count{color:#fff}.courses .c-due{color:#d6e9df}.courses .course[aria-current="page"] .c-due{color:var(--ink-2)}
   button[aria-label^="Finish"]{font-family:var(--font)!important}
   @media(max-width:999px){body{padding-bottom:90px}body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:60px;background:var(--canvas);border-top:1px solid var(--line);z-index:150;pointer-events:none}}
   @media(min-width:1000px){button[aria-label^="Finish"]{left:16px!important;transform:none!important;bottom:12px!important}.courses{height:calc(100vh - 64px)}.app.collapsed ~ button[aria-label^="Finish"]{left:2px!important}}.courses .course[aria-current="page"] .c-count{color:var(--ink)}
 </style>
+<style id="v8">
+  :root{--ink:#1F2933;--ink-2:#52606D;--ink-3:#616E7C;--canvas:#F3F6FA;--surface:#fff;--line:#D9E2EC;--act:#2C557F;--acc:#3A6EA5;--tint:#CFE0F0;--pale:#EAF2FA;--font:Lato,"Lucida Sans Unicode","Lucida Grande","Segoe UI",system-ui,sans-serif}
+  body{background:var(--canvas);color:var(--ink);font-family:var(--font)}
+  :focus-visible,.courses :focus-visible{outline:3px solid var(--act)!important}
+  .masthead,.masthead[data-time]{background:#fff!important;color:var(--ink)!important;border-bottom:1px solid var(--line);height:56px}
+  .sky{display:none}.tools{margin-left:auto}
+  .tool:hover,.masthead[data-time] .tool:hover{background:var(--pale)}
+  .avatar{background:var(--tint);color:var(--act);border:0}
+  .courses{background:#F7F9FC;color:var(--ink);border-right:1px solid var(--line)}
+  .courses .brand{color:var(--act)}
+  .courses .brand-mark{background:var(--act)}
+  .courses .brand-mark svg path{fill:#fff;stroke:#fff}
+  .courses .pane-head h2{color:var(--ink);font-size:15px}
+  .courses .icon-btn{background:#fff;border-color:var(--line);color:var(--ink)}
+  .courses .icon-btn:hover{background:var(--pale)}
+  .courses .course{color:var(--ink);padding:10px 10px 10px 12px;border-radius:10px}
+  .courses .course:hover{background:var(--pale)}
+  .courses .course[aria-current="page"]{background:var(--tint);color:var(--ink);box-shadow:inset 4px 0 0 var(--act)}
+  .courses .c-name{color:var(--ink-2)}
+  .courses .c-bar{background:#DDE5EE;height:5px}
+  .courses .c-count{color:var(--ink);font-weight:600;margin-top:4px}
+  .courses .course[aria-current="page"] .c-name,.courses .course[aria-current="page"] .c-count{color:var(--ink)}
+  .courses .more{color:var(--act)}
+  .courses .pane-foot{border-top:1px solid var(--line)}
+  .courses .res-btn{background:#fff;border:1px solid var(--line);color:var(--ink)}
+  .courses .res-btn:hover,.courses .res-btn[aria-expanded="true"]{background:var(--pale)}
+  .mob-toggle{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line)!important}
+  .hero,.tree-wrap,.card,.panel,.ann,.tabs,.tile,.cp-head{border-radius:14px!important}
+  .hero,.card,.panel,.tabs{background:#fff;border:1px solid var(--line)}
+  .tree-wrap{background:#F5F8FC;border:1px solid var(--line)}
+  .hero .tag{background:var(--pale);color:var(--act)}
+  .hero .bar,.goal .bar{background:#E4ECF4}
+  .hero .bar i,.goal .bar i,.nextstep .bar i{background:var(--act)}
+  .go{background:var(--act)}.go:hover{background:#234769}
+  .later{border-color:var(--act);color:var(--act);background:#fff}.later:hover{background:var(--pale)}
+  .act,.act.ghost{background:var(--act);color:#fff}.act.ghost{background:#fff;color:var(--act);border:1px solid var(--act)}
+  .odlink,.undo,.reply a{color:var(--act)}
+  .ann{background:var(--pale);border:1px solid #D4E3F2}
+  .ann summary small{color:var(--ink-2)}
+  .pill,.pill.warn{background:#E9EEF4;color:#3E4C59}.pill.ok{background:#DDEBE3;color:#1F4D36}
+  .tabs{padding:6px;margin:0 0 14px;gap:4px;padding-right:150px}
+  .tab{color:var(--ink-2);border-radius:10px}.tab:hover{background:var(--pale)}
+  .tab[aria-selected="true"]{background:var(--act);color:#fff}
+  @media(max-width:999px){.tabs{padding-right:12px}}
+  .cp-head{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line);border-left:6px solid var(--cc)}
+  .cp-head p{color:var(--ink-2)!important;opacity:1}
+  .cp-head .chip-lg{background:var(--cc)!important;color:var(--cci)!important}
+  .goal{background:var(--pale)}
+  .rows li{background:#F7F9FC;border:1px solid #E6ECF2}
+  .rows li.here{background:var(--tint);outline:2px solid var(--act)}
+  .ov .tile{background:#F7F9FC}.ov .tile.main{background:var(--pale);color:var(--ink)}.ov .tile.main p{color:var(--ink-2)}
+  .ov .tile.main .act{background:var(--act);color:#fff}.ov .tile.ann2{background:var(--pale)}
+  .strip div{background:#EEF2F7;color:var(--ink-2)}.strip .got{background:#DDEBE3}.strip .nos{background:var(--pale)}
+  .sample{background:var(--pale);border-radius:10px;padding:8px 12px;font-size:14px}
+  .toast2{background:var(--act);color:#fff;bottom:84px;opacity:0}.toast2.show{opacity:1}.tree-caption small{display:block;font-weight:500;font-size:13px;margin-top:2px}
+  .remind{background:#fff;border:1px solid var(--line)}.slot{border-color:var(--line)}.slot:hover{border-color:var(--act)}
+  .chip-q{border-color:var(--line);color:var(--act)}.chip-q:hover{border-color:var(--act)}
+  .reply{background:var(--pale)}
+  .tools-row a{background:#fff;border:1px solid var(--line);color:var(--act)}
+  .tree-caption{font-size:15px;font-weight:600;color:var(--ink-2);margin-top:6px}
+  .tree.static *{animation:none!important}
+  .tree-text{color:var(--ink-2)}
+  .hero .big{font-size:30px}
+  .tree-wrap{padding:20px 24px 16px!important}
+  .tree{max-height:330px}
+  @media(max-width:560px){.tree{max-height:150px}.hero .big{font-size:22px}.tree-wrap{padding:12px 14px 10px!important}.courses .brand{padding-bottom:4px}}
+  .shell{padding-top:18px}
+  @media(max-width:560px){.rows li{grid-template-columns:auto minmax(0,1fr)}.rows li>*:last-child:not(:nth-child(2)){grid-column:1/-1}.rows li>span:last-child{justify-content:flex-start!important}.course-page,.panel,.cp-head,.tabs,.goal{max-width:100%;min-width:0}.cp-head{flex-wrap:nowrap}.cp-head h1{overflow-wrap:anywhere}}
+</style>
+<style id="v9">
+  /* Slack-like density: 8px scale, rows 40-48px, main fills the width */
+  .shell{max-width:1200px;padding:12px 16px 20px}
+  .app{grid-template-columns:272px minmax(0,1fr)}
+  .masthead{height:48px;padding:0 16px;gap:12px}
+  .tool{width:36px;height:36px}.avatar{width:32px;height:32px}
+  .burger{display:none}
+  .homegrid{gap:12px;margin-bottom:12px;align-items:start;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+  .rightcol{display:grid;gap:12px;align-content:start;min-width:0}
+  .homegrid .tree-wrap{align-self:stretch;display:flex;flex-direction:column;justify-content:center}
+  .hero{padding:14px 16px;gap:6px}.hero .big{font-size:24px}
+  .tree-wrap{padding:12px 16px 10px!important}
+  .tree-head h1{font-size:18px}
+  .tree{max-height:300px;margin-top:0}
+  .tree-caption{margin-top:2px;font-size:14px}
+  .card{padding:12px 16px;margin-bottom:0}
+  .card h2{font-size:15px;margin:0 0 6px}.card h3{margin:8px 0 4px;font-size:13px}
+  .ann{padding:10px 14px;margin-bottom:12px}
+  .two{gap:12px;margin-bottom:12px}
+  .two>.card{margin:0}
+  .rows{gap:6px}
+  .rows li{padding:6px 12px;min-height:44px;font-size:14px;gap:10px}
+  .icon-dot{width:28px;height:28px;border-radius:8px}
+  .go{padding:9px 16px}.later{padding:7px 14px}
+  .helper-line{margin-top:6px;font-size:15px}.chips{margin-top:8px}.chip-q{padding:6px 12px}
+  .more-home{margin-top:12px}
+  .courses{padding:12px 10px 10px}
+  .courses .brand{padding:2px 6px 10px;font-size:17px}
+  .courses .course{padding:8px 10px}
+  .chip{width:40px;height:40px;border-radius:12px;font-size:11px}
+  .courses .course{grid-template-columns:40px 1fr;gap:10px}
+  .tabs{padding:4px;margin:0 0 10px}.tab{padding:8px 14px}
+  .cp-head{padding:12px 16px;gap:12px}.cp-head h1{font-size:20px}
+  .course-page{gap:10px}.panel{padding:12px 16px}
+  .goal{padding:8px 12px;margin-bottom:10px}
+  .mob-toggle{display:none!important}
+  @media(max-width:999px){.app .courses.listclosed #course-list{display:block}.app .courses.listclosed .pane-foot{display:flex}.app .courses.listclosed .more-row{display:block}}
+  @media(min-width:701px) and (max-width:999px){
+    .courses{position:sticky;top:0;height:calc(100vh - 60px);padding-bottom:10px}
+    .courses #nav-collapse{display:grid}
+    .homegrid{grid-template-columns:1fr}
+    .two{grid-template-columns:1fr}
+    .tree{max-height:240px}
+  }
+  @media(min-width:1000px){.tree{max-height:320px}}
+  @media(max-width:700px){
+    .app{display:block}
+    .courses{position:fixed;left:0;top:0;bottom:0;width:272px;height:100vh;padding-bottom:76px;z-index:300;transform:translateX(-102%);visibility:hidden;transition:transform .2s,visibility 0s .2s;box-shadow:none;overflow-y:auto}
+    .app.drawer-open .courses{transform:none;visibility:visible;transition:transform .2s;box-shadow:0 0 30px rgba(31,41,51,.25)}
+    .courses #nav-collapse{display:none}
+    .scrim{position:fixed;inset:0;background:rgba(31,41,51,.35);z-index:250;display:none}
+    .drawer-open-body .scrim{display:block}
+    .burger{display:grid}
+    .masthead{padding:0 8px;gap:4px;position:sticky;top:0;z-index:40}
+    .shell{padding:8px 10px 76px}
+    .homegrid{grid-template-columns:1fr;gap:8px;margin-bottom:8px}
+    .rightcol{gap:8px}
+    .tree{max-height:140px}.tree-wrap{padding:10px 12px 8px!important}.tree-head h1{font-size:16px}
+    .hero{padding:12px}.hero .big{font-size:20px}
+    .card{padding:10px 12px}.two{gap:8px;margin-bottom:8px}.ann{margin-bottom:8px;padding:8px 12px}
+    .app.collapsed{display:block}
+  }
+  .scrim{display:none}
+  @media(max-width:700px){.drawer-open-body .scrim{display:block}}
+  @media(min-width:1000px){.homegrid .tree-wrap{justify-content:flex-start}.homegrid .tree{flex:1 1 auto;height:0;min-height:260px;max-height:none;max-width:none}}
+</style>
 </head>
 <body>
 <a class="skip" id="skip" href="#nextstep">Skip to your next step</a>
-<div class="app"><aside class="courses" aria-label="My Courses"><a class="brand" href="#/" aria-label="WeLearn home">
+<div class="scrim" id="scrim"></div><div class="app"><aside class="courses" aria-label="My Courses"><a class="brand" href="#/" aria-label="WeLearn home">
     <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M12 21V11"/><path d="M12 13c-4 0-6-3-6-7 4 0 6 3 6 7z" fill="#fff" stroke="none"/><path d="M12 11c0-4 2.5-6.5 7-6.5 0 4.5-2.5 6.5-7 6.5z" fill="#fff" stroke="none"/></svg></span>
     WeLearn
   </a>
     <div class="pane-head">
-      <div><h2 id="h-courses">My Courses</h2><p>2026-27 August Term, ends 20 Dec 2026</p></div>
+      <div><h2 id="h-courses">My Courses</h2></div>
       <button class="icon-btn" id="nav-collapse" aria-label="Collapse the side pane" aria-expanded="true" title="Collapse the side pane"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="4.5" width="17" height="15" rx="3"/><path d="M9.5 4.5v15"/></svg></button>
     </div>
     <button class="mob-toggle" id="mob-toggle" aria-expanded="false" aria-controls="course-list">Show my courses (4)</button>
     <div id="course-list"></div>
-    <div class="more-row" style="text-align:right;margin:6px 6px 10px"><a class="more" href="#">View All Courses (14)</a></div>
+    <div class="more-row" style="text-align:right;margin:6px 6px 10px"><a class="more" href="#">All courses (14)</a></div>
     <div class="pane-foot">
       <button class="res-btn" id="res-btn" aria-expanded="false" aria-controls="res-panel">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><path d="M16.75 13.5v6.5M13.5 16.75H20"/></svg>
@@ -398,6 +547,7 @@
       <div class="res-panel" id="res-panel" hidden></div>
     </div>
   </aside><div class="stage"><header class="masthead" id="masthead" data-time="day">
+  <button class="tool burger" id="nav-drawer" aria-label="Open my courses" aria-expanded="false" aria-controls="course-list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <nav class="crumbs" aria-label="Breadcrumb"><span aria-current="page">Home</span></nav>
   <span class="sky" id="sky"></span>
   <div class="tools">
@@ -407,6 +557,16 @@
   </div>
 </header><main class="shell">
   <section id="view-home" aria-label="Your home">
+    <div class="homegrid">
+    <div class="tree-wrap">
+      <div class="tree-head"><h1>Your term</h1></div>
+      <svg class="tree" id="tree" viewBox="0 52 560 398" preserveAspectRatio="xMidYMax meet" role="img" aria-labelledby="tree-title" aria-describedby="tree-text"><title id="tree-title"></title></svg>
+      <p class="tree-caption" id="tree-caption"></p>
+      <ul class="legend" id="legend" hidden></ul>
+      <details class="tree-text" id="tree-text"></details>
+      <div class="stats" hidden><div><b id="leaves">0</b>items submitted or attempted</div><div><b id="buds">0</b>items still to do</div></div>
+    </div>
+    <div class="rightcol">
     <div class="hero" id="nextstep">
       <span class="tag">This week</span>
       <p class="big"><b id="ns-count"></b></p>
@@ -416,27 +576,27 @@
       <a class="odlink" id="hero-overdue" href="#/sample/ideation">1 overdue: Ideation</a>
       <div class="remind" id="remind" hidden></div>
     </div>
+      <div class="card"><h2>Work to do</h2>
+        <h3>Overdue (2)</h3><ul class="rows" id="w-over"></ul>
+        <h3>Nov 6 - Nov 19 (2)</h3><ul class="rows" id="w-soon"></ul>
+      </div>
+    </div>
+    </div>
     <details class="ann" id="ann">
-      <summary>Announcements: AY2026-27 Term 1: e$10 and End-term Course Feedback (Undergraduate)<small>Sample Staff posted on Nov 6, 2026 10:00 AM. Edited.</small></summary>
-      <p>The Undergraduate End-term Course Feedback Exercise for AY2026-27 Term 1 has started. You will receive e$10 after you have successfully submitted the feedback for your listed courses.</p>
-      <p>Course Feedback Period: Friday, 6 November (10.00am) to Sunday, 22 November (11.59pm). Feedback link (sample): feedback.example.edu/student</p>
-      <p>This message applies only to students enrolled in AY2026-27 Term 1 undergraduate courses. Teaching Excellence Centre.</p>
+      <summary>Announcement: AY2026-27 Term 1: e$10 and End-term Course Feedback<small>Sample Staff, Nov 6, 2026 10:00 AM</small></summary>
+      <p>Course feedback is open from Friday, 6 November (10.00am) to Sunday, 22 November (11.59pm). You receive e$10 after you submit it for your listed courses.</p>
     </details>
     <div class="two">
-      <div class="card"><h2>Work to do</h2><p class="sub">Overdue first, then soonest due.</p>
-        <h3>Overdue (2 activities)</h3><ul class="rows" id="w-over"></ul>
-        <h3>November 6 - November 19 (2 activities)</h3><ul class="rows" id="w-soon"></ul>
-      </div>
-      <div class="card"><h2>Class Schedule</h2><p class="sub">Start 24 Aug 2026, end 15 Nov 2026</p><ul class="rows" id="sched"></ul></div>
+      <div class="card"><h2>Class schedule</h2><ul class="rows" id="sched"></ul></div>
+      <section class="card helper" id="helper" aria-labelledby="helper-h">
+      <div class="helper-top"><div><h2 id="helper-h">Study helper (sample)</h2><p class="sub" style="margin:0">Sample. No AI runs here.</p></div><button class="undo" id="helper-hide" aria-label="Hide the study helper">Hide</button></div>
+      <p id="helper-line" class="helper-line"></p>
+      <div class="chips" role="group" aria-label="Suggestions"><button class="chip-q" data-r="due">What is due?</button><button class="chip-q" data-r="next">Next class?</button><button class="chip-q" data-r="tools">My tools</button></div>
+      <div class="reply" id="helper-reply" role="status" aria-live="polite" hidden></div>
+    </section>
     </div>
-    <div class="tree-wrap">
-      <div class="tree-head"><h1>Your term, leaf by leaf</h1><p>Each branch is a course. A leaf is an item you submitted or attempted. A bud is still to do.</p></div>
-      <svg class="tree" id="tree" viewBox="0 52 560 398" preserveAspectRatio="xMidYMax meet" role="img" aria-labelledby="tree-title" aria-describedby="tree-text"><title id="tree-title"></title></svg>
-      <ul class="legend" id="legend"></ul>
-      <details class="tree-text" id="tree-text"></details>
-      <div class="stats" hidden><div><b id="leaves">0</b>items submitted or attempted</div><div><b id="buds">0</b>items still to do</div></div>
-    </div>
-    <details class="card more-home"><summary>Rest of your home (same as before, tucked away)</summary>
+    
+    <details class="card more-home"><summary>More from your home</summary>
       <dl><dt>Last Login</dt><dd>Friday, 6 Nov 2026, 11:48:01 am. Location: SG - Singapore</dd>
       <dt>Updates</dt><dd>There are no current updates for Your University - WeLearn</dd>
       <dt>Peer Learning</dt><dd>Peer Tutoring System, Peer and Self Feedback</dd>
@@ -450,10 +610,10 @@
 </main></div></div>
 <script>
 const COURSES=[
- {code:"MGMT6108",short:"MGMT6108-G1",title:"MGMT6108-G1-Decision Architecture for Managers",name:"Decision Architecture for Managers",chip:"MGMT",hex:"#5b7cff",ink:"#ffffff",next:"Mon 9 Nov, 12:00 PM",sched:"Every Monday, 12:00 PM - 03:15 PM, YPHSL Seminar Room B2-01",done:3,total:6,dueLine:"",unread:0},
- {code:"BUS200",short:"BUS200-G1",title:"BUS200-G1-Entrepreneurship Essentials",name:"Entrepreneurship Essentials",chip:"BUS",hex:"#22c58b",ink:"#06251a",next:"Wed 11 Nov, 8:15 AM",sched:"Every Wednesday, 08:15 AM - 11:30 AM, YPHSL Seminar Room B2-01",done:0,total:1,dueLine:"1 overdue: activity with no title in the course data (was due Mon 28 Sep)",unread:33},
- {code:"MKT300G12",short:"MKT300-G1-2",title:"MKT300-G1-2-Digital Marketing",name:"Digital Marketing",chip:"MKT-2",hex:"#ffc93c",ink:"#2b2200",next:"No class time in the course data",sched:"No class time in the course data",done:0,total:1,dueLine:"Due Fri 13 Nov: TAKE HOME EXAM (in 7 days)",unread:0},
- {code:"MKT300G1",short:"MKT300-G1",title:"MKT300-G1-Digital Marketing",name:"Digital Marketing",chip:"MKT",hex:"#ff7ab0",ink:"#2a0f1c",next:"Mon 9 Nov, 8:15 AM",sched:"Every Monday, 08:15 AM - 11:30 AM, LKCSB Seminar Room 2-3",done:0,total:0,dueLine:"",unread:333}
+ {code:"MGMT6108",short:"MGMT6108-G1",title:"MGMT6108-G1-Decision Architecture for Managers",name:"Decision Architecture for Managers",chip:"MGMT",hex:"#8FB0D6",deep:"#4F7DB0",leaf:"#9CC9A8",leafd:"#5E9C76",ink:"#1F2933",next:"Mon 9 Nov, 12:00 PM",sched:"Mon 12:00-3:15 PM, YPHSL Seminar Room B2-01",done:3,total:6,dueLine:"",unread:0},
+ {code:"BUS200",short:"BUS200-G1",title:"BUS200-G1-Entrepreneurship Essentials",name:"Entrepreneurship Essentials",chip:"BUS",hex:"#A9CDBB",deep:"#5E9C80",leaf:"#9CC9A8",leafd:"#5E9C76",ink:"#1F2933",next:"Wed 11 Nov, 8:15 AM",sched:"Wed 8:15-11:30 AM, YPHSL Seminar Room B2-01",done:0,total:1,dueLine:"1 overdue: activity with no title in the course data (was due Mon 28 Sep)",unread:33},
+ {code:"MKT300G12",short:"MKT300-G1-2",title:"MKT300-G1-2-Digital Marketing",name:"Digital Marketing",chip:"MKT-2",hex:"#E3CF9A",deep:"#B8963F",leaf:"#9CC9A8",leafd:"#5E9C76",ink:"#1F2933",next:"No class time in the course data",sched:"No class time in the course data",done:0,total:1,dueLine:"Due Fri 13 Nov: TAKE HOME EXAM (in 7 days)",unread:0},
+ {code:"MKT300G1",short:"MKT300-G1",title:"MKT300-G1-Digital Marketing",name:"Digital Marketing",chip:"MKT",hex:"#D9B0C0",deep:"#B76B88",leaf:"#9CC9A8",leafd:"#5E9C76",ink:"#1F2933",next:"Mon 9 Nov, 8:15 AM",sched:"Mon 8:15-11:30 AM, LKCSB Seminar Room 2-3",done:0,total:0,dueLine:"",unread:333}
 ];
 const ALIAS={AVG403:"MGMT6108"};
 /* work items in the units A shows: syllabus topic, assignments, quizzes */
@@ -465,7 +625,7 @@ const ITEMS={
  q2:{c:"MGMT6108",t:"Comprehensive Quiz Part 2 - Requires Respondus LockDown Browser + Webcam",kind:"quiz",done:1,due:"Due on Oct 24, 2026 1:00 PM",att:"1 / 1",avail:"Available Oct 24, 2026 12:00 PM until 1:00 PM"},
  q3:{c:"MGMT6108",t:"Comprehensive Quiz Part 3 - Requires Respondus LockDown Browser + Webcam",kind:"quiz",done:1,due:"Due on Nov 2, 2026 1:00 PM",att:"1 / 1",avail:"Available Nov 2, 2026 12:00 PM until 1:00 PM"}
 };
-const OVER_OTHER={t:"Activity due Sep 28 (no title in the course data)",c:"BUS200"};
+const OVER_OTHER={t:"Untitled activity",c:"BUS200"};
 function nc(c){return /^No /.test(c.next)?c.next:"Next class "+c.next}
 function course(id){return COURSES.find(c=>c.code===id)}
 function syncCounts(){const m=course("MGMT6108");const v=Object.values(ITEMS);m.done=v.filter(i=>i.done).length;m.total=v.length;
@@ -488,10 +648,7 @@ function renderCourses(){document.getElementById("course-list").innerHTML=COURSE
     <span class="c-body">
       <span class="c-code">${c.short}</span>
       <span class="c-name">${c.name}</span>
-      <span class="c-next">${nc(c)}</span>
-      ${c.total?`<span class="c-bar" role="img" aria-label="${c.done} of ${c.total} items submitted or attempted"><i style="width:${Math.round(c.done/c.total*100)}%;background:${c.hex}"></i></span><span class="c-count">${c.done} of ${c.total} items submitted or attempted</span>`:'<span class="c-count">No items yet</span>'}
-      <span class="c-due">${c.dueLine||'Nothing due this week'}</span>
-      ${c.unread?`<span class="c-newtag">${c.unread>99?'99+':c.unread} unread discussions</span>`:''}
+      ${c.total?`<span class="c-bar" role="img" aria-label="${c.done} of ${c.total} items"><i style="width:${Math.round(c.done/c.total*100)}%;background:${c.deep}"></i></span><span class="c-count">${c.done} of ${c.total}</span>`:''}
     </span></a>`).join("");}
 renderCourses();
 
@@ -503,6 +660,7 @@ const tree=document.getElementById("tree");
 function tint(hex,t){const n=parseInt(hex.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255,m=v=>Math.round(v+(255-v)*t);return "rgb("+m(r)+","+m(g)+","+m(b)+")"}
 function buildTree(){
 tree.innerHTML='<title id="tree-title"></title>';
+if(sessionStorage.getItem("b-tree-grown"))tree.classList.add("static");else setTimeout(()=>{try{sessionStorage.setItem("b-tree-grown","1")}catch(x){}},0);
 const BARK="#6b4428", R=rng(11);
 const defs=el("defs",{},tree);
 const gs=el("radialGradient",{id:"gshade",cx:.5,cy:.5,r:.5},defs);
@@ -530,15 +688,10 @@ function limb(g,x0,y0,cx,cy,x1,y1,w0,w1,t0,t1,delay){
 const ATT=[{code:"MGMT6108",y:334,ang:-64,dx:-5},{code:"BUS200",y:308,ang:60,dx:5},{code:"MKT300G12",y:284,ang:-38,dx:-4},{code:"MKT300G1",y:262,ang:36,dx:4}];
 function branch(g,x,y,ang,len,w,depth,tips,mids,base){
   const rad=ang*Math.PI/180, x2=x+Math.sin(rad)*len, y2=y-Math.cos(rad)*len;
-  const bend=(R()-.5)*len*.35, cx=(x+x2)/2+Math.cos(rad)*bend, cy=(y+y2)/2+Math.sin(rad)*bend;
-  const w1=w*.72; limb(g,x,y,cx,cy,x2,y2,w,w1,(3-depth)/4,(4-depth)/4,base+(3-depth)*.4+.5);
-  if(depth>0){
-    const spread=24+R()*14;
-    branch(g,x2,y2,ang-spread,len*.72,w1,depth-1,tips,mids,base);
-    branch(g,x2,y2,ang+spread*(.8+R()*.4),len*.72,w1,depth-1,tips,mids,base);
-    if(depth>=2) branch(g,x2,y2,ang+(R()-.5)*12,len*.68,w1,depth-1,tips,mids,base);
-  }
-  if(depth<=1) tips.push([x2,y2]); else if(depth===2) mids.push([x2,y2]);
+  const bend=(R()-.5)*len*.2, cx=(x+x2)/2+Math.cos(rad)*bend, cy=(y+y2)/2+Math.sin(rad)*bend;
+  const w1=w*.7; limb(g,x,y,cx,cy,x2,y2,w,w1,(2-depth)/3,(3-depth)/3,base+(2-depth)*.3+.4);
+  if(depth>0){const sp=30+R()*8;branch(g,x2,y2,ang-sp,len*.8,w1,depth-1,tips,mids,base);branch(g,x2,y2,ang+sp,len*.8,w1,depth-1,tips,mids,base)}
+  if(depth===0)tips.push([x2,y2]); else if(depth===1)mids.push([x2,y2]);
 }
 const groups={}, tipsBy={}, COUNTS={};
 const LEAF="M-19 0 Q-3 -13 19 0 Q-3 13 -19 0Z";
@@ -547,54 +700,55 @@ ATT.forEach((a,i)=>{
   const g=el("g",{style:"transform-box:view-box;transform-origin:"+ax+"px "+ay+"px;animation:sway "+(5.5+i*.9)+"s ease-in-out "+(-i*1.7)+"s infinite alternate"},tree);
   const done=c.done, buds=c.total-c.done; COUNTS[a.code]={done,buds};
   el("title",{},g).textContent=c.short+": "+done+" of "+c.total+" submitted or attempted";
-  const tips=[], mids=[]; branch(g,ax,ay,a.ang,80*(.76+.34*frac),11+3.5*frac,3,tips,mids,i*.25);
+  const tips=[], mids=[]; branch(g,ax,ay,a.ang,92,17,2,tips,mids,i*.25);
   groups[a.code]=g; tipsBy[a.code]=tips;
   const pool=tips.concat(mids);
   for(let k=0;k<done;k++){
-    const p=pool[(k*5+i)%pool.length], lx=p[0]+(R()-.5)*34, ly=p[1]+(R()-.5)*26, rot=Math.round(R()*180-90);
-    const lg=el("g",{transform:"translate("+lx.toFixed(1)+" "+ly.toFixed(1)+") rotate("+rot+")"},g);
-    el("path",{d:LEAF,fill:tint(c.hex,R()*.28),class:"leaf",style:"animation-delay:"+(2.1+i*.2+k*.06).toFixed(2)+"s,0s;--fl:"+(3.4+R()*2.6).toFixed(1)+"s;--fd:"+(-R()*4).toFixed(1)+"s"},lg);
+    const p=pool[k%pool.length], rot=Math.round(R()*100-50);
+    const lg=el("g",{transform:"translate("+p[0].toFixed(1)+" "+p[1].toFixed(1)+") rotate("+rot+") scale(1.9)"},g);
+    el("path",{d:LEAF,fill:c.leaf,stroke:c.leafd,"stroke-width":.7,class:"leaf",style:"animation-delay:"+(1.2+i*.2+k*.12).toFixed(2)+"s,0s;--fl:"+(3.4+R()*2.6).toFixed(1)+"s;--fd:"+(-R()*4).toFixed(1)+"s"},lg);
   }
   for(let k=0;k<buds;k++){
-    const p=pool[(k*3+1+i)%pool.length], bx=p[0]+(R()-.5)*44, by=p[1]+(R()-.5)*32;
-    el("circle",{cx:bx.toFixed(1),cy:by.toFixed(1),r:4.6,fill:tint(c.hex,.82),stroke:c.hex,"stroke-width":2.4,class:"bud",style:"animation-delay:"+(2.6+i*.2+k*.04).toFixed(2)+"s"},g);
+    const p=pool[(done+k)%pool.length];
+    el("circle",{cx:(p[0]+6).toFixed(1),cy:(p[1]-4).toFixed(1),r:11,fill:tint(c.hex,.55),stroke:c.deep,"stroke-width":3.2,class:"bud",style:"animation-delay:"+(1.6+i*.2+k*.1).toFixed(2)+"s"},g);
   }
 });
 
 const totalLeaves=COURSES.reduce((a,c)=>a+c.done,0), totalAll=COURSES.reduce((a,c)=>a+c.total,0), totalBuds=totalAll-totalLeaves;
 document.getElementById("leaves").textContent=totalLeaves+" of "+totalAll;
 document.getElementById("buds").textContent=totalBuds;
+document.getElementById("tree-caption").innerHTML="All courses: "+totalLeaves+" of "+totalAll+"<small>Leaf: finished. Bud: still to do.</small>"
 document.getElementById("tree-title").textContent="A tree with a branch for each course. Leaves are items submitted or attempted, buds are items still to do. Counts are listed under the tree.";
 document.getElementById("legend").innerHTML=COURSES.map(c=>'<li><i style="background:'+c.hex+'"></i>'+c.short+': '+(c.total?c.done+' of '+c.total+' items submitted or attempted':'no items yet')+'</li>').join("");
-document.getElementById("tree-text").innerHTML='<summary>Read the tree as text</summary><ul>'+COURSES.map(c=>'<li>'+c.title+': '+(c.total?c.done+' of '+c.total+' items submitted or attempted':'no items yet')+'</li>').join("")+'</ul>';
+document.getElementById("tree-text").innerHTML='<summary>Read as text</summary><ul>'+COURSES.map(c=>'<li>'+c.title+': '+(c.total?c.done+' of '+c.total+' items submitted or attempted':'no items yet')+'</li>').join("")+'</ul>';
 }
 buildTree();
 
-function toast(m){toastEl.textContent=m;toastEl.classList.add("show");clearTimeout(window.__tt);window.__tt=setTimeout(()=>toastEl.classList.remove("show"),2600)}
+function toast(m){toastEl.textContent=m;toastEl.classList.add("show");clearTimeout(window.__tt);window.__toastAt=Date.now();window.__tt=setTimeout(()=>toastEl.classList.remove("show"),4000)}
 const toastEl=document.createElement("div");toastEl.className="toast2";toastEl.setAttribute("role","status");document.body.appendChild(toastEl);
 function renderHome(){
   const m=course("MGMT6108");
-  document.getElementById("ns-count").textContent=m.done+" of "+m.total+" items submitted or attempted in "+m.short+" "+m.name;
+  document.getElementById("ns-count").textContent=m.done+" of "+m.total+" in "+m.short;
   document.getElementById("ns-bar").style.width=Math.round(m.done/m.total*100)+"%";
   document.getElementById("ns-barwrap").setAttribute("aria-label",m.done+" of "+m.total+" items submitted or attempted");
   const gb=document.getElementById("bubble-go"),bt=document.getElementById("bubble-text"),ov=document.getElementById("hero-overdue");
   const fin=ITEMS.final,ide=ITEMS.ideation;
-  if(!fin.done){bt.textContent="Next deadline: Final Submission Folder, due Sun 8 Nov, 11:59 PM (in 2 days). Monday's class is Week 10.";gb.textContent="Open the Final Submission Folder";gb.setAttribute("href","#/sample/final")}
-  else if(!ide.done){bt.textContent="Next: [Group Term-Paper Project] Ideation, was due Mon 28 Sep. Monday's class is Week 10.";gb.textContent="Open the Ideation folder";gb.setAttribute("href","#/sample/ideation")}
-  else if(!(ITEMS.mock.attempts>0)){bt.textContent="Both group paper items are marked as submitted (demo only). Next: the Mock Quiz (0 / 2 attempts).";gb.textContent="Open the Mock Quiz";gb.setAttribute("href","#/sample/mock")}
-  else{bt.textContent="Everything listed for this course is submitted or attempted (demo only).";gb.textContent="Open Assignments";gb.setAttribute("href","#/course/MGMT6108/assignments")}
+  if(!fin.done){bt.textContent="Submitted or attempted. Next: Final Submission Folder, due Sun 8 Nov, 11:59 PM (in 2 days).";gb.textContent="Open the Final Submission Folder";gb.setAttribute("href","#/sample/final")}
+  else if(!ide.done){bt.textContent="Submitted or attempted. Next: Ideation, was due Sep 28.";gb.textContent="Open the Ideation folder";gb.setAttribute("href","#/sample/ideation")}
+  else if(!(ITEMS.mock.attempts>0)){bt.textContent="Submitted or attempted. Next: Mock Quiz, 0 / 2 attempts.";gb.textContent="Open the Mock Quiz";gb.setAttribute("href","#/sample/mock")}
+  else{bt.textContent="Everything listed is done.";gb.textContent="Open Assignments";gb.setAttribute("href","#/course/MGMT6108/assignments")}
   ov.hidden=!(ide.done===0&&fin.done===0);
   const li=(c,t,when,href,over)=>'<li><span class="icon-dot" style="background:'+c.hex+';color:'+c.ink+'"></span><span><a href="'+href+'" style="text-decoration:none"><b>'+t+'</b></a><br><span class="meta">'+c.short+'</span></span><span class="pill '+(over?'warn':'')+'">'+when+'</span></li>';
   const soon=[];
-  if(!ITEMS.final.done)soon.push(li(course("MGMT6108"),ITEMS.final.t,"Due Nov 8 (in 2 days)","#/course/MGMT6108/assignments"));
-  soon.push(li(course("MKT300G12"),"TAKE HOME EXAM","Due Nov 13 (in 7 days)","#/course/MKT300G12"));
+  if(!ITEMS.final.done)soon.push(li(course("MGMT6108"),ITEMS.final.t,"Nov 8 (in 2 days)","#/course/MGMT6108/assignments"));
+  soon.push(li(course("MKT300G12"),"TAKE HOME EXAM","Nov 13 (in 7 days)","#/course/MKT300G12"));
   document.getElementById("w-soon").innerHTML=soon.join("");
   const over=[];
-  if(!ITEMS.ideation.done)over.push(li(course("MGMT6108"),ITEMS.ideation.t,"Overdue, was due Sep 28","#/course/MGMT6108/assignments",1));
-  over.push(li(course("BUS200"),OVER_OTHER.t,"Overdue, was due Sep 28","#/course/BUS200",1));
+  if(!ITEMS.ideation.done)over.push(li(course("MGMT6108"),ITEMS.ideation.t,"was due Sep 28","#/course/MGMT6108/assignments",1));
+  over.push(li(course("BUS200"),OVER_OTHER.t,"was due Sep 28","#/course/BUS200",1));
   document.getElementById("w-over").innerHTML=over.join("");
   document.getElementById("sched").innerHTML=COURSES.filter(c=>c.code!=="MKT300G12").map(c=>'<li><span class="icon-dot" style="background:'+c.hex+';color:'+c.ink+'"></span><span><b>'+c.short+'</b> '+c.name+'<br><span class="meta">'+c.sched+'</span></span><span></span></li>').join("");
-  renderCourses();buildTree();
+  helperLine();renderCourses();buildTree();
   document.querySelectorAll(".course").forEach(a=>a.setAttribute("aria-current",a.getAttribute("href")===location.hash.replace(/\/(readings|overview|assignments|quizzes|discussions|people|results)$/,"")?"page":"false"));
 }
 const IC = {
@@ -633,35 +787,35 @@ function coursePage(code){
   const c=course(code),m=code==="MGMT6108";let body="";
   const todo=(k)=>Object.keys(ITEMS).filter(x=>ITEMS[x].kind===k&&!ITEMS[x].done).length;
   if(!m){
-    body='<div class="goal"><b>'+(c.total?c.done+' of '+c.total+' items submitted or attempted':'No items yet')+'</b><span>'+c.sched+'</span></div>'+(c.dueLine?'<ul class="rows"><li><span class="icon-dot">'+ico('file')+'</span><span><b>'+c.dueLine+'</b></span><span class="pill warn">Not Submitted</span></li></ul>':'')+(c.unread?'<p class="note">'+(c.unread>99?'99+':c.unread)+' unread discussions.</p>':'')+'<p class="sample"><b>Sample only.</b> The rest of this course is not part of the prototype.</p>';
+    body='<div class="goal"><b>'+(c.total?c.done+' of '+c.total+' items submitted or attempted':'No items yet')+'</b><span>'+c.sched+'</span></div>'+(c.dueLine?'<ul class="rows"><li><span class="icon-dot">'+ico('file')+'</span><span><b>'+c.dueLine+'</b></span><span class="pill warn">Not Submitted</span></li></ul>':'')+(c.unread?'<p class="note">'+(c.unread>99?'99+':c.unread)+' unread discussions.</p>':'')+'<p class="sample">Sample only.</p>';
   } else if(courseTab==="overview"){
-    body='<div class="goal"><b>'+c.done+' of '+c.total+' items submitted or attempted</b><div class="bar" aria-hidden="true"><i style="width:'+Math.round(c.done/c.total*100)+'%"></i></div><span>Week 10 started Mon 2 Nov.</span></div>'+
+    body='<div class="goal"><b>'+c.done+' of '+c.total+' submitted or attempted</b><div class="bar" aria-hidden="true"><i style="width:'+Math.round(c.done/c.total*100)+'%"></i></div></div>'+
     '<div class="ov"><div class="tile main"><h3>Next up ('+todo("quiz")+' Quizzes Not Attempted)</h3><p>'+(ITEMS.final.done?'Final Submission Folder is marked as submitted.':'[Group Term-Paper Project] Final Submission Folder, Due Nov 8, 11:59 PM')+'</p><a class="act" href="#/course/MGMT6108/assignments">Go to Assignments</a></div>'+
     '<div class="tile"><h3>Learning Tools</h3><div class="tools-row"><a href="#" data-sample="Sample only: My Attendance">My Attendance</a><a href="#/course/MGMT6108/results">My Results</a><a href="#" data-sample="Sample only: Peer Evaluation">Peer Evaluation</a><a href="#" data-sample="Sample only: Journal">Journal</a><a href="#" data-sample="Sample only: INSIGHT">INSIGHT</a></div></div>'+
     '<div class="tile ann2"><h3>Announcements</h3><p>There are no announcements to display.</p></div>'+
-    '<div class="tile"><h3>Calendar, Friday, November 6, 2026</h3><p>NOV 8, 11:59 PM: [Group Term-Paper Project] Final Submission Folder - Due</p></div>'+
-    '<div class="tile"><h3>Online Lesson</h3><p>Click on the solution you will be using for your online lesson.</p><a class="act ghost" href="#" data-sample="Sample only: Zoom">Zoom</a></div></div>'+
-    '<details class="card" style="margin:14px 0 0;background:#f1f4f0"><summary><b>Copyright Statement - Students and Code of Academic Integrity</b></summary><p>Faculty members hold copyright to the original Course Materials that they create. Students may make copies of course materials for their own use only.</p><p>University adopts a Code of Academic Integrity. There are serious penalties for cheating, plagiarism, fabrication, multiple submissions and misrepresentation.</p></details>';
+    '<div class="tile"><h3>Calendar</h3><p>Nov 8, 11:59 PM: Final Submission Folder due</p></div>'+
+    '<div class="tile"><h3>Online lesson</h3><a class="act ghost" href="#" data-sample="Sample only: Zoom">Zoom</a></div></div>'+
+    '<details class="card" style="margin:14px 0 0;background:#f1f4f0"><summary><b>Copyright and Code of Academic Integrity</b></summary><p>Course materials are for your own use only. Cheating, plagiarism and fabrication carry serious penalties.</p></details>';
   } else if(courseTab==="readings"){
-    body='<div class="goal"><b>'+c.done+' of '+c.total+' items submitted or attempted</b><div class="bar" aria-hidden="true"><i style="width:'+Math.round(c.done/c.total*100)+'%"></i></div><span>Syllabus: opened. This week is Week 10.</span></div><ul class="rows">'+
-    WEEKS.map(w=>'<li'+(w[2]==="now"?' class="here"':'')+'><span class="icon-dot">'+ico(w[2]==="topic"?'file':'folder')+'</span><span><b>'+w[0]+'</b>'+(w[1]?'<br><span class="meta">'+w[1]+'</span>':'')+(w[2]==="topic"?'<br><span class="meta">MGMT6108_Syllabus, PDF document. Opened (opening is not counted in the headline)</span>':'')+'</span>'+(w[2]==="done"?'<span class="pill">No tasks left in this module</span>':w[2]==="topic"?'<span class="pill">Opened</span>':w[2]==="now"?'<span class="pill warn">This week</span>':'<span></span>')+'</li>').join("")+'</ul><p class="note">Only the Course Syllabus has a file in this prototype. The other modules are listed as they are in your course.</p>';
+    body='<div class="goal"><b>'+c.done+' of '+c.total+' submitted or attempted</b><div class="bar" aria-hidden="true"><i style="width:'+Math.round(c.done/c.total*100)+'%"></i></div></div><ul class="rows">'+
+    WEEKS.map(w=>'<li'+(w[2]==="now"?' class="here"':'')+'><span class="icon-dot">'+ico(w[2]==="topic"?'file':'folder')+'</span><span><b>'+w[0]+'</b>'+(w[1]?'<br><span class="meta">'+w[1]+'</span>':'')+(w[2]==="topic"?'<br><span class="meta">MGMT6108_Syllabus, PDF. Opened</span>':'')+'</span>'+(w[2]==="done"?'<span class="pill">No tasks left in this module</span>':w[2]==="topic"?'<span class="pill">Opened</span>':w[2]==="now"?'<span class="pill warn">This week</span>':'<span></span>')+'</li>').join("")+'</ul>';
   } else if(courseTab==="assignments"){
-    body='<p class="note" style="margin:0 0 10px">No Category. Soonest due date first.</p><ul class="rows">'+['final','ideation'].map(itemRow).join("")+'</ul>';
+    body='<ul class="rows">'+['final','ideation'].map(itemRow).join("")+'</ul>';
   } else if(courseTab==="quizzes"){
-    body='<h3 style="margin:0 0 6px">Current Quizzes (Attempts)</h3><ul class="rows">'+itemRow('mock')+'</ul><h3 style="margin:16px 0 6px">Past Quizzes (Attempts)</h3><ul class="rows">'+['q3','q2','q1'].map(itemRow).join("")+'</ul><p class="note">Quizzes need Respondus LockDown Browser and a webcam, as in your course.</p>';
+    body='<h3 style="margin:0 0 6px">Current Quizzes (Attempts)</h3><ul class="rows">'+itemRow('mock')+'</ul><h3 style="margin:16px 0 6px">Past Quizzes (Attempts)</h3><ul class="rows">'+['q3','q2','q1'].map(itemRow).join("")+'</ul>';
   } else if(courseTab==="discussions"){
     body='<ul class="rows"><li><span class="icon-dot">'+ico("chat")+'</span><span><b>General Discussion</b><br><span class="meta">0 threads, 0 posts. No posts yet.</span></span><a class="act" href="#" data-sample="Sample only: starting a thread">Start a thread</a></li></ul>';
   } else if(courseTab==="people"){
     const PL=[["Alex Tan (you)","Student"],["Dr Sample Instructor","Instructor"],["Sample TA","TA (Content, Quiz, Assignment)"],["Sample Student 1","Student"],["Sample Student 2","Student"],["Sample Student 3","Student"]];
-    body='<ul class="rows">'+PL.map(p=>'<li><span class="icon-dot">'+ico("people")+'</span><span><b>'+p[0]+'</b><br><span class="meta">'+p[1]+'</span></span><a class="act ghost" href="#" data-sample="Sample only: email">Email</a></li>').join("")+'</ul><p class="note">Sample names only. The full class list is not part of the prototype.</p>';
+    body='<ul class="rows">'+PL.map(p=>'<li><span class="icon-dot">'+ico("people")+'</span><span><b>'+p[0]+'</b><br><span class="meta">'+p[1]+'</span></span><a class="act ghost" href="#" data-sample="Sample only: email">Email</a></li>').join("")+'</ul>';
   } else {
-    body='<div class="strip" role="list"><div class="got" role="listitem">Quizzes attempted<b>'+['q1','q2','q3'].filter(k=>ITEMS[k].done).length+' of 4</b></div><div class="'+(ITEMS.final.done?'got':'nos')+'" role="listitem">Final Submission Folder<b>'+(ITEMS.final.done?'Submitted (demo only)':'Not Submitted')+'</b></div><div class="'+(ITEMS.ideation.done?'got':'nos')+'" role="listitem">Ideation<b>'+(ITEMS.ideation.done?'Submitted (demo only)':'Not Submitted')+'</b></div><div role="listitem">Mock Quiz<b>'+ITEMS.mock.attempts+' / 2 attempts</b></div></div><p class="note">Scores and evaluation status are not shown in this prototype, as in your course.</p>';
+    body='<div class="strip" role="list"><div class="got" role="listitem">Quizzes attempted<b>'+['q1','q2','q3'].filter(k=>ITEMS[k].done).length+' of 4</b></div><div class="'+(ITEMS.final.done?'got':'nos')+'" role="listitem">Final Submission Folder<b>'+(ITEMS.final.done?'Submitted (demo only)':'Not Submitted')+'</b></div><div class="'+(ITEMS.ideation.done?'got':'nos')+'" role="listitem">Ideation<b>'+(ITEMS.ideation.done?'Submitted (demo only)':'Not Submitted')+'</b></div><div role="listitem">Mock Quiz<b>'+ITEMS.mock.attempts+' / 2 attempts</b></div></div>';
   }
   const tabs=TABS.map(([k,l])=>'<button class="tab" role="tab" aria-selected="'+(k===courseTab)+'" data-tab="'+k+'">'+l+'</button>').join("");
-  return '<div class="cp-head" style="--cc:'+c.hex+';--cci:'+c.ink+'">'+chipHtml(c,true)+'<div><h1>'+c.title+'</h1><p>'+nc(c)+'</p>'+(c.dueLine?'<p>'+c.dueLine+'</p>':'')+'</div></div>'+(m?'<div class="tabs" role="tablist" style="--cct:'+tint(c.hex,.78)+'">'+tabs+'</div>':'')+'<div class="panel" style="--cc:'+c.hex+';--cci:'+c.ink+';--cct:'+tint(c.hex,.78)+'">'+body+'</div>';
+  return (m?'<div class="tabs" role="tablist" aria-label="Course sections" style="--cct:'+tint(c.hex,.78)+'">'+tabs+'</div>':'')+'<div class="cp-head" style="--cc:'+c.hex+';--cci:'+c.ink+'">'+chipHtml(c,true)+'<div><h1>'+c.title+'</h1><p>'+nc(c)+'</p>'+(c.dueLine?'':'')+'</div></div>'+'<div class="panel" style="--cc:'+c.hex+';--cci:'+c.ink+';--cct:'+tint(c.hex,.78)+'">'+body+'</div>';
 }
 function samplePage(k){const i=ITEMS[k],a=i.kind==="quiz";
-  return '<div class="cp-head" style="--cc:#5b7cff;--cci:#fff"><div><h1>'+i.t+'</h1><p>'+(i.due||'')+'</p></div></div><div class="panel"><p class="sample"><b>Sample only.</b> No file or quiz opens in this prototype. Nothing is sent anywhere.</p><div class="btns"><button class="go" id="mark" data-k="'+k+'">'+(a?'Mark one attempt as done (demo only, not saved)':'Mark as submitted (demo only, not saved)')+'</button><a class="later" style="text-decoration:none" href="#/course/MGMT6108/'+(a?'quizzes':'assignments')+'">Back</a></div><p class="note">Demo only: this is not saved, nothing is sent, and reloading the page resets it. Nothing is marked for you. The count only changes when you press the button.</p></div>'}
+  return '<div class="cp-head" style="--cc:#5b7cff;--cci:#fff"><div><h1>'+i.t+'</h1><p>'+(i.due||'')+'</p></div></div><div class="panel"><p class="sample"><b>Sample only.</b> Nothing is saved or sent.</p><div class="btns"><button class="go" id="mark" data-k="'+k+'">'+(a?'Mark one attempt (demo, not saved)':'Mark as submitted (demo, not saved)')+'</button><a class="later" style="text-decoration:none" href="#/course/MGMT6108/'+(a?'quizzes':'assignments')+'">Back</a></div></div>'}
 const later=document.getElementById("bubble-later"), remind=document.getElementById("remind");
 const SLOTS=["Tonight, 6:00 PM","Tonight, 8:00 PM","Tomorrow, Sat 7 Nov, 9:00 AM","Sun 8 Nov, 10:00 AM"];
 later.addEventListener("click",()=>{const open=remind.hidden;remind.hidden=!open;later.setAttribute("aria-expanded",String(open));
@@ -671,6 +825,7 @@ remind.addEventListener("click",e=>{
   if(e.target.id==="undo"){remind.hidden=true;remind.innerHTML="";later.textContent="Remind me";later.setAttribute("aria-expanded","false");later.focus();toast("Reminder removed")}
 });
 document.addEventListener("click",e=>{
+  if(toastEl.classList.contains("show")&&Date.now()-(window.__toastAt||0)>400){toastEl.classList.remove("show");clearTimeout(window.__tt)}
   const a=e.target.closest('a[href="#"],[data-sample]');
   if(a){e.preventDefault();toast((a.dataset&&a.dataset.sample)||"Sample only: this link does not go anywhere in the prototype");return}
   if(e.target.closest(".tool,.avatar"))toast("Sample only: this button does nothing in the prototype");
@@ -695,6 +850,27 @@ function route(){
   if(h==="#/resources"&&resPanel.hidden)resBtn.click();
 }
 viewCourse.addEventListener("click",e=>{const t=e.target.closest(".tab");if(t)location.hash="#/course/"+resCourse+"/"+t.dataset.tab});
+const hl=document.getElementById("helper-line"),hr=document.getElementById("helper-reply");
+function helperLine(){const f=ITEMS.final,i=ITEMS.ideation;hl.textContent=!f.done?"Start with the Final Submission Folder, due Sun 8 Nov.":!i.done?"Start with the Ideation folder, was due 28 Sep.":"Next: the Mock Quiz."}
+const REPLIES={due:()=>(ITEMS.final.done?"":"Final Submission Folder, Sun 8 Nov. ")+"TAKE HOME EXAM, Fri 13 Nov."+(ITEMS.ideation.done?"":" 1 overdue: Ideation."),
+ next:()=>"MGMT6108-G1, Mon 9 Nov, 12:00 PM.",
+ tools:()=>'<a href="#" data-sample="Sample only: Microsoft 365">Microsoft 365</a>, <a href="#" data-sample="Sample only: Google Workspace">Google Workspace</a>, <a href="#" data-sample="Sample only: Calendar">Calendar</a>'};
+document.getElementById("helper").addEventListener("click",e=>{
+  const c=e.target.closest(".chip-q");if(c){hr.hidden=false;hr.innerHTML=REPLIES[c.dataset.r]();return}
+  if(e.target.id==="helper-hide"){document.getElementById("helper").hidden=true;toast("Study helper hidden")}
+});
+const appEl=document.querySelector(".app");
+let userCollapsed=null;
+document.getElementById("nav-collapse").addEventListener("click",()=>setTimeout(()=>{userCollapsed=appEl.classList.contains("collapsed")},0));
+function bp(){const w=innerWidth;if(w<=700)appEl.classList.remove("collapsed");else if(w<1000)appEl.classList.add("collapsed");else if(userCollapsed===null)appEl.classList.remove("collapsed")}
+addEventListener("resize",()=>{bp();if(innerWidth>700)closeDrawer()});
+const burger=document.getElementById("nav-drawer");
+function closeDrawer(){appEl.classList.remove("drawer-open");document.body.classList.remove("drawer-open-body");burger.setAttribute("aria-expanded","false")}
+burger.addEventListener("click",()=>{const o=!appEl.classList.contains("drawer-open");appEl.classList.toggle("drawer-open",o);document.body.classList.toggle("drawer-open-body",o);burger.setAttribute("aria-expanded",String(o))});
+document.getElementById("scrim").addEventListener("click",closeDrawer);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer()});
+document.querySelector(".courses").addEventListener("click",e=>{if(e.target.closest("a.course"))closeDrawer()});
+bp();setTimeout(bp,0);addEventListener("load",bp);
 window.addEventListener("hashchange",route);
 renderHome();route();
 /* ---------------- masthead time of day (student's own clock; ?time= to preview) ---------------- */

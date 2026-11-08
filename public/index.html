@@ -157,7 +157,7 @@
         + '<p style="color:#494c4e;line-height:1.45;margin:0 0 14px">Nothing here was real. The names, courses, dates and progress figures are samples, and nothing was saved or sent.</p>'
         + '<p style="color:#494c4e;line-height:1.45;margin:0 0 14px">You saw version <b>' + variant + '</b>.</p>'
         + '<a href="' + location.pathname + '?v=' + variant + '" style="display:inline-block;margin-top:8px;background:#e3e9f1;color:#202122;border-radius:6px;padding:11px 22px;font-weight:700;text-decoration:none">Start again</a></div>';
-      d.querySelector("a").onclick = function () { try { sessionStorage.removeItem("smu-consent"); } catch (x) {} };
+      d.querySelector("a").onclick = function () { try { sessionStorage.removeItem("smu-consent"); localStorage.removeItem("smu-consent"); } catch (x) {} };
       document.body.appendChild(d);
     };
     (document.body ? document.body : document.documentElement).appendChild(b);
@@ -179,12 +179,12 @@
   }
 
   var seen = false;
-  try { seen = sessionStorage.getItem(CONSENT) === "1"; } catch (e) {}
+  try { seen = sessionStorage.getItem(CONSENT) === "1" || localStorage.getItem(CONSENT) === "1"; } catch (e) {}
   if (seen) { load(); return; }
   document.getElementById("consent").hidden = false;
   document.getElementById("go").addEventListener("click", function (e) {
     e.currentTarget.disabled = true;
-    try { sessionStorage.setItem(CONSENT, "1"); } catch (x) {}
+    try { sessionStorage.setItem(CONSENT, "1"); localStorage.setItem(CONSENT, "1"); } catch (x) {}
     load();
   });
 })();
