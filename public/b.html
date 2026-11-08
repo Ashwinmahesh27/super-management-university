@@ -5,654 +5,431 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Home | WeLearn</title>
 <style>
-  :root{
-    --ink:#1f2430; --ink-2:#4a5263; --ink-3:#7a8293;
-    --canvas:#eef1ee; --surface:#ffffff; --line:#e1e5e0;
-    --leaf:#2f7d4f; --leaf-soft:#d6eadc; --bark:#6b4428;
-    --c1:#4f63c9; --c2:#2a9171; --c3:#c95b8e; --c4:#8a5bc2;
-    --alert:#d8452b;
-    --sky-day:#d9ecf6; --sky-dusk:#f2dcc8; --sky-night:#FFFFFF;
-    --radius-lg:22px; --radius-md:14px; --radius-sm:8px;
-    --font:"Avenir Next","Nunito Sans","Segoe UI",system-ui,sans-serif;
-  }
-  *{box-sizing:border-box}
-  [hidden]{display:none!important}
-  html,body{margin:0}
-  body{font-family:var(--font);color:var(--ink);background:var(--canvas);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
-  a{color:inherit}
-  button{font:inherit;color:inherit}
-  :focus-visible{outline:2px solid var(--c1);outline-offset:2px;border-radius:6px}
-
-  /* ---------- masthead: changes with the student's local time ---------- */
-  .masthead{display:flex;align-items:center;gap:24px;padding:0 28px;height:68px;background:var(--sky-day);transition:background .6s}
-  .masthead[data-time="dusk"]{background:var(--sky-dusk)}
-  .masthead[data-time="night"]{background:var(--sky-night);color:#eef2fb}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:-.01em;text-decoration:none}
-  .brand-mark{width:30px;height:30px;border-radius:9px;background:var(--leaf);display:grid;place-items:center}
-  .brand-mark svg{width:18px;height:18px}
-  .crumbs{display:flex;align-items:center;gap:8px;font-size:14px;color:inherit;opacity:.8}
-  .crumbs a{text-decoration:none}
-  .crumbs a:hover{text-decoration:underline}
-  .crumbs [aria-current]{font-weight:600;opacity:1}
-  .sky{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:13px;opacity:.75}
-  .sky svg{width:16px;height:16px}
-  .tools{display:flex;align-items:center;gap:6px}
-  .tool{position:relative;width:40px;height:40px;border-radius:12px;border:0;background:transparent;display:grid;place-items:center;cursor:pointer}
-  .tool:hover{background:rgba(255,255,255,.55)}
-  .masthead[data-time="night"] .tool:hover{background:rgba(255,255,255,.12)}
-  .tool svg{width:21px;height:21px}
-  .tool .count{position:absolute;top:4px;right:2px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--ink);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
-  .masthead[data-time="night"] .tool .count{background:#fff;color:var(--ink)}
-  .avatar{width:36px;height:36px;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center;font-weight:700;font-size:13px;margin-left:4px;border:2px solid rgba(31,36,48,.08)}
-
-  /* ---------- layout ---------- */
-  .shell{display:grid;grid-template-columns:1fr;gap:18px;padding:18px;max-width:1440px;margin:0 auto}
-  @media (min-width:1000px){.shell{grid-template-columns:372px 1fr;gap:20px;padding:22px 24px}}
-
-  /* ---------- my courses ---------- */
-  .courses{background:var(--surface);border-radius:var(--radius-lg);padding:20px 18px 14px}
-  .pane-head{display:flex;align-items:center;justify-content:space-between;margin:0 4px 6px}
-  .pane-head h2{font-size:17px;margin:0;letter-spacing:-.01em}
-  .pane-head p{margin:2px 0 0;font-size:13px;color:var(--ink-3)}
-  .icon-btn{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer}
-  .icon-btn svg{width:17px;height:17px}
-  .course{display:grid;grid-template-columns:64px 1fr;gap:14px;padding:14px 8px;border-top:1px solid var(--line);text-decoration:none;border-radius:12px}
-  .course:first-of-type{border-top:0}
-  .course:hover,.course[aria-current="page"]{background:#f3f6f2}
-  .ring{position:relative;width:64px;height:64px}
-  .ring svg{width:64px;height:64px;transform:rotate(-90deg)}
-  .ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:14px}
-  .new-dot{position:absolute;top:-2px;right:-2px;width:14px;height:14px;border-radius:50%;background:var(--alert);border:3px solid #fff}
-  .c-top{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-  .c-code{font-weight:700;font-size:15px}
-  .c-name{font-size:13px;color:var(--ink-2);display:block;margin-top:1px}
-  .c-facts{margin:8px 0 0;padding:0;list-style:none;font-size:13.5px;color:var(--ink-2);display:grid;gap:3px}
-  .c-facts strong{color:var(--ink);font-weight:600}
-  .due-soon{color:#9a3412}
-  .c-new{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:12.5px;font-weight:600;color:var(--alert)}
-  .more{display:block;text-align:right;font-size:14px;margin:10px 6px 4px;text-underline-offset:3px}
-
-  /* ---------- progress area ---------- */
-  .growth{background:var(--surface);border-radius:var(--radius-lg);padding:26px 28px;display:grid;grid-template-columns:1fr;gap:28px}
-  @media (min-width:1180px){.growth{grid-template-columns:minmax(380px,1.05fr) 1fr;gap:36px}}
-  .tree-wrap{position:relative}
-  .tree-head h1{font-size:26px;line-height:1.15;margin:0;letter-spacing:-.02em}
-  .tree-head p{margin:6px 0 0;color:var(--ink-2);max-width:42ch}
-  .tree{display:block;width:100%;max-width:640px;height:auto;margin:6px auto 0}
-  .tree .leaf{transform-box:fill-box;transform-origin:center}
-  .tree .leaf.fresh{animation:grow .7s cubic-bezier(.2,.9,.3,1.3) both}
-  @keyframes grow{from{scale:0}to{scale:1}}
-  .legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:4px 0 0;padding:0;list-style:none;font-size:13px;color:var(--ink-2);justify-content:center}
-  .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:0}
-  .stats{display:flex;justify-content:center;gap:28px;margin-top:14px;font-size:13px;color:var(--ink-3)}
-  .stats b{display:block;font-size:22px;color:var(--ink);letter-spacing:-.02em}
-
-  .side{display:grid;gap:22px;align-content:start}
-  @media (min-width:1180px){.side{border-left:1px solid var(--line);padding-left:36px}}
-  .week h2,.prompts h2{font-size:16px;margin:0}
-  .week p{margin:2px 0 12px;font-size:13.5px;color:var(--ink-2)}
-  .days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;max-width:360px}
-  .day{text-align:center;font-size:12px;color:var(--ink-3)}
-  .day span{display:block;height:34px;border-radius:9px;background:#eef1ee;margin-bottom:5px}
-  .day.on span{background:var(--leaf)}
-  .day.today span{background:var(--leaf);box-shadow:0 0 0 2px #fff,0 0 0 4px var(--leaf)}
-  .day.today{color:var(--ink);font-weight:700}
-
-  .buddy{display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:end}
-  .buddy svg{width:76px;height:auto}
-  .bubble{position:relative;background:#f1f4f9;border-radius:18px 18px 18px 6px;padding:14px 16px;font-size:14.5px}
-  .bubble p{margin:0}
-  .bubble .go{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:8px 14px;border-radius:10px;background:var(--ink);color:#fff;text-decoration:none;font-weight:600;font-size:13.5px}
-  .bubble .go:hover{background:#000}
-  .bubble .later{margin-left:8px;font-size:13px;color:var(--ink-2);background:none;border:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-
-  .prompts p{margin:2px 0 10px;font-size:13px;color:var(--ink-3)}
-  .prompt-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-  .prompt{display:grid;grid-template-columns:1fr auto;align-items:center;border:1px solid var(--line);border-radius:12px;background:#fff}
-  .prompt a{display:flex;align-items:center;gap:10px;padding:11px 12px;text-decoration:none;font-size:14px}
-  .prompt a:hover{background:#f6f8f6;border-radius:12px 0 0 12px}
-  .prompt a svg{width:16px;height:16px;flex:none;color:var(--ink-3)}
-  .prompt button{width:38px;height:38px;border:0;background:none;cursor:pointer;color:var(--ink-3);border-radius:10px;margin-right:2px}
-  .prompt button:hover{background:#f1f3f1;color:var(--ink)}
-  .prompt button svg{width:14px;height:14px}
-  .empty-prompts{font-size:13.5px;color:var(--ink-3)}
-
-
-  /* ---------- other resources ---------- */
-  .pane-foot{position:relative;border-top:1px solid var(--line);margin-top:8px;padding-top:10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-  .more{margin:0}
-  .res-btn{display:flex;align-items:center;gap:10px;border:0;background:#f3f5f2;border-radius:12px;padding:10px 12px;cursor:pointer;font-size:14px;width:100%;text-align:left}
-  .res-btn:hover,.res-btn[aria-expanded="true"]{background:#e9ede8}
-  .res-btn svg{width:18px;height:18px;flex:none}
-  .res-btn .chev{margin-left:auto;width:14px;height:14px}
-  .res-panel{position:absolute;left:calc(100% + 14px);bottom:0;width:620px;max-width:calc(100vw - 40px);background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(31,36,48,.16),0 2px 6px rgba(31,36,48,.06);padding:18px 20px 12px;z-index:30}
-  @media (max-width:999px){.res-panel{position:static;width:auto;margin-top:10px;box-shadow:none;border:1px solid var(--line)}}
-  .res-panel h3{font-size:14px;margin:4px 6px 8px;color:var(--ink-2)}
-  .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;margin-bottom:12px}
-  @media (max-width:560px){.res-grid{grid-template-columns:1fr}}
-  .res-grid a{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:10px;text-decoration:none;font-size:14.5px}
-  .res-grid a:hover{background:#f3f5f2}
-  .res-grid a svg{width:18px;height:18px;flex:none;color:var(--ink-2)}
-  .res-grid a .ext{margin-left:auto;width:13px;height:13px;color:var(--ink-3)}
-  .res-grid a .rare{margin-left:auto;font-size:12px;color:var(--ink-3)}
-
-  /* ---------- course page ---------- */
-  .course-page{background:var(--surface);border-radius:var(--radius-lg);padding:26px 28px 30px;min-width:0}
-  .cp-head{display:flex;align-items:flex-start;gap:18px;flex-wrap:wrap}
-  .cp-head h1{font-size:26px;line-height:1.15;margin:0;letter-spacing:-.02em}
-  .cp-head p{margin:4px 0 0;color:var(--ink-2)}
-  .cp-head .ring{flex:none}
-  .tabs{display:flex;gap:4px;margin:22px 0 18px;border-bottom:1px solid var(--line);overflow-x:auto}
-  .tab{border:0;background:none;padding:10px 14px;font-size:14.5px;color:var(--ink-2);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
-  .tab[aria-selected="true"]{color:var(--ink);font-weight:700;border-bottom-color:var(--ink)}
-  .tab .n{display:inline-block;min-width:20px;margin-left:6px;padding:0 6px;border-radius:9px;background:#f1f3f1;font-size:12px;font-weight:600;color:var(--ink-2)}
-  .goal{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:#f3f6f2;border-radius:14px;padding:14px 16px;margin-bottom:18px}
-  .goal b{font-size:15px}
-  .goal span{color:var(--ink-2);font-size:14px}
-  .bar{flex:1 1 220px;height:10px;border-radius:6px;background:#e3e8e2;overflow:hidden}
-  .bar i{display:block;height:100%;background:var(--leaf);border-radius:6px}
-  .wk{margin:0 0 16px}
-  .wk h3{display:flex;align-items:baseline;gap:10px;font-size:15px;margin:0 0 6px}
-  .wk h3 small{font-weight:500;color:var(--ink-3);font-size:13px}
-  .rows{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
-  .rows li{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:12px 14px;border-top:1px solid var(--line);font-size:14.5px}
-  .rows li:first-child{border-top:0}
-  .rows .meta{font-size:13px;color:var(--ink-3)}
-  .tick{width:24px;height:24px;border-radius:7px;border:2px solid #c8cfc7;background:#fff;cursor:pointer;display:grid;place-items:center;padding:0}
-  .tick[aria-pressed="true"]{background:var(--leaf);border-color:var(--leaf)}
-  .tick svg{width:14px;height:14px;opacity:0}
-  .tick[aria-pressed="true"] svg{opacity:1}
-  .pill{font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:20px;background:#f1f3f1;color:var(--ink-2);white-space:nowrap}
-  .pill.warn{background:#fdeee6;color:#9a3412}
-  .pill.ok{background:var(--leaf-soft);color:#1f5c38}
-  .act{font-size:13.5px;font-weight:600;text-decoration:none;padding:7px 12px;border-radius:9px;background:var(--ink);color:#fff;white-space:nowrap}
-  .act.ghost{background:#f1f3f1;color:var(--ink)}
-  .note{font-size:13.5px;color:var(--ink-2);margin:10px 2px 0}
-  .icon-dot{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:#f1f3f1}
-  .icon-dot svg{width:16px;height:16px}
-
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+:root{--ink:#1F2933;--ink2:#52606D;--ink3:#616E7C;--page:#F3F6FA;--line:#D9E2EC;--act:#2C557F;--acc:#3A6EA5;--tint:#CFE0F0;--pale:#EAF2FA;--pane:#F7F9FC;--font:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{margin:0}
+body{font-family:var(--font);color:var(--ink);background:#fff;font-size:14px;line-height:1.4;-webkit-font-smoothing:antialiased}
+a{color:inherit}button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--act);outline-offset:2px;border-radius:6px}
+.skip{position:absolute;left:-999px;top:8px;background:#fff;padding:8px 12px;border-radius:8px;z-index:500;font-weight:700}.skip:focus{left:8px}
+svg.i{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+/* top bar */
+.top{position:sticky;top:0;z-index:60;height:48px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 20px}
+.word{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px;letter-spacing:-.01em;color:var(--act);text-decoration:none}
+.word i{width:26px;height:26px;border-radius:8px;background:var(--act);display:grid;place-items:center}
+.word svg{width:16px;height:16px}
+.crumbs{display:flex;gap:6px;align-items:center;color:var(--ink2);font-size:13px;margin-left:8px}.crumbs a{text-decoration:none}.crumbs a:hover{text-decoration:underline}
+.tools{margin-left:auto;display:flex;gap:4px;align-items:center}
+.tool{width:34px;height:34px;border-radius:10px;border:0;background:none;display:grid;place-items:center;cursor:pointer;color:var(--ink2)}.tool:hover{background:var(--pale)}
+/* frame */
+.frame{display:grid;grid-template-columns:288px minmax(0,1fr);gap:16px;padding:12px 16px 16px;max-width:1560px;margin:0 auto;align-items:start}
+.side{position:sticky;top:60px;height:calc(100vh - 60px - 68px);background:#fff;border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;padding:10px;overflow:hidden;box-shadow:0 1px 2px rgba(31,41,51,.04)}
+.s-top{display:flex;gap:6px;align-items:center;margin-bottom:8px}
+.search{flex:1;display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--pane);border-radius:10px;padding:7px 10px;color:var(--ink3);cursor:pointer;text-align:left;min-width:0}
+.search kbd{margin-left:auto;font:600 11px var(--font);border:1px solid var(--line);border-radius:5px;padding:1px 6px;background:#fff}
+.iconb{width:34px;height:34px;border:0;background:none;border-radius:10px;display:grid;place-items:center;cursor:pointer;color:var(--ink2);flex:none}.iconb:hover{background:var(--pale)}
+.nav{display:grid;gap:2px;overflow:auto;min-height:0}
+.nav a,.nav button.row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;text-decoration:none;color:var(--ink);font-size:14px;border:0;background:none;width:100%;text-align:left;cursor:pointer;position:relative}
+.nav a:hover,.nav button.row:hover{background:var(--pale)}
+.nav a[aria-current="page"]{background:var(--tint);font-weight:700}
+.nav a[aria-current="page"]::before{content:"";position:absolute;left:0;top:7px;bottom:7px;width:3px;border-radius:2px;background:var(--act)}
+.nav .badge{margin-left:auto;font-size:12px;color:var(--ink3);font-weight:600}
+.nav .chev{margin-left:auto;width:14px;height:14px}
+.sep{height:1px;background:var(--line);margin:8px 6px;flex:none}
+.pin-h{font-size:12px;font-weight:700;color:var(--ink3);padding:4px 10px}
+.pins a{font-size:13px;padding:6px 10px;white-space:nowrap;overflow:hidden}
+.pins a b{font-weight:700}.pins a span{overflow:hidden;text-overflow:ellipsis;color:var(--ink2)}
+.back{color:var(--ink2)!important}
+.ccard{display:flex;gap:10px;align-items:center;background:var(--pane);border:1px solid var(--line);border-radius:12px;padding:8px;margin:2px 0 6px}
+.ctile{width:40px;height:40px;border-radius:10px;background:var(--act);color:#fff;display:grid;place-items:center;font-size:10px;font-weight:700;line-height:1.1;text-align:center;flex:none}
+.ctile b{font-size:13px;display:block}
+.ccard strong{display:block;font-size:13px;line-height:1.2}.ccard small{color:var(--ink3);font-size:12px}
+.me{margin-top:auto;border-top:1px solid var(--line);padding:10px 4px 0;display:flex;align-items:center;gap:10px}
+.av{width:34px;height:34px;border-radius:50%;background:var(--tint);color:var(--act);display:grid;place-items:center;font-weight:700;font-size:12px;flex:none}
+.me strong{display:block;font-size:13px}.me small{color:var(--ink3);font-size:12px}
+.res-wrap{position:relative}
+.res-panel{position:fixed;left:316px;bottom:76px;width:560px;max-width:calc(100vw - 24px);max-height:70vh;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 40px rgba(31,41,51,.16);padding:12px;z-index:200}
+.res-panel h3{font-size:13px;margin:6px 4px;color:var(--ink2)}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px;margin-bottom:8px}
+.res-grid a{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:8px;text-decoration:none;font-size:14px}.res-grid a:hover{background:var(--pane)}
+.res-grid a svg{width:16px;height:16px;flex:none;color:var(--ink2)}.res-grid a .ext{margin-left:auto;width:12px;height:12px;color:var(--ink3)}
+/* rail */
+.frame.rail{grid-template-columns:64px minmax(0,1fr)}
+.rail .lbl,.rail .badge,.rail .pin-h,.rail .search span,.rail .search kbd,.rail .me div,.rail .ccard div,.rail .nav .chev,.rail .pins span{display:none}
+.rail .search{flex:none;width:100%;justify-content:center;padding:7px 0}
+.rail .s-top{flex-direction:column}
+.rail .nav a,.rail .nav button.row{justify-content:center;padding:9px 0}
+.rail .pins a{justify-content:center;padding:6px 0;font-size:11px}
+.rail .me{justify-content:center}.rail .ccard{justify-content:center;padding:6px 0;border:0;background:none}
+.rail .res-panel{left:92px}
+.rail .nav a[aria-current="page"]::before{left:2px}
+/* main */
+.main{min-width:0;padding:6px 8px 24px}
+h1.pt{font-size:28px;line-height:1.15;margin:8px 0 2px;letter-spacing:-.02em}
+.sub{margin:0 0 14px;color:var(--ink2);font-size:14px}
+h2.sh{font-size:17px;margin:18px 0 8px;display:flex;align-items:baseline;justify-content:space-between}
+h2.sh a{font-size:13px;font-weight:500;color:var(--ink2);text-underline-offset:3px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.card h3{font-size:15px;margin:0 0 6px}
+.pair{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:12px;align-items:stretch}
+.tree-wrap{background:#F5F8FC;display:flex;flex-direction:column;padding:12px 16px 10px}
+.tree-head h2{font-size:16px;margin:0}
+.tree{display:block;width:100%;height:220px;margin:0 auto}
+.tree-caption{text-align:center;font-size:14px;font-weight:600;color:var(--ink2);margin:4px 0 0}.tree-caption small{display:block;font-weight:500;font-size:12.5px}
+.tree-text{margin:6px auto 0;font-size:13px;color:var(--ink2);text-align:center}.tree-text summary{cursor:pointer;font-weight:600;color:var(--ink)}.tree-text ul{text-align:left;margin:6px 0 0;padding-left:18px}
+.stats,.legend{display:none}
+@keyframes sway{from{transform:rotate(-1.4deg)}to{transform:rotate(1.4deg)}}@keyframes bgrow{from{scale:0}to{scale:1}}@keyframes pop{from{scale:0}to{scale:1}}@keyframes flutter{from{rotate:-6deg}to{rotate:6deg}}
+.tree .limb{animation:bgrow .55s cubic-bezier(.3,.7,.3,1) both}
+.tree .leaf{transform-box:fill-box;transform-origin:center;animation:pop .5s cubic-bezier(.2,.9,.3,1.3) both,flutter var(--fl,4s) ease-in-out var(--fd,0s) infinite alternate}
+.tree .bud{transform-box:fill-box;transform-origin:center;animation:pop .4s ease-out both}
+.tree.static *{animation:none!important}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.hero{display:grid;gap:8px;align-content:center}
+.tag{justify-self:start;background:var(--pale);color:var(--act);font-weight:700;font-size:12px;padding:2px 10px;border-radius:20px}
+.hero .big{font-size:24px;line-height:1.15;margin:0;letter-spacing:-.02em;font-weight:700}
+.bar{height:8px;border-radius:5px;background:#E4ECF4;overflow:hidden}.bar i{display:block;height:100%;background:var(--act);border-radius:5px}
+.nx{margin:0;color:var(--ink2)}
+.btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.go{display:inline-flex;align-items:center;padding:9px 16px;border-radius:10px;background:var(--act);color:#fff;text-decoration:none;font-weight:700;border:0;cursor:pointer}.go:hover{background:#234769}
+.later{border:2px solid var(--act);color:var(--act);background:#fff;border-radius:10px;padding:7px 14px;font-weight:600;cursor:pointer}.later:hover{background:var(--pale)}
+.odlink{justify-self:start;color:var(--act);font-size:13.5px;text-underline-offset:3px}
+.remind{border:1px solid var(--line);border-radius:12px;padding:10px 12px}.remind p{margin:0}
+.slots{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.slot{border:2px solid var(--line);background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font-weight:600}.slot:hover{border-color:var(--act)}
+.undo{border:0;background:none;color:var(--act);text-decoration:underline;font-weight:700;cursor:pointer;padding:4px}
+/* coming up cards */
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.dc{display:flex;flex-direction:column;gap:8px;text-decoration:none;min-height:116px;transition:border-color .15s}.dc:hover{border-color:var(--acc)}
+.dc .r1{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cp{font-size:12px;font-weight:700;color:var(--act);background:var(--tint);padding:2px 9px;border-radius:7px;white-space:nowrap}
+.rp{font-size:12px;font-weight:600;color:var(--ink2);background:#EEF2F7;padding:2px 10px;border-radius:20px;white-space:nowrap}
+.rp.was{background:#F6ECE8;color:#7A3A28}
+.dc b{font-size:15px;line-height:1.25}
+.dc .m{color:var(--ink2);font-size:13px;display:flex;gap:6px;align-items:flex-start}.dc .m svg{margin-top:1px;width:15px;height:15px}
+/* timeline */
+.tl-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.seg{display:inline-flex;background:#EEF2F7;border-radius:10px;padding:3px}.seg button{border:0;background:none;border-radius:8px;padding:5px 12px;cursor:pointer;color:var(--ink2);font-weight:600}.seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(31,41,51,.12)}
+.tl{margin-top:10px;position:relative;font-size:12px;color:var(--ink2)}
+.tl-axis,.tl-row{display:grid;grid-template-columns:200px minmax(0,1fr)}
+.tl-axis{height:26px;border-bottom:1px solid var(--line)}
+.plot{position:relative}
+.tick{position:absolute;top:4px;transform:translateX(-50%);white-space:nowrap}
+.tl-row{height:52px;border-bottom:1px solid #EDF1F5;align-items:center}
+.tl-row .lab{display:flex;gap:8px;align-items:center;min-width:0;padding-right:8px;font-size:13px;color:var(--ink)}
+.tl-row .lab span.n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tl-row .plot{height:100%;background:repeating-linear-gradient(90deg,transparent 0 calc(var(--w) - 1px),#EDF1F5 calc(var(--w) - 1px) var(--w))}
+.mk{position:absolute;top:10px;width:16px;height:16px;transform:translateX(-50%);background:var(--act);border:0;padding:0;cursor:pointer}
+.mk.circle{border-radius:50%}.mk.square{border-radius:4px}
+.mk.done{background:#8FA9C4}.mk.was{background:#fff;border:2.5px solid #7B8794}
+.ml{position:absolute;top:30px;transform:translateX(-50%);font-size:11px;white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis;color:var(--ink2)}
+.today{position:absolute;top:0;bottom:0;width:2px;background:var(--act);z-index:2}
+.today span{position:absolute;top:3px;right:4px;background:var(--act);color:#fff;font-size:11px;font-weight:700;padding:1px 7px;border-radius:6px}
+.lg{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px}.lg span{display:inline-flex;gap:6px;align-items:center}.lg i{width:10px;height:10px;display:inline-block;background:var(--act)}
+/* my courses rows */
+.mc{padding:0;overflow:hidden}
+.mcr{display:grid;grid-template-columns:48px minmax(0,1fr) 190px 190px 18px;gap:14px;align-items:center;padding:12px 16px;border-top:1px solid #EDF1F5;text-decoration:none}.mcr:first-child{border-top:0}.mcr:hover{background:var(--pane)}
+.mcr .ctile{width:48px;height:48px;font-size:11px}
+.mcr strong{display:block;font-size:15px}.mcr small{color:var(--ink2)}
+.mcr .pg small{display:block;margin-bottom:4px;color:var(--ink2);font-size:12.5px}
+.mcr .nxt small{display:block;color:var(--ink3);font-size:12px}.mcr .nxt b{display:block;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mcr svg.chev{width:16px;height:16px;color:var(--ink3)}
+/* lower row */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.ann{background:var(--pale);border:1px solid #D4E3F2;border-radius:14px;padding:10px 14px;margin-top:12px}.ann summary{cursor:pointer;font-weight:700}.ann summary small{display:block;font-weight:500;color:var(--ink2)}.ann p{margin:8px 0 0}
+.rows{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.rows li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:6px 10px;min-height:44px;background:var(--pane);border:1px solid #E6ECF2;border-radius:10px}
+.rows li.here{background:var(--tint);outline:2px solid var(--act)}
+.rows .meta{font-size:12.5px;color:var(--ink2)}
+.idot{width:32px;height:32px;border-radius:9px;background:#EEF2F7;display:grid;place-items:center;color:var(--ink2);flex:none}
+.pill{font-size:12px;font-weight:600;padding:2px 10px;border-radius:20px;background:#E9EEF4;color:#3E4C59;white-space:nowrap}.pill.ok{background:#DDEBE3;color:#1F4D36}
+.act{font-size:13px;font-weight:600;text-decoration:none;padding:6px 12px;border-radius:9px;background:var(--act);color:#fff;white-space:nowrap;border:0;cursor:pointer}.act.ghost{background:#fff;color:var(--act);border:1px solid var(--act)}
+.helper h3{display:flex;justify-content:space-between}
+.helper-line{font-weight:600;margin:6px 0}
+.chips{display:flex;gap:6px;flex-wrap:wrap}.chip-q{border:1px solid var(--line);background:#fff;color:var(--act);border-radius:20px;padding:5px 12px;font-weight:600;cursor:pointer}.chip-q:hover{border-color:var(--act)}
+.reply{margin-top:8px;background:var(--pale);border-radius:10px;padding:8px 12px}.reply a{color:var(--act);font-weight:600}
+.small-s{color:var(--ink3);font-size:12.5px;margin:0}
+.more-home{margin-top:12px}.more-home summary{cursor:pointer;font-weight:700}.more-home dl{margin:8px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:4px 16px}.more-home dt{font-weight:600}.more-home dd{margin:0;color:var(--ink2)}
+/* course pages */
+.ph{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.stat3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 6px}
+.stat3 .card small{color:var(--ink2);display:block}.stat3 .card b{font-size:24px;display:block;margin-top:4px}
+.dl{display:grid;gap:0;padding:0;overflow:hidden}
+.dlr{display:grid;grid-template-columns:36px minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:10px 14px;border-top:1px solid #EDF1F5;min-height:60px}.dlr:first-child{border-top:0}
+.dlr b{display:block;font-size:14.5px}.dlr small{color:var(--ink2)}
+.sgm{display:inline-flex;background:#EEF2F7;border-radius:12px;padding:3px;margin:2px 0 4px;gap:2px}.sgm button{border:0;background:none;border-radius:9px;padding:6px 12px;cursor:pointer;color:var(--ink2);font-weight:600}.sgm button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(31,41,51,.12)}.sgm .n{color:var(--ink3);font-size:12px;margin-left:4px}
+.grp{font-size:16px;margin:14px 0 6px}.grp small{color:var(--ink3);font-weight:500;font-size:13px;margin-left:4px}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}.strip div{border-radius:12px;padding:10px 12px;background:#EEF2F7;color:var(--ink2);font-size:12.5px}.strip b{display:block;font-size:16px;color:var(--ink)}.strip .got{background:#DDEBE3}.strip .nos{background:var(--pale)}
+.sample{background:var(--pale);border-radius:10px;padding:8px 12px;margin:0 0 10px}
+.tools-row{display:flex;flex-wrap:wrap;gap:8px}.tools-row a{background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 12px;text-decoration:none;font-weight:600;color:var(--act)}
+.toast2{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:var(--act);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .25s;z-index:400;max-width:90vw;text-align:center}.toast2.show{opacity:1}
+.nf p{margin:4px 0 10px}
+/* Finish (injected by the router) */
+button[aria-label^="Finish"]{font-family:var(--font)!important}
+@media(min-width:1200px){button[aria-label^="Finish"]{left:16px!important;transform:none!important;bottom:12px!important}}
+@media(max-width:1199px){body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:60px;background:#fff;border-top:1px solid var(--line);z-index:150;pointer-events:none}body{padding-bottom:70px}.side{height:calc(100vh - 60px - 64px)}}
+@media(max-width:1199px) and (min-width:1000px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}.mcr{grid-template-columns:48px minmax(0,1fr) 170px 18px}.mcr .nxt{display:none}}
+@media(max-width:999px) and (min-width:701px){.pair{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}.mcr{grid-template-columns:48px minmax(0,1fr) 150px 18px}.mcr .nxt{display:none}.tl-axis,.tl-row{grid-template-columns:140px minmax(0,1fr)}}
+@media(max-width:700px){
+ .frame{grid-template-columns:50px minmax(0,1fr);gap:8px;padding:8px}
+ .frame.rail{grid-template-columns:50px minmax(0,1fr)}
+ .side{padding:6px 4px;border-radius:14px;top:56px;height:calc(100vh - 56px - 64px)}
+ .iconb.col{display:none}
+ .main{padding:0 0 16px}
+ h1.pt{font-size:22px}.sub{margin-bottom:10px}
+ .pair,.two{grid-template-columns:1fr}.cards{grid-template-columns:1fr;gap:8px}
+ .top{padding:0 10px}.crumbs{display:none}
+ .hero .big{font-size:20px}.tree{height:150px}
+ .mcr{grid-template-columns:40px minmax(0,1fr) 16px;gap:10px;padding:10px 12px}.mcr .pg,.mcr .nxt{display:none}.mcr .ctile{width:40px;height:40px}
+ .stat3{grid-template-columns:1fr}
+ .dlr{grid-template-columns:32px minmax(0,1fr);}.dlr>*:nth-child(n+3){grid-column:2}
+ .tl-axis,.tl-row{grid-template-columns:64px minmax(0,1fr)}.tl-row .lab .n{display:none}
+ .strip{grid-template-columns:1fr 1fr}
+ .res-panel{left:60px}
+ .ph{flex-wrap:wrap}
+ .rail .nav a,.rail .nav button.row{padding:9px 0}
+}
+@media(max-width:999px){.tree{height:190px}h1.pt{font-size:24px;margin:4px 0 0}.sub{margin:0 0 8px}.tree-wrap{padding:10px 14px 8px}.frame{padding:8px 10px}}
+@media(max-width:700px){.frame,.frame.rail{grid-template-columns:50px minmax(0,1fr);gap:6px;padding:6px}.tree{height:150px}}
+.burger{display:none}.scrim{display:none}
+@media(max-width:500px){
+ .burger{display:grid}
+ .frame,.frame.rail{grid-template-columns:minmax(0,1fr);gap:0;padding:8px 10px}
+ .side{position:fixed;left:0;top:0;bottom:0;width:284px;height:100vh;border-radius:0 16px 16px 0;z-index:300;padding:12px 10px 76px;transform:translateX(-102%);visibility:hidden;transition:transform .2s,visibility 0s .2s}
+ .drawer-open .side{transform:none;visibility:visible;transition:transform .2s;box-shadow:0 0 30px rgba(31,41,51,.25)}
+ .drawer-open .scrim{display:block;position:fixed;inset:0;background:rgba(31,41,51,.35);z-index:250}
+ .iconb.col{display:none}
+ .top{padding:0 8px;gap:6px}
+ .res-panel{left:12px;bottom:80px}
+}
+.s-top{justify-content:space-between;padding:2px 4px 6px}.s-ttl{font-size:12px;font-weight:700;color:var(--ink3);padding-left:6px}
+.nav{flex:0 1 auto;align-content:start}#nav{flex:1 1 auto}
+.nav a.cs{gap:10px;padding:8px 8px}
+.cs .st{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-size:10px;font-weight:800;color:#1F2933;flex:none;letter-spacing:.01em}
+.cs .txt{display:grid;gap:1px;min-width:0}.cs .txt b{font-size:13.5px}.cs .txt small{color:var(--ink2);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cs .mini{display:block;height:4px;border-radius:3px;background:#DDE5EE;overflow:hidden;margin-top:3px}.cs .mini i{display:block;height:100%;background:var(--act)}
+.cs em{font-style:normal;font-size:12px;color:var(--ink2);font-weight:600}
+.rail .nav a.cs{padding:6px 0;justify-content:center}.rail .cs .txt{display:none}.rail .s-top{flex-direction:column;align-items:center}.rail .s-ttl{display:none}
+.tabbar{display:flex;gap:4px;flex-wrap:wrap;margin:0 0 12px;padding:4px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow-x:auto}
+.tabbar a{display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:10px;text-decoration:none;color:var(--ink2);font-weight:600;white-space:nowrap}
+.tabbar a:hover{background:var(--pale)}.tabbar a[aria-current="page"]{background:var(--act);color:#fff}
+.tabbar .bd{font-size:11px;background:var(--tint);color:var(--act);border-radius:9px;padding:0 6px}.tabbar a[aria-current="page"] .bd{background:#fff}
+.tabbar a svg{width:16px;height:16px}
+.more-home .res-panel{position:static;width:auto;max-width:none;max-height:none;box-shadow:none;margin-top:8px;border:1px solid var(--line)}
+body.drawer-open button[aria-label^="Finish"]{display:none!important}
+@media(max-width:500px){.side{padding-bottom:20px}.tabbar{flex-wrap:nowrap}}
+.ann{border:0}.pair+.cu{margin-top:12px}
+.cu{padding:0;overflow:hidden}
+.cu-h{display:flex;justify-content:space-between;align-items:baseline;padding:10px 16px 6px}.cu-h h2{font-size:16px;margin:0}.cu-h a{font-size:13px;color:var(--ink2);text-underline-offset:3px}
+.cur{display:grid;grid-template-columns:minmax(0,1fr) auto 78px;gap:10px;align-items:center;padding:6px 16px;min-height:46px;border-top:1px solid #EDF1F5;text-decoration:none}.cur:hover{background:var(--pane)}
+.cur .ct{display:flex;gap:10px;align-items:center;min-width:0}.cur .ct svg{color:var(--ink2);width:17px;height:17px}.cur .tt{display:grid;min-width:0}.cur .tt b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cur .tt small{color:var(--ink3);font-size:12px}
+.cur .dd{color:var(--ink2);font-size:13px;text-align:right;white-space:nowrap}
+.sum{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:10px 16px;margin-bottom:12px}.sum .bar{flex:1 1 140px;max-width:320px}.sum span{margin-left:auto;color:var(--ink2)}
+.mc.plain{border:0;background:none;border-radius:0;padding:0}.mc.plain .mcr{padding:10px 4px}.mc.plain .mcr:last-child{border-bottom:1px solid #EDF1F5}
+.more-home .ms{padding:8px 0;border-top:1px solid #EDF1F5}.more-home .ms:first-of-type{border-top:0}
+.more-home .ms h3{font-size:14px;margin:0 0 4px;display:flex;justify-content:space-between}
+.more-home .rows li{border:0;background:none;padding-left:0;min-height:40px}
+.tl-links{display:flex;gap:6px 16px;flex-wrap:wrap;margin:0}.tl-links a{color:var(--act);font-weight:600;text-underline-offset:3px}
+.tabbar{border:0;background:none;padding:0;margin:0 0 10px}
+@media(max-width:700px){.cur{grid-template-columns:minmax(0,1fr) auto}.cur .dd{display:none}}
+svg.i{width:20px;height:20px;stroke-width:1.75}.tools{gap:10px}
+.tabbar a svg,.cur .ct svg,.idot svg{width:18px;height:18px}
+.tool{position:relative}.pb .nb{position:absolute;top:1px;right:-2px;min-width:16px;height:16px;border-radius:8px;background:var(--act);color:#fff;font-size:10px;font-weight:700;display:grid;place-items:center;padding:0 4px}
+.me{margin-top:auto;border:0;border-top:1px solid var(--line);background:none;width:100%;text-align:left;cursor:pointer;padding:10px 4px 2px;border-radius:0;display:flex;align-items:center;gap:10px}
+.me:hover .av{box-shadow:0 0 0 2px var(--tint)}
+.me .mt{display:grid;min-width:0;flex:1}.me .mt strong{font-size:13px}.me .mt small{color:var(--ink3);font-size:12px}
+.me .chev2{width:14px;height:14px;color:var(--ink3);flex:none}
+.rail .me{justify-content:center;padding:10px 0 2px}.rail .me .mt,.rail .me .chev2{display:none}
+.rail .nav a[aria-current="page"] .st{box-shadow:0 0 0 2px var(--act)}
+.pop{position:fixed;z-index:350;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 40px rgba(31,41,51,.16);padding:6px;min-width:220px;max-width:calc(100vw - 16px)}
+.pop h3{font-size:12px;color:var(--ink3);margin:6px 8px 2px}.pop .pl{margin:4px 8px 6px;color:var(--ink2);font-size:13px}
+.pop button,.pop a{display:flex;gap:8px;align-items:center;width:100%;text-align:left;border:0;background:none;padding:8px 10px;border-radius:8px;text-decoration:none;cursor:pointer;font-size:14px;color:var(--ink)}
+.pop button:hover,.pop a:hover{background:var(--pale)}
+.res-panel{position:fixed;top:52px;right:12px;left:auto;bottom:auto;width:460px;max-height:calc(100vh - 70px)}
+.rail .res-panel{left:auto}
+@media(max-width:500px){.res-panel{left:8px;right:8px;width:auto}}
+.rscrim{display:none;position:fixed;inset:0;background:rgba(15,23,42,.28);z-index:340;opacity:0;transition:opacity .2s}.rscrim.in{opacity:1}
+.rpane{position:fixed;top:0;right:0;bottom:0;width:420px;max-width:100vw;background:#fff;border-left:1px solid var(--line);box-shadow:-12px 0 40px rgba(31,41,51,.14);z-index:360;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .2s ease}
+.rpane.in{transform:none}
+.rp-h{display:flex;align-items:center;justify-content:space-between;padding:12px 12px 8px 20px}.rp-h h2{font-size:18px;margin:0}
+.rp-s{display:flex;align-items:center;gap:8px;margin:4px 16px 8px;border:1px solid var(--line);border-radius:12px;padding:0 6px 0 12px;background:var(--pane);color:var(--ink3)}
+.rp-s:focus-within{border-color:var(--act);background:#fff;box-shadow:0 0 0 3px var(--tint)}
+.rp-s input{flex:1;border:0;background:none;font:inherit;color:var(--ink);padding:11px 0;min-width:0;outline:none}
+.rp-s input::-webkit-search-cancel-button{display:none}
+.rp-b{overflow:auto;padding:0 12px 24px;flex:1}
+.rp-b h3{font-size:12px;color:var(--ink3);margin:14px 8px 4px;text-transform:none}
+.rrow{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 10px;border-radius:10px;text-decoration:none;color:var(--ink)}
+.rrow:hover,.rrow:focus-visible{background:var(--pale)}
+.rrow svg{width:18px;height:18px;flex:none}.rrow svg:first-child{color:var(--ink2)}.rrow .rl{flex:1;min-width:0}.rrow .ext{width:13px;height:13px;color:var(--ink3);flex:none}
+.rrow mark{background:var(--tint);color:inherit;border-radius:3px;padding:0 1px}
+.rempty{padding:24px 12px;text-align:center;color:var(--ink2)}.rempty p{margin:0 0 12px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+body.rpane-open button[aria-label^="Finish"]{display:none!important}
+@media(max-width:500px){.rpane{width:calc(100% - 16px)}}
+@media(prefers-reduced-motion:reduce){.rpane,.rscrim{transition:none}}
+.st.hm{background:var(--tint);color:var(--act)}.st.hm svg{width:26px;height:26px}
+.cs .txt b{font-size:13.5px}
+.rmeta{font-size:12px;font-weight:600;color:var(--ink2);background:#EEF2F7;border-radius:20px;padding:2px 10px}
+.rrow{min-height:48px}
+.tabbar{display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto;margin:0 0 12px;padding:0 0 8px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none}
+.tabbar a{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;text-decoration:none;color:var(--ink2);font-weight:600;white-space:nowrap}
+.tabbar a:hover{background:var(--pale)}
+.tabbar a[aria-selected="true"]{background:var(--act);color:#fff}
+.tabbar a[aria-selected="true"] .bd{background:#fff;color:var(--act)}
+.tabbar svg{width:18px;height:18px}
+#hometabs{margin-top:4px}
+.rh{display:grid;gap:8px}.rh .rt{font-size:20px;margin:0}.rs{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}.rs .big{font-size:28px;font-weight:700;margin:0;letter-spacing:-.02em}
+.lnk{border:0;background:none;color:var(--act);text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-weight:600;padding:2px}
+.mean{background:var(--pale);border-radius:10px;padding:10px 14px;margin:0}
+.card+.card{margin-top:12px}
+.bwrap{position:relative}.brow{display:grid;grid-template-columns:150px 1fr;height:56px;align-items:center;border-top:1px solid #EDF1F5}.brow:first-child{border-top:0}
+.brow.hit{background:var(--pale);border-radius:10px}.bl{padding-left:12px}.bl b{display:block}.bl small{color:var(--ink2)}
+.plot2{position:absolute;left:150px;right:0;top:0;height:224px}.plot2 svg{width:100%;height:100%;display:block}
+.dot{position:absolute;width:16px;height:16px;border-radius:50%;background:var(--act);border:3px solid #fff;box-shadow:0 0 0 2px var(--act);transform:translate(-50%,-50%)}
+.axis{display:grid;grid-template-columns:150px 1fr;margin-top:6px;font-size:12px;color:var(--ink2)}.axp{position:relative;height:40px}
+.bt{position:absolute;top:0;transform:translateX(-50%)}.you{position:absolute;top:16px;transform:translateX(-50%);background:var(--act);color:#fff;font-weight:700;border-radius:20px;padding:2px 10px;white-space:nowrap}
+.ins{display:flex;gap:12px;align-items:flex-start;background:var(--pale)}.ins p{margin:0}.ins svg{color:var(--act);flex:none}
+.qa{border-top:1px solid #EDF1F5}.qa:first-of-type{border-top:0}
+.qh{display:flex;align-items:center;gap:12px;width:100%;border:0;background:none;text-align:left;padding:10px 0;cursor:pointer;min-height:48px}
+.qn{width:26px;height:26px;border-radius:50%;background:#EEF2F7;display:grid;place-items:center;font-weight:700;font-size:12px;flex:none}
+.qt{flex:1;min-width:0}.qs{display:inline-flex;gap:6px;align-items:center;font-weight:600;font-size:13px;padding:2px 10px;border-radius:20px;background:#EEF2F7;color:#3E4C59;white-space:nowrap}
+.qs.ok{background:#DDEBE3;color:#1F4D36}.qh>svg:last-child{transition:transform .15s}.qh[aria-expanded="true"]>svg:last-child{transform:rotate(180deg)}
+.qb{padding:0 0 12px 38px;color:var(--ink2)}.qb p{margin:2px 0 0}
+.stickbar{position:sticky;bottom:0;display:flex;justify-content:flex-end;gap:10px;background:#fff;border-top:1px solid var(--line);padding:10px 12px;margin-top:12px;border-radius:12px;z-index:20}
+@media(max-width:1199px){.stickbar{bottom:68px}}
+@media(max-width:700px){.brow,.axis{grid-template-columns:110px 1fr}.plot2{left:110px}.qt{font-size:13px}.qs svg{display:none}}
+@media(max-width:999px){#view-home .sub{display:none}#view-home h1.pt{margin:0}.tabbar{margin-bottom:8px;padding-bottom:6px}.tree{height:165px}}
+.prbtn{display:flex;gap:12px;align-items:center;margin:0 0 10px}
+.pr-modes{padding:4px 16px}.prm{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:56px;padding:8px 0;border-top:1px solid #EDF1F5;flex-wrap:wrap}.prm:first-child{border-top:0}.prm b{display:block}.prm small{color:var(--ink2)}
+.act.off,.act:disabled{background:#E4E9EF;color:#52606D;cursor:not-allowed}
+.swt{width:44px;height:26px;border-radius:13px;border:0;background:#C9D3DE;position:relative;cursor:pointer;padding:0}.swt i{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .15s}.swt[aria-checked="true"]{background:var(--act)}.swt[aria-checked="true"] i{left:21px}
+#prmin{width:64px;border:1px solid var(--line);border-radius:8px;padding:5px 8px;font:inherit}
+.prtop{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}.rt2{font-size:18px;font-weight:700;margin:0}
+.prgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:12px;align-items:start}.prgrid .card+.card{margin-top:0}
+.prq{font-size:18px;margin:0 0 12px;outline:none}.opts{display:grid;gap:8px}
+.opt{display:flex;gap:12px;align-items:center;min-height:48px;padding:6px 12px;border:1px solid var(--line);border-radius:12px;cursor:pointer}.opt:hover{border-color:var(--acc)}.opt:has(input:checked){border-color:var(--act);background:var(--pale)}
+.opt input{accent-color:var(--act);width:18px;height:18px;flex:none}
+.navr{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.nv{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;font-weight:700;cursor:pointer}.nv.done{background:var(--tint)}.nv.cur{background:var(--act);color:#fff;border-color:var(--act)}
+#prnote{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;resize:vertical}
+.ck{display:inline-flex;gap:8px;align-items:center;margin-top:8px;cursor:pointer}.ck input{accent-color:var(--act);width:18px;height:18px}
+.secs{display:grid;gap:8px;margin-top:6px}.secr{display:grid;grid-template-columns:minmax(120px,220px) 1fr 70px;gap:12px;align-items:center}.secr b{text-align:right}
+.phead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.helper2 .reply{margin-top:8px}
+.qh .rp{margin-right:4px}
+@media(max-width:899px){.prgrid{grid-template-columns:1fr}.secr{grid-template-columns:1fr 1fr 60px}}
+.stickbar{flex-wrap:wrap}@media(max-width:600px){.stickbar{justify-content:stretch}.stickbar .act{flex:1 1 auto;text-align:center;display:inline-flex;justify-content:center}}
+.pb .nb{background:#DCE7F2;color:#2C557F;box-shadow:0 0 0 1px #fff}
+.bm{display:flex;align-items:center;gap:10px;justify-content:flex-end;padding-right:16px}.dot2{width:14px;height:14px;border-radius:50%;background:var(--act);flex:none}.bm b{color:var(--act)}
+.ml{background:rgba(255,255,255,.92);padding:0 3px;border-radius:3px;z-index:3}
+@media(max-width:1199px){.stickbar{position:static;margin-bottom:8px}}
 </style>
-
-<style id="v2">
-  :root{--side:#2C557F;--side-mute:#9fc2b2;--mint:#d9efe2}
-  body{background:#eef1ee}
-  .app{display:grid;grid-template-columns:304px minmax(0,1fr);min-height:100vh;align-items:start}
-  .stage{min-width:0}
-  /* side pane: solid fill, top to bottom of the viewport */
-  .courses{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--side);color:#eaf5ef;border-radius:0;padding:18px 14px 14px;display:flex;flex-direction:column}
-  .courses .brand{padding:4px 8px 18px;color:#fff;font-size:18px}
-  .courses .brand-mark{background:#fff}
-  .courses .brand-mark svg path{fill:#2f7d4f;stroke:#2f7d4f}
-  .courses .pane-head{margin:0 8px 8px}
-  .courses .pane-head h2{color:#fff}
-  .courses .pane-head p{color:var(--side-mute)}
-  .courses .icon-btn{background:transparent;border-color:rgba(255,255,255,.28);color:#fff}
-  .courses .icon-btn:hover{background:rgba(255,255,255,.12)}
-  .courses .course{grid-template-columns:48px 1fr;gap:12px;padding:11px 10px;border-top:0;border-radius:14px;align-items:start;position:relative;color:inherit}
-  .courses .course:hover{background:rgba(255,255,255,.09)}
-  .courses .course[aria-current="page"]{background:#fff;color:var(--ink)}
-  .chip{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-weight:800;font-size:13px;letter-spacing:.02em;flex:none}
-  .chip-lg{width:60px;height:60px;border-radius:18px;font-size:15px}
-  .c-code{display:block;font-weight:700;font-size:15px}
-  .c-name{display:block;font-size:12.5px;color:var(--side-mute);margin-top:1px}
-  .c-next{display:block;font-size:12.5px;margin-top:6px;color:#d6e9df}
-  .c-bar{display:block;height:6px;border-radius:3px;background:rgba(255,255,255,.18);margin-top:7px;overflow:hidden}
-  .c-bar i{display:block;height:100%;border-radius:3px}
-  .c-due{display:block;font-size:12.5px;margin-top:6px;color:#ffd7a1}
-  .c-newtag{display:block;font-size:12.5px;font-weight:700;margin-top:6px;color:#7cf0b6}
-  .courses .course .new-dot{position:absolute;top:10px;right:10px;width:12px;height:12px;border-radius:50%;background:#ff5a45;border:0}
-  .courses .course[aria-current="page"] .c-name,.courses .course[aria-current="page"] .c-next{color:var(--ink-2)}
-  .courses .course[aria-current="page"] .c-bar{background:#e8ece7}
-  .courses .course[aria-current="page"] .c-due{color:#9a3412}
-  .courses .course[aria-current="page"] .c-newtag{color:#1f7a4f}
-  .courses .more{color:var(--side-mute)}
-  .courses .pane-foot{margin-top:auto;border-top:1px solid rgba(255,255,255,.16);padding-top:12px}
-  .courses .res-btn{background:rgba(255,255,255,.1);color:#fff}
-  .courses .res-btn:hover,.courses .res-btn[aria-expanded="true"]{background:rgba(255,255,255,.2)}
-  .res-panel{position:fixed;left:316px;bottom:14px;max-height:calc(100vh - 28px);overflow:auto;z-index:50;color:var(--ink)}
-  /* content: masthead only over the content, cards with solid fills */
-  .masthead{height:64px}
-  .shell{display:block;max-width:1180px;margin:0 auto;padding:22px 26px 44px}
-  .growth{background:transparent;padding:0;display:grid;grid-template-columns:1fr;gap:18px}
-  .tree-wrap{background:var(--mint);border-radius:24px;padding:26px 28px 22px}
-  .side{background:#fff;border-radius:24px;padding:26px 28px;border-left:0}
-  .course-page{border-radius:24px}
-  .buddy .bubble{background:#ffe7a3}
-  .prompt{background:#eef2ff;border:0}
-  .prompt a:hover{background:#e3e9ff}
-  @media (min-width:1180px){.growth{grid-template-columns:minmax(440px,1.15fr) minmax(320px,1fr)}.side{border-left:0;padding-left:28px}}
-  @keyframes sway{from{transform:rotate(-1.1deg)}to{transform:rotate(1.1deg)}}
-  @media (max-width:999px){.app{grid-template-columns:1fr}.courses{position:static;height:auto}.res-panel{position:static;max-height:none;margin-top:10px}}
-</style>
-<style id="v3">
-  .prompts{grid-column:1/-1;background:#fff;border-radius:24px;padding:22px 28px 24px}
-  .prompts h2{font-size:16px;margin:0}
-  .prompt-list{grid-template-columns:repeat(3,1fr)}
-  @media (max-width:900px){.prompt-list{grid-template-columns:1fr}}
-  .soon h2{font-size:16px;margin:0 0 8px}
-  .soon ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
-  .soon a{display:grid;grid-template-columns:14px 1fr;gap:12px;align-items:start;padding:10px 12px;border-radius:12px;text-decoration:none;background:#f4f6f3}
-  .soon a:hover{background:#e9eee8}
-  .soon .dot{width:14px;height:14px;border-radius:5px;margin-top:3px}
-  .soon b{display:block;font-size:14.5px}
-  .soon .when{display:block;font-size:13px;color:var(--ink-2);margin-top:1px}
-  .tree-wrap{display:flex;flex-direction:column;justify-content:space-between}
-  .tree-wrap .tree{flex:none}
-</style>
-<style id="v4">
-  .app{transition:grid-template-columns .22s ease}
-  .app.collapsed{grid-template-columns:76px minmax(0,1fr)}
-  .app.collapsed .courses{padding:16px 10px 14px;align-items:center}
-  .app.collapsed .courses .brand{font-size:0;padding:4px 0 14px}
-  .app.collapsed .pane-head{flex-direction:column;gap:0;margin:0 0 10px}
-  .app.collapsed .pane-head > div{display:none}
-  .app.collapsed .c-body{display:none}
-  .app.collapsed .courses .course{grid-template-columns:48px;padding:7px;justify-content:center}
-  .app.collapsed .courses .course .new-dot{top:5px;right:5px}
-  .app.collapsed #course-list + div{display:none}
-  .app.collapsed .courses .pane-foot{width:100%}
-  .app.collapsed .courses .res-btn{font-size:0;justify-content:center;padding:11px 0}
-  .app.collapsed .courses .res-btn .chev{display:none}
-  .app.collapsed .res-panel{left:88px}
-  #nav-collapse svg{transition:transform .2s}
-  .app.collapsed #nav-collapse svg{transform:scaleX(-1)}
-</style>
-<style id="v5">
-  @keyframes sway{from{transform:rotate(-2.6deg)}to{transform:rotate(2.6deg)}}
-  @keyframes bgrow{from{scale:0}to{scale:1}}
-  @keyframes pop{from{scale:0}to{scale:1}}
-  @keyframes flutter{from{rotate:-7deg}to{rotate:7deg}}
-  .tree .limb{animation:bgrow .55s cubic-bezier(.3,.7,.3,1) both}
-  .tree .leaf{transform-box:fill-box;transform-origin:center;animation:pop .5s cubic-bezier(.2,.9,.3,1.3) both,flutter var(--fl,4s) ease-in-out var(--fd,0s) infinite alternate}
-  .tree .bud{transform-box:fill-box;transform-origin:center;animation:pop .4s ease-out both}
-  .tree-text{margin:10px auto 0;max-width:520px;font-size:13.5px;color:var(--ink-2)}
-  .tree-text summary{cursor:pointer;font-weight:600;color:var(--ink)}
-  .tree-text ul{margin:8px 0 4px;padding-left:20px}
-  .ann{display:flex;align-items:center;gap:12px;background:#ffe7a3;border-radius:18px;padding:12px 18px;margin-bottom:18px;text-decoration:none;font-size:14.5px}
-  .ann b{font-weight:700}.ann span{margin-left:auto;font-weight:600;white-space:nowrap}
-  .ann:hover{background:#ffdf85}
-  /* course page: solid fills */
-  .course-page{background:transparent;padding:0;display:grid;gap:16px}
-  .cp-head{background:var(--cc);color:var(--cci);border-radius:24px;padding:24px 28px;align-items:center;gap:20px}
-  .cp-head p{color:inherit;opacity:.92}
-  .cp-head .chip-lg{background:var(--cci)!important;color:var(--cc)!important}
-  .tabs{background:#fff;border-radius:20px;padding:8px;border:0;margin:0;gap:6px}
-  .tab{border-radius:14px;border:0;padding:10px 16px;font-weight:600;color:var(--ink-2)}
-  .tab:hover{background:#eef1ee}
-  .tab[aria-selected="true"]{background:var(--side);color:#fff;border:0}
-  .tab .n{background:var(--cct);color:var(--ink)}
-  .panel{background:#fff;border-radius:24px;padding:22px 24px 26px}
-  .goal{background:var(--cct);border-radius:16px}
-  .bar{background:rgba(255,255,255,.75)}.bar i{background:var(--cc)}
-  .wk h3{font-size:16px}
-  .rows{border:0;border-radius:0;overflow:visible;display:grid;gap:8px}
-  .rows li{border:0;background:#f1f4f0;border-radius:16px;padding:13px 16px}
-  .tick{border-color:#8d9a92;border-radius:8px}
-  .tick[aria-pressed="true"]{background:var(--side);border-color:var(--side)}
-  .act{background:var(--side)}.act.ghost{background:var(--cct);color:var(--ink)}
-  .pill{background:#e3e8e2}.pill.warn{background:#ffe7a3;color:#5a4300}.pill.ok{background:#bfe6cf;color:#124a2d}
-  .icon-dot{background:var(--cct)}
-  .ov{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-  @media(max-width:700px){.ov{grid-template-columns:1fr}}
-  .ov .tile{border-radius:18px;padding:18px 20px;background:#f1f4f0;display:grid;gap:6px;align-content:start}
-  .ov .tile h3{margin:0;font-size:15px}.ov .tile p{margin:0;color:var(--ink-2);font-size:14px}
-  .ov .tile.main{background:var(--cc);color:var(--cci);grid-column:1/-1}.ov .tile.main p{color:inherit;opacity:.92}
-  .ov .tile.main .act{justify-self:start;background:var(--cci);color:var(--cc);margin-top:6px}
-  .ov .tile.ann2{background:#ffe7a3}
-  .strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
-  @media(max-width:700px){.strip{grid-template-columns:1fr 1fr}}
-  .strip div{border-radius:14px;padding:12px 14px;font-size:13px;background:#e3e8e2;color:var(--ink-2)}
-  .strip b{display:block;font-size:17px;color:var(--ink);margin-top:2px}
-  .strip .got{background:#bfe6cf}.strip .nos{background:#ffe7a3}
-  @media(max-width:560px){.masthead{padding:0 14px;gap:10px}.sky{display:none}.crumbs{margin-right:auto}.tools{margin-left:auto}.cp-head{padding:18px}.panel{padding:16px}.cp-head h1{font-size:22px}.ann{flex-wrap:wrap}.ann span{margin-left:0}}
-</style>
-<style id="v6">
-  body{padding-bottom:110px}
-  @media(max-width:560px){.shell{padding-left:16px;padding-right:16px;padding-bottom:120px}}
-  .skip{position:absolute;left:-999px;top:8px;background:#fff;color:var(--ink);padding:10px 14px;border-radius:10px;z-index:100;font-weight:700}
-  .skip:focus{left:8px}
-  :focus-visible{outline:3px solid #1f2430;outline-offset:2px}
-  .courses :focus-visible,.masthead[data-time="night"] :focus-visible{outline-color:#fff}
-  .nextstep{background:#f1f4f0;border-radius:20px;padding:20px 22px;display:grid;gap:10px}
-  .nextstep h2{font-size:16px;margin:0}.nextstep p{margin:0}
-  .nextstep .big{font-size:24px;letter-spacing:-.02em}
-  .nextstep .bar{height:12px;background:#fff}.nextstep .bar i{background:#5b7cff}
-  .nextstep .nx{color:var(--ink-2)}
-  .btns{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .go{display:inline-flex;align-items:center;padding:12px 20px;border-radius:12px;background:var(--side);color:#fff;text-decoration:none;font-weight:700}
-  .go:hover{background:#0c2a20}
-  .later{border:2px solid var(--side);background:transparent;border-radius:12px;padding:10px 16px;font-weight:600;cursor:pointer}
-  .later:hover{background:#e3e8e2}
-  .remind{background:#fff;border-radius:14px;padding:12px 14px}
-  .slots{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-  .slot{border:2px solid #cfd6cf;background:#fff;border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:600}
-  .slot:hover{border-color:var(--side)}
-  .undo{border:0;background:none;text-decoration:underline;font-weight:700;cursor:pointer;padding:4px}
-  .toast2{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .25s;z-index:200;max-width:90vw;text-align:center}
-  .toast2.show{opacity:1}
-  .c-count{display:block;font-size:12.5px;margin-top:6px;font-weight:600}
-  .sample{background:#ffe7a3;border-radius:12px;padding:12px 14px}
-  .mob-toggle{display:none}
-  .stats{justify-content:center;gap:36px}
-  @media(max-width:999px){
-    .growth{display:flex;flex-direction:column}.side{order:-1}
-    .courses{padding-bottom:10px}
-    .courses #nav-collapse{display:none}
-    .mob-toggle{display:flex;width:100%;justify-content:space-between;align-items:center;border:0;border-radius:12px;background:rgba(255,255,255,.12);color:#fff;padding:12px 14px;font-weight:700;cursor:pointer;margin-top:4px}
-    .courses.listclosed #course-list,.courses.listclosed .more-row,.courses.listclosed .pane-head p,.courses.listclosed .pane-foot{display:none}
-  }
-</style>
-
-<style id="v7">
-  .hero{background:#f1f4f0;border-radius:24px;padding:24px 28px;display:grid;gap:10px;margin-bottom:18px}
-  .hero .tag{display:inline-block;justify-self:start;background:#ffe7a3;color:#5a4300;font-weight:700;font-size:13px;padding:3px 10px;border-radius:20px}
-  .hero .big{font-size:26px;line-height:1.2;letter-spacing:-.02em;margin:0}
-  .hero .bar{height:12px;background:#fff}.hero .bar i{background:#5b7cff}
-  .hero p{margin:0}.hero .nx{color:var(--ink-2)}
-  .card{background:#fff;border-radius:24px;padding:22px 26px;margin-bottom:18px}
-  .card h2{font-size:17px;margin:0 0 4px}.card>p.sub{margin:0 0 12px;color:var(--ink-3);font-size:13.5px}
-  .card h3{font-size:14px;margin:14px 0 6px;color:var(--ink-2)}
-  .two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  @media(max-width:999px){.two{grid-template-columns:1fr}}
-  .ann{display:block;background:#ffe7a3;border-radius:20px;padding:16px 20px;margin-bottom:18px}
-  .ann summary{cursor:pointer;font-weight:700}
-  .ann summary small{display:block;font-weight:500;color:#5a4300;margin-top:2px}
-  .ann p{margin:8px 0 0;font-size:14px}
-  .cap{max-width:1180px;margin:0 auto;padding:0 26px;color:var(--ink-3);font-size:13px}
-  .rows li{grid-template-columns:auto 1fr auto}
-  .rows li.here{background:#d9efe2;outline:2px solid var(--side)}
-  .tabs{flex-wrap:nowrap;overflow-x:auto}
-  .tools-row{display:flex;flex-wrap:wrap;gap:8px}
-  .tools-row a{background:#f1f4f0;border-radius:12px;padding:10px 14px;text-decoration:none;font-weight:600;font-size:14px}
-  .tree-wrap{margin-bottom:18px}
-  .more-home summary{cursor:pointer;font-weight:700}
-  .more-home dl{margin:10px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:6px 18px;font-size:14px}.more-home dt{font-weight:600}.more-home dd{margin:0;color:var(--ink-2)}
-  @media(max-width:560px){.hero{padding:18px}.hero .big{font-size:22px}.card{padding:16px}}
-  .homegrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;align-items:stretch;margin-bottom:18px}
-  .homegrid .tree-wrap,.homegrid .hero{margin:0}
-  .homegrid .hero{align-content:start}
-  @media(max-width:999px){.homegrid{grid-template-columns:1fr;gap:12px}}
-  .tree-caption{margin:10px auto 0;text-align:center;font-size:17px;font-weight:700;max-width:34ch}
-  .tree-caption small{display:block;font-weight:500;font-size:13.5px;color:var(--ink-2);margin-top:2px}
-  @media(max-width:560px){.tree-wrap{padding:16px 16px 14px!important}.tree-head p,.homegrid .legend{display:none}.tree-head h1{font-size:20px}.tree{max-height:200px}.tree-caption{font-size:15px;margin-top:6px}.tree-caption small{display:none}.hero .tag{display:none}.hero{padding:16px!important;gap:8px}.hero .big{font-size:19px}.hero .nx{font-size:13.5px}.cn{display:none}.courses .pane-head h2{display:none}.courses{padding-top:10px}.courses .brand{padding-bottom:6px}.tree{max-height:172px}.tree-caption{margin-top:2px}.mob-toggle{margin-top:0;padding:10px 14px}}
-  .helper-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-  .helper-line{font-size:16px;font-weight:600;margin:10px 0 0}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-  .chip-q{border:2px solid #cfd6cf;background:#fff;border-radius:20px;padding:8px 14px;font-weight:600;cursor:pointer}
-  .chip-q:hover{border-color:var(--side)}
-  .reply{margin-top:12px;background:#f1f4f0;border-radius:14px;padding:12px 14px;font-size:14.5px}
-  .reply a{font-weight:600}
-  .odlink{justify-self:start;color:var(--ink-2);font-size:14px;text-underline-offset:3px}
-  .courses .c-count{color:#fff}.courses .c-due{color:#d6e9df}.courses .course[aria-current="page"] .c-due{color:var(--ink-2)}
-  button[aria-label^="Finish"]{font-family:var(--font)!important}
-  @media(max-width:999px){body{padding-bottom:90px}body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:60px;background:var(--canvas);border-top:1px solid var(--line);z-index:150;pointer-events:none}}
-  @media(min-width:1000px){button[aria-label^="Finish"]{left:16px!important;transform:none!important;bottom:12px!important}.courses{height:calc(100vh - 64px)}.app.collapsed ~ button[aria-label^="Finish"]{left:2px!important}}.courses .course[aria-current="page"] .c-count{color:var(--ink)}
-</style>
-<style id="v8">
-  :root{--ink:#1F2933;--ink-2:#52606D;--ink-3:#616E7C;--canvas:#F3F6FA;--surface:#fff;--line:#D9E2EC;--act:#2C557F;--acc:#3A6EA5;--tint:#CFE0F0;--pale:#EAF2FA;--font:Lato,"Lucida Sans Unicode","Lucida Grande","Segoe UI",system-ui,sans-serif}
-  body{background:var(--canvas);color:var(--ink);font-family:var(--font)}
-  :focus-visible,.courses :focus-visible{outline:3px solid var(--act)!important}
-  .masthead,.masthead[data-time]{background:#fff!important;color:var(--ink)!important;border-bottom:1px solid var(--line);height:56px}
-  .sky{display:none}.tools{margin-left:auto}
-  .tool:hover,.masthead[data-time] .tool:hover{background:var(--pale)}
-  .avatar{background:var(--tint);color:var(--act);border:0}
-  .courses{background:#F7F9FC;color:var(--ink);border-right:1px solid var(--line)}
-  .courses .brand{color:var(--act)}
-  .courses .brand-mark{background:var(--act)}
-  .courses .brand-mark svg path{fill:#fff;stroke:#fff}
-  .courses .pane-head h2{color:var(--ink);font-size:15px}
-  .courses .icon-btn{background:#fff;border-color:var(--line);color:var(--ink)}
-  .courses .icon-btn:hover{background:var(--pale)}
-  .courses .course{color:var(--ink);padding:10px 10px 10px 12px;border-radius:10px}
-  .courses .course:hover{background:var(--pale)}
-  .courses .course[aria-current="page"]{background:var(--tint);color:var(--ink);box-shadow:inset 4px 0 0 var(--act)}
-  .courses .c-name{color:var(--ink-2)}
-  .courses .c-bar{background:#DDE5EE;height:5px}
-  .courses .c-count{color:var(--ink);font-weight:600;margin-top:4px}
-  .courses .course[aria-current="page"] .c-name,.courses .course[aria-current="page"] .c-count{color:var(--ink)}
-  .courses .more{color:var(--act)}
-  .courses .pane-foot{border-top:1px solid var(--line)}
-  .courses .res-btn{background:#fff;border:1px solid var(--line);color:var(--ink)}
-  .courses .res-btn:hover,.courses .res-btn[aria-expanded="true"]{background:var(--pale)}
-  .mob-toggle{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line)!important}
-  .hero,.tree-wrap,.card,.panel,.ann,.tabs,.tile,.cp-head{border-radius:14px!important}
-  .hero,.card,.panel,.tabs{background:#fff;border:1px solid var(--line)}
-  .tree-wrap{background:#F5F8FC;border:1px solid var(--line)}
-  .hero .tag{background:var(--pale);color:var(--act)}
-  .hero .bar,.goal .bar{background:#E4ECF4}
-  .hero .bar i,.goal .bar i,.nextstep .bar i{background:var(--act)}
-  .go{background:var(--act)}.go:hover{background:#234769}
-  .later{border-color:var(--act);color:var(--act);background:#fff}.later:hover{background:var(--pale)}
-  .act,.act.ghost{background:var(--act);color:#fff}.act.ghost{background:#fff;color:var(--act);border:1px solid var(--act)}
-  .odlink,.undo,.reply a{color:var(--act)}
-  .ann{background:var(--pale);border:1px solid #D4E3F2}
-  .ann summary small{color:var(--ink-2)}
-  .pill,.pill.warn{background:#E9EEF4;color:#3E4C59}.pill.ok{background:#DDEBE3;color:#1F4D36}
-  .tabs{padding:6px;margin:0 0 14px;gap:4px;padding-right:150px}
-  .tab{color:var(--ink-2);border-radius:10px}.tab:hover{background:var(--pale)}
-  .tab[aria-selected="true"]{background:var(--act);color:#fff}
-  @media(max-width:999px){.tabs{padding-right:12px}}
-  .cp-head{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line);border-left:6px solid var(--cc)}
-  .cp-head p{color:var(--ink-2)!important;opacity:1}
-  .cp-head .chip-lg{background:var(--cc)!important;color:var(--cci)!important}
-  .goal{background:var(--pale)}
-  .rows li{background:#F7F9FC;border:1px solid #E6ECF2}
-  .rows li.here{background:var(--tint);outline:2px solid var(--act)}
-  .ov .tile{background:#F7F9FC}.ov .tile.main{background:var(--pale);color:var(--ink)}.ov .tile.main p{color:var(--ink-2)}
-  .ov .tile.main .act{background:var(--act);color:#fff}.ov .tile.ann2{background:var(--pale)}
-  .strip div{background:#EEF2F7;color:var(--ink-2)}.strip .got{background:#DDEBE3}.strip .nos{background:var(--pale)}
-  .sample{background:var(--pale);border-radius:10px;padding:8px 12px;font-size:14px}
-  .toast2{background:var(--act);color:#fff;bottom:84px;opacity:0}.toast2.show{opacity:1}.tree-caption small{display:block;font-weight:500;font-size:13px;margin-top:2px}
-  .remind{background:#fff;border:1px solid var(--line)}.slot{border-color:var(--line)}.slot:hover{border-color:var(--act)}
-  .chip-q{border-color:var(--line);color:var(--act)}.chip-q:hover{border-color:var(--act)}
-  .reply{background:var(--pale)}
-  .tools-row a{background:#fff;border:1px solid var(--line);color:var(--act)}
-  .tree-caption{font-size:15px;font-weight:600;color:var(--ink-2);margin-top:6px}
-  .tree.static *{animation:none!important}
-  .tree-text{color:var(--ink-2)}
-  .hero .big{font-size:30px}
-  .tree-wrap{padding:20px 24px 16px!important}
-  .tree{max-height:330px}
-  @media(max-width:560px){.tree{max-height:150px}.hero .big{font-size:22px}.tree-wrap{padding:12px 14px 10px!important}.courses .brand{padding-bottom:4px}}
-  .shell{padding-top:18px}
-  @media(max-width:560px){.rows li{grid-template-columns:auto minmax(0,1fr)}.rows li>*:last-child:not(:nth-child(2)){grid-column:1/-1}.rows li>span:last-child{justify-content:flex-start!important}.course-page,.panel,.cp-head,.tabs,.goal{max-width:100%;min-width:0}.cp-head{flex-wrap:nowrap}.cp-head h1{overflow-wrap:anywhere}}
-</style>
-<style id="v9">
-  /* Slack-like density: 8px scale, rows 40-48px, main fills the width */
-  .shell{max-width:1200px;padding:12px 16px 20px}
-  .app{grid-template-columns:272px minmax(0,1fr)}
-  .masthead{height:48px;padding:0 16px;gap:12px}
-  .tool{width:36px;height:36px}.avatar{width:32px;height:32px}
-  .burger{display:none}
-  .homegrid{gap:12px;margin-bottom:12px;align-items:start;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
-  .rightcol{display:grid;gap:12px;align-content:start;min-width:0}
-  .homegrid .tree-wrap{align-self:stretch;display:flex;flex-direction:column;justify-content:center}
-  .hero{padding:14px 16px;gap:6px}.hero .big{font-size:24px}
-  .tree-wrap{padding:12px 16px 10px!important}
-  .tree-head h1{font-size:18px}
-  .tree{max-height:300px;margin-top:0}
-  .tree-caption{margin-top:2px;font-size:14px}
-  .card{padding:12px 16px;margin-bottom:0}
-  .card h2{font-size:15px;margin:0 0 6px}.card h3{margin:8px 0 4px;font-size:13px}
-  .ann{padding:10px 14px;margin-bottom:12px}
-  .two{gap:12px;margin-bottom:12px}
-  .two>.card{margin:0}
-  .rows{gap:6px}
-  .rows li{padding:6px 12px;min-height:44px;font-size:14px;gap:10px}
-  .icon-dot{width:28px;height:28px;border-radius:8px}
-  .go{padding:9px 16px}.later{padding:7px 14px}
-  .helper-line{margin-top:6px;font-size:15px}.chips{margin-top:8px}.chip-q{padding:6px 12px}
-  .more-home{margin-top:12px}
-  .courses{padding:12px 10px 10px}
-  .courses .brand{padding:2px 6px 10px;font-size:17px}
-  .courses .course{padding:8px 10px}
-  .chip{width:40px;height:40px;border-radius:12px;font-size:11px}
-  .courses .course{grid-template-columns:40px 1fr;gap:10px}
-  .tabs{padding:4px;margin:0 0 10px}.tab{padding:8px 14px}
-  .cp-head{padding:12px 16px;gap:12px}.cp-head h1{font-size:20px}
-  .course-page{gap:10px}.panel{padding:12px 16px}
-  .goal{padding:8px 12px;margin-bottom:10px}
-  .mob-toggle{display:none!important}
-  @media(max-width:999px){.app .courses.listclosed #course-list{display:block}.app .courses.listclosed .pane-foot{display:flex}.app .courses.listclosed .more-row{display:block}}
-  @media(min-width:701px) and (max-width:999px){
-    .courses{position:sticky;top:0;height:calc(100vh - 60px);padding-bottom:10px}
-    .courses #nav-collapse{display:grid}
-    .homegrid{grid-template-columns:1fr}
-    .two{grid-template-columns:1fr}
-    .tree{max-height:240px}
-  }
-  @media(min-width:1000px){.tree{max-height:320px}}
-  @media(max-width:700px){
-    .app{display:block}
-    .courses{position:fixed;left:0;top:0;bottom:0;width:272px;height:100vh;padding-bottom:76px;z-index:300;transform:translateX(-102%);visibility:hidden;transition:transform .2s,visibility 0s .2s;box-shadow:none;overflow-y:auto}
-    .app.drawer-open .courses{transform:none;visibility:visible;transition:transform .2s;box-shadow:0 0 30px rgba(31,41,51,.25)}
-    .courses #nav-collapse{display:none}
-    .scrim{position:fixed;inset:0;background:rgba(31,41,51,.35);z-index:250;display:none}
-    .drawer-open-body .scrim{display:block}
-    .burger{display:grid}
-    .masthead{padding:0 8px;gap:4px;position:sticky;top:0;z-index:40}
-    .shell{padding:8px 10px 76px}
-    .homegrid{grid-template-columns:1fr;gap:8px;margin-bottom:8px}
-    .rightcol{gap:8px}
-    .tree{max-height:140px}.tree-wrap{padding:10px 12px 8px!important}.tree-head h1{font-size:16px}
-    .hero{padding:12px}.hero .big{font-size:20px}
-    .card{padding:10px 12px}.two{gap:8px;margin-bottom:8px}.ann{margin-bottom:8px;padding:8px 12px}
-    .app.collapsed{display:block}
-  }
-  .scrim{display:none}
-  @media(max-width:700px){.drawer-open-body .scrim{display:block}}
-  @media(min-width:1000px){.homegrid .tree-wrap{justify-content:flex-start}.homegrid .tree{flex:1 1 auto;height:0;min-height:260px;max-height:none;max-width:none}}
-</style>
+<style id="x">.short{display:none}.rail .short{display:inline}.rail .full{display:none}.tl{--lw:200px}.tl-axis,.tl-row{grid-template-columns:var(--lw) minmax(0,1fr)!important}@media(max-width:1199px) and (min-width:701px){.tl{--lw:140px}}@media(max-width:700px){.tl{--lw:64px}}.nav a b.full,.nav a b.short{font-weight:700}.mcr .bar{height:6px}.mk{z-index:3}.nav button.row .chev{display:block}.rail .nav button.row .chev{display:none}</style>
 </head>
 <body>
 <a class="skip" id="skip" href="#nextstep">Skip to your next step</a>
-<div class="scrim" id="scrim"></div><div class="app"><aside class="courses" aria-label="My Courses"><a class="brand" href="#/" aria-label="WeLearn home">
-    <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M12 21V11"/><path d="M12 13c-4 0-6-3-6-7 4 0 6 3 6 7z" fill="#fff" stroke="none"/><path d="M12 11c0-4 2.5-6.5 7-6.5 0 4.5-2.5 6.5-7 6.5z" fill="#fff" stroke="none"/></svg></span>
-    WeLearn
-  </a>
-    <div class="pane-head">
-      <div><h2 id="h-courses">My Courses</h2></div>
-      <button class="icon-btn" id="nav-collapse" aria-label="Collapse the side pane" aria-expanded="true" title="Collapse the side pane"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="4.5" width="17" height="15" rx="3"/><path d="M9.5 4.5v15"/></svg></button>
-    </div>
-    <button class="mob-toggle" id="mob-toggle" aria-expanded="false" aria-controls="course-list">Show my courses (4)</button>
-    <div id="course-list"></div>
-    <div class="more-row" style="text-align:right;margin:6px 6px 10px"><a class="more" href="#">All courses (14)</a></div>
-    <div class="pane-foot">
-      <button class="res-btn" id="res-btn" aria-expanded="false" aria-controls="res-panel">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><path d="M16.75 13.5v6.5M13.5 16.75H20"/></svg>
-        Other resources
-        <svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3l5 5-5 5"/></svg>
-      </button>
-      <div class="res-panel" id="res-panel" hidden></div>
-    </div>
-  </aside><div class="stage"><header class="masthead" id="masthead" data-time="day">
-  <button class="tool burger" id="nav-drawer" aria-label="Open my courses" aria-expanded="false" aria-controls="course-list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-  <nav class="crumbs" aria-label="Breadcrumb"><span aria-current="page">Home</span></nav>
-  <span class="sky" id="sky"></span>
+<header class="top">
+  <button class="tool burger" id="nav-drawer" aria-label="Open the menu" aria-expanded="false" aria-controls="side"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="word" href="#/" aria-label="WeLearn home"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M12 21V11"/><path d="M12 13c-4 0-6-3-6-7 4 0 6 3 6 7z" fill="#fff" stroke="none"/><path d="M12 11c0-4 2.5-6.5 7-6.5 0 4.5-2.5 6.5-7 6.5z" fill="#fff" stroke="none"/></svg></i>WeLearn</a>
+  <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
   <div class="tools">
-    <button class="tool" aria-label="Message alerts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 5h11v8H9l-4 3.5V13H4z"/><path d="M17 9h3v8h-1.5v3l-3.5-3H11v-2"/></svg></button>
-    <button class="tool" aria-label="Update alerts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg></button>
-    <button class="avatar" aria-label="Your profile, Alex Tan">AT</button>
+    <button class="tool" id="res-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="rpane" aria-label="Other resources" title="Other resources"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><path d="M16.75 13.5v6.5M13.5 16.75H20"/></svg></button>
+    <button class="tool pb" id="msg-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="rpane" aria-label="Messages, 99+ unread discussions" title="Messages"><svg class="i" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg><span class="nb" aria-hidden="true">99+</span></button>
+    <button class="tool pb" id="upd-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="rpane" aria-label="Updates" title="Updates"><svg class="i" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span class="nb" id="upd-n" aria-hidden="true">1</span></button>
   </div>
-</header><main class="shell">
-  <section id="view-home" aria-label="Your home">
-    <div class="homegrid">
-    <div class="tree-wrap">
-      <div class="tree-head"><h1>Your term</h1></div>
-      <svg class="tree" id="tree" viewBox="0 52 560 398" preserveAspectRatio="xMidYMax meet" role="img" aria-labelledby="tree-title" aria-describedby="tree-text"><title id="tree-title"></title></svg>
-      <p class="tree-caption" id="tree-caption"></p>
-      <ul class="legend" id="legend" hidden></ul>
-      <details class="tree-text" id="tree-text"></details>
-      <div class="stats" hidden><div><b id="leaves">0</b>items submitted or attempted</div><div><b id="buds">0</b>items still to do</div></div>
-    </div>
-    <div class="rightcol">
-    <div class="hero" id="nextstep">
-      <span class="tag">This week</span>
-      <p class="big"><b id="ns-count"></b></p>
-      <div class="bar" role="img" id="ns-barwrap"><i id="ns-bar"></i></div>
-      <p class="nx" id="bubble-text"></p>
-      <div class="btns"><a class="go" id="bubble-go" href="#/sample/final">Open the Final Submission Folder</a><button class="later" id="bubble-later" aria-expanded="false">Remind me</button></div>
-      <a class="odlink" id="hero-overdue" href="#/sample/ideation">1 overdue: Ideation</a>
-      <div class="remind" id="remind" hidden></div>
-    </div>
-      <div class="card"><h2>Work to do</h2>
-        <h3>Overdue (2)</h3><ul class="rows" id="w-over"></ul>
-        <h3>Nov 6 - Nov 19 (2)</h3><ul class="rows" id="w-soon"></ul>
+</header>
+<div class="scrim" id="scrim"></div>
+<div class="frame" id="frame">
+  <aside class="side" id="side" aria-label="Main navigation">
+    <div class="s-top"><span class="s-ttl lbl">Courses</span><button class="iconb col" id="nav-collapse" aria-label="Collapse the side pane" aria-expanded="true"><svg class="i" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="3"/><path d="M9.5 4.5v15"/></svg></button></div>
+    <nav class="nav" id="nav" aria-label="Sections"></nav>
+    <button class="me" id="me-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="pop-me" aria-label="Alex Tan, profile menu"><span class="av" aria-hidden="true">AT</span><span class="mt"><strong>Alex Tan</strong><small>Student</small></span><svg class="i chev2" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"/></svg></button>
+  </aside>
+  <main class="main" id="main">
+    <section id="view-home">
+      <h1 class="pt">Home</h1>
+      <p class="sub">Friday, 6 November. The August term ends on 20 December.</p>
+      <div id="hometabs"></div>
+      <div class="hp" id="hp-overview" role="tabpanel" aria-labelledby="ht-overview">
+        <div class="pair">
+          <div class="card tree-wrap">
+            <div class="tree-head"><h2>Your term</h2></div>
+            <svg class="tree" id="tree" viewBox="0 52 560 398" preserveAspectRatio="xMidYMax meet" role="img" aria-labelledby="tree-title" aria-describedby="tree-text"><title id="tree-title"></title></svg>
+            <p class="tree-caption" id="tree-caption"></p>
+            <ul class="legend" id="legend"></ul>
+            <details class="tree-text" id="tree-text"></details>
+            <div class="stats"><b id="leaves"></b><b id="buds"></b></div>
+          </div>
+          <div class="card hero" id="nextstep">
+            <span class="tag">This week</span>
+            <p class="big"><span id="ns-count"></span></p>
+            <div class="bar" role="img" id="ns-barwrap"><i id="ns-bar"></i></div>
+            <p class="nx" id="bubble-text"></p>
+            <div class="btns"><a class="go" id="bubble-go" href="#/sample/final">Open the Final Submission Folder</a><button class="later" id="bubble-later" aria-expanded="false">Remind me</button></div>
+            <a class="odlink" id="hero-overdue" href="#/sample/ideation">1 overdue: Ideation</a>
+            <div class="remind" id="remind" hidden></div>
+          </div>
+        </div>
+        <div class="card cu" id="cards"></div>
       </div>
-    </div>
-    </div>
-    <details class="ann" id="ann">
-      <summary>Announcement: AY2026-27 Term 1: e$10 and End-term Course Feedback<small>Sample Staff, Nov 6, 2026 10:00 AM</small></summary>
-      <p>Course feedback is open from Friday, 6 November (10.00am) to Sunday, 22 November (11.59pm). You receive e$10 after you submit it for your listed courses.</p>
-    </details>
-    <div class="two">
-      <div class="card"><h2>Class schedule</h2><ul class="rows" id="sched"></ul></div>
-      <section class="card helper" id="helper" aria-labelledby="helper-h">
-      <div class="helper-top"><div><h2 id="helper-h">Study helper (sample)</h2><p class="sub" style="margin:0">Sample. No AI runs here.</p></div><button class="undo" id="helper-hide" aria-label="Hide the study helper">Hide</button></div>
-      <p id="helper-line" class="helper-line"></p>
-      <div class="chips" role="group" aria-label="Suggestions"><button class="chip-q" data-r="due">What is due?</button><button class="chip-q" data-r="next">Next class?</button><button class="chip-q" data-r="tools">My tools</button></div>
-      <div class="reply" id="helper-reply" role="status" aria-live="polite" hidden></div>
+      <div class="hp" id="hp-timeline" role="tabpanel" aria-labelledby="ht-timeline" hidden><div class="card" id="tl-home"></div></div>
+      <div class="hp" id="hp-courses" role="tabpanel" aria-labelledby="ht-courses" hidden><div class="mc plain" id="mc"></div></div>
+      <div class="hp" id="hp-more" role="tabpanel" aria-labelledby="ht-more" hidden>
+        <details class="ann" id="ann"><summary>Announcement: AY2026-27 Term 1: e$10 and End-term Course Feedback<small>Sample Staff, Nov 6, 2026 10:00 AM</small></summary><p>Course feedback is open from Friday, 6 November (10.00am) to Sunday, 22 November (11.59pm). You receive e$10 after you submit it for your listed courses.</p></details>
+        <div class="card more-home">
+          <section class="ms"><h3>Class schedule</h3><ul class="rows" id="sched"></ul></section>
+          <section class="ms helper" id="helper" aria-labelledby="helper-h">
+            <h3 id="helper-h">Study helper (sample) <button class="undo" id="helper-hide" aria-label="Hide the study helper">Hide</button></h3>
+            <p class="small-s">Sample. No AI runs here.</p>
+            <p id="helper-line" class="helper-line"></p>
+            <div class="chips" role="group" aria-label="Suggestions"><button class="chip-q" data-r="due">What is due?</button><button class="chip-q" data-r="next">Next class?</button><button class="chip-q" data-r="tools">My tools</button></div>
+            <div class="reply" id="helper-reply" role="status" aria-live="polite" hidden></div>
+          </section>
+          <section class="ms"><h3>Your home</h3><dl><dt>Last login</dt><dd>Friday, 6 Nov 2026, 11:48 am, SG - Singapore</dd><dt>Updates</dt><dd>No current updates</dd><dt>Peer learning</dt><dd>Peer Tutoring System, Peer and Self Feedback</dd><dt>Calendar</dt><dd>No events to display</dd><dt>Email and documents (sample)</dt><dd>Sign in (sample, does nothing)</dd><dt>Documents and storage (sample)</dt><dd>No account linked</dd></dl></section>
+        </div>
+      </div>
     </section>
-    </div>
-    
-    <details class="card more-home"><summary>More from your home</summary>
-      <dl><dt>Last Login</dt><dd>Friday, 6 Nov 2026, 11:48:01 am. Location: SG - Singapore</dd>
-      <dt>Updates</dt><dd>There are no current updates for Your University - WeLearn</dd>
-      <dt>Peer Learning</dt><dd>Peer Tutoring System, Peer and Self Feedback</dd>
-      <dt>Calendar</dt><dd>Friday, November 6, 2026. There are no events to display.</dd>
-      <dt>User Links</dt><dd>No items found.</dd>
-      <dt>Microsoft 365</dt><dd>Sign in to your Microsoft 365 account (sample, does nothing)</dd>
-      <dt>Google Workspace</dt><dd>You do not have a Google Workspace account linked with the organization.</dd></dl>
-    </details>
-  </section>
-  <section class="course-page" id="view-course" hidden></section>
-</main></div></div>
+    <section id="view-course" hidden></section>
+  </main>
+</div>
+<div class="rscrim" id="rscrim"></div>
+<aside class="rpane" id="rpane" role="dialog" aria-modal="true" aria-label="Other resources" hidden>
+  <header class="rp-h"><h2 id="rtitle">Other resources</h2><button class="iconb" id="rclose" aria-label="Close"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+  <div class="rp-s"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg><input id="rq" type="search" placeholder="Search tools" aria-label="Search tools" autocomplete="off"><button id="rqx" class="iconb" aria-label="Clear search" hidden><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <p class="sr" id="rstat" aria-live="polite"></p>
+  <div class="rp-b" id="rlist"></div>
+</aside>
+<div class="pop" id="pop-me" role="menu" aria-label="Profile" hidden><p class="pl">Last login: Fri 6 Nov 2026, 11:48 am, SG</p><button role="menuitem" data-sample="Sample only: profile">Profile</button><button role="menuitem" data-sample="Sample only: account settings">Account settings</button><button role="menuitem" data-sample="Sample only: notification settings">Notification settings</button><a role="menuitem" href="#/course/MGMT6108/results">My progress</a><button role="menuitem" data-sample="Sample only: help">Help</button><button role="menuitem" data-sample="Sample only: sign out">Sign out</button></div>
 <script>
-const COURSES=[
- {code:"MGMT6108",short:"MGMT6108-G1",title:"MGMT6108-G1-Decision Architecture for Managers",name:"Decision Architecture for Managers",chip:"MGMT",hex:"#8FB0D6",deep:"#4F7DB0",leaf:"#9CC9A8",leafd:"#5E9C76",ink:"#1F2933",next:"Mon 9 Nov, 12:00 PM",sched:"Mon 12:00-3:15 PM, YPHSL Seminar Room B2-01",done:3,total:6,dueLine:"",unread:0},
- {code:"BUS200",short:"BUS200-G1",title:"BUS200-G1-Entrepreneurship Essentials",name:"Entrepreneurship Essentials",chip:"BUS",hex:"#A9CDBB",deep:"#5E9C80",leaf:"#9CC9A8",leafd:"#5E9C76",ink:"#1F2933",next:"Wed 11 Nov, 8:15 AM",sched:"Wed 8:15-11:30 AM, YPHSL Seminar Room B2-01",done:0,total:1,dueLine:"1 overdue: activity with no title in the course data (was due Mon 28 Sep)",unread:33},
- {code:"MKT300G12",short:"MKT300-G1-2",title:"MKT300-G1-2-Digital Marketing",name:"Digital Marketing",chip:"MKT-2",hex:"#E3CF9A",deep:"#B8963F",leaf:"#9CC9A8",leafd:"#5E9C76",ink:"#1F2933",next:"No class time in the course data",sched:"No class time in the course data",done:0,total:1,dueLine:"Due Fri 13 Nov: TAKE HOME EXAM (in 7 days)",unread:0},
- {code:"MKT300G1",short:"MKT300-G1",title:"MKT300-G1-Digital Marketing",name:"Digital Marketing",chip:"MKT",hex:"#D9B0C0",deep:"#B76B88",leaf:"#9CC9A8",leafd:"#5E9C76",ink:"#1F2933",next:"Mon 9 Nov, 8:15 AM",sched:"Mon 8:15-11:30 AM, LKCSB Seminar Room 2-3",done:0,total:0,dueLine:"",unread:333}
-];
-const ALIAS={AVG403:"MGMT6108"};
-/* work items in the units A shows: syllabus topic, assignments, quizzes */
-const ITEMS={
- final:{c:"MGMT6108",t:"[Group Term-Paper Project] Final Submission Folder",kind:"assignment",done:0,due:"Due on Nov 8, 2026 11:59 PM",soon:"in 2 days"},
- ideation:{c:"MGMT6108",t:"[Group Term-Paper Project] Ideation",kind:"assignment",done:0,due:"Due on Sep 28, 2026 11:59 PM",soon:"Overdue"},
- mock:{c:"MGMT6108",t:"Mock Quiz - Requires Respondus LockDown Browser + Webcam",kind:"quiz",done:0,due:"Current quiz",attempts:0,max:2},
- q1:{c:"MGMT6108",t:"Comprehensive Quiz Part 1 - Requires Respondus LockDown Browser + Webcam",kind:"quiz",done:1,due:"Due on Sep 23, 2026 11:59 PM",att:"1 / 1",avail:"Available Sep 23, 2026 12:00 PM until 11:59 PM"},
- q2:{c:"MGMT6108",t:"Comprehensive Quiz Part 2 - Requires Respondus LockDown Browser + Webcam",kind:"quiz",done:1,due:"Due on Oct 24, 2026 1:00 PM",att:"1 / 1",avail:"Available Oct 24, 2026 12:00 PM until 1:00 PM"},
- q3:{c:"MGMT6108",t:"Comprehensive Quiz Part 3 - Requires Respondus LockDown Browser + Webcam",kind:"quiz",done:1,due:"Due on Nov 2, 2026 1:00 PM",att:"1 / 1",avail:"Available Nov 2, 2026 12:00 PM until 1:00 PM"}
-};
-const OVER_OTHER={t:"Untitled activity",c:"BUS200"};
-function nc(c){return /^No /.test(c.next)?c.next:"Next class "+c.next}
-function course(id){return COURSES.find(c=>c.code===id)}
-function syncCounts(){const m=course("MGMT6108");const v=Object.values(ITEMS);m.done=v.filter(i=>i.done).length;m.total=v.length;
- const L=[];if(!ITEMS.final.done)L.push("Due Sun 8 Nov, 11:59 PM: Final Submission Folder (in 2 days)");if(!ITEMS.ideation.done)L.push("1 overdue: Ideation (was due Mon 28 Sep)");m.dueLine=L.join(". ")}
-syncCounts();
-const WEEKS=[
- ["Course Syllabus","Begins August 24","topic"],["Course Readings","Begins August 24",""],
- ["Week 1 Introduction to Behavioral Decision Making","Begins August 24",""],["Week 2 Goal Setting","Begins August 31",""],
- ["Discussion Leading Group Roster","",""],["Week 3 Expectation, Confirmation Bias, & Motivated Reasoning","Begins September 7",""],
- ["Week 4 & Week 5 Core Principles & Applications of Behavioral Economics in Managerial Decision Making","Begins September 14",""],
- ["Week 6 AI-augmented Product Building","Begins September 28","done"],["Week 7 Processing Fluency","Begins October 12","done"],
- ["Week 8 Color","Begins October 24","done"],["Week 9 Social Influence & Norm","Begins October 26","done"],
- ["Week 10 [SPECIAL] Behavioral Science in Tech: How to Improve the Usability of AI-Augmented Products","Begins November 2","now"]
-];
-const SOLID={};COURSES.forEach(c=>{});
-function chipHtml(c,big){return '<div class="chip'+(big?' chip-lg':'')+'" aria-hidden="true" style="background:'+c.hex+';color:'+c.ink+';'+(c.chip.length>3?'font-size:10.5px':'')+'">'+c.chip+'</div>'}
-function renderCourses(){document.getElementById("course-list").innerHTML=COURSES.map(c=>`
-  <a class="course" href="#/course/${c.code}" aria-label="Open ${c.title}" title="${c.title}">
-    <span class="chip" aria-hidden="true" style="background:${c.hex};color:${c.ink};${c.chip.length>3?'font-size:10.5px':''}">${c.chip}</span>
-    <span class="c-body">
-      <span class="c-code">${c.short}</span>
-      <span class="c-name">${c.name}</span>
-      ${c.total?`<span class="c-bar" role="img" aria-label="${c.done} of ${c.total} items"><i style="width:${Math.round(c.done/c.total*100)}%;background:${c.deep}"></i></span><span class="c-count">${c.done} of ${c.total}</span>`:''}
-    </span></a>`).join("");}
-renderCourses();
 
-/* ---------------- tree ---------------- */
+var COURSES=[
+ {code:"MGMT6108",short:"MGMT6108-G1",title:"MGMT6108-G1-Decision Architecture for Managers",name:"Decision Architecture for Managers",chip:"MGMT",hex:"#8FB0D6",deep:"#4F7DB0",leaf:"#9CC9A8",leafd:"#5E9C76",next:"Mon 9 Nov, 12:00 PM",when:"Mon 12:00-3:15 PM",sched:"Mon 12:00-3:15 PM, YPHSL Seminar Room B2-01",done:0,total:0},
+ {code:"BUS200",short:"BUS200-G1",title:"BUS200-G1-Entrepreneurship Essentials",name:"Entrepreneurship Essentials",chip:"BUS",hex:"#A9CDBB",deep:"#5E9C80",leaf:"#9CC9A8",leafd:"#5E9C76",next:"Wed 11 Nov, 8:15 AM",when:"Wed 8:15-11:30 AM",sched:"Wed 8:15-11:30 AM, YPHSL Seminar Room B2-01",done:0,total:1},
+ {code:"MKT300G12",short:"MKT300-G1-2",title:"MKT300-G1-2-Digital Marketing",name:"Digital Marketing",chip:"MKT-2",hex:"#E3CF9A",deep:"#B8963F",leaf:"#9CC9A8",leafd:"#5E9C76",next:"No class time in the course data",when:"",sched:"No class time in the course data",done:0,total:1},
+ {code:"MKT300G1",short:"MKT300-G1",title:"MKT300-G1-Digital Marketing",name:"Digital Marketing",chip:"MKT",hex:"#D9B0C0",deep:"#B76B88",leaf:"#9CC9A8",leafd:"#5E9C76",next:"Mon 9 Nov, 8:15 AM",when:"Mon 8:15-11:30 AM",sched:"Mon 8:15-11:30 AM, LKCSB Seminar Room 2-3",done:0,total:0}
+];
+var ALIAS={AVG403:"MGMT6108"};
+function course(id){return COURSES.find(function(c){return c.code===id})}
+var ITEMS={
+ final:{c:"MGMT6108",t:"[Group Term-Paper Project] Final Submission Folder",kind:"assignment",done:0,date:"2026-11-08",ds:"Sun 8 Nov, 11:59 PM"},
+ ideation:{c:"MGMT6108",t:"[Group Term-Paper Project] Ideation",kind:"assignment",done:0,date:"2026-09-28",ds:"Mon 28 Sep, 11:59 PM"},
+ mock:{c:"MGMT6108",t:"Mock Quiz",kind:"quiz",done:0,attempts:0,max:2,date:null,ds:""},
+ q1:{c:"MGMT6108",t:"Comprehensive Quiz Part 1",kind:"quiz",done:1,att:"1 / 1",date:"2026-09-23",ds:"Wed 23 Sep, 11:59 PM"},
+ q2:{c:"MGMT6108",t:"Comprehensive Quiz Part 2",kind:"quiz",done:1,att:"1 / 1",date:"2026-10-24",ds:"Sat 24 Oct, 1:00 PM"},
+ q3:{c:"MGMT6108",t:"Comprehensive Quiz Part 3",kind:"quiz",done:1,att:"1 / 1",date:"2026-11-02",ds:"Mon 2 Nov, 1:00 PM"},
+ bus1:{c:"BUS200",t:"Untitled activity",kind:"assignment",done:0,date:"2026-09-28",ds:"Mon 28 Sep",ext:1},
+ exam:{c:"MKT300G12",t:"TAKE HOME EXAM",kind:"assignment",done:0,date:"2026-11-13",ds:"Fri 13 Nov",ext:1}
+};
+var TODAY=new Date(2026,10,6);
+function dparse(s){var p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2])}
+function days(k){var i=ITEMS[k];return i.date?Math.round((dparse(i.date)-TODAY)/864e5):null}
+function relLabel(k){var d=days(k);if(d===null)return"No due date";if(d>0)return d===1?"In 1 day":"In "+d+" days";if(d===0)return"Due today";var q=dparse(ITEMS[k].date);return"Was due "+["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][q.getMonth()]+" "+q.getDate()}
+function isWas(k){var d=days(k);return d!==null&&d<0&&!ITEMS[k].done}
+function syncCounts(){COURSES.forEach(function(c){var ks=Object.keys(ITEMS).filter(function(k){return ITEMS[k].c===c.code});c.total=ks.length;c.done=ks.filter(function(k){return ITEMS[k].done}).length})}
+syncCounts();
+function nc(c){return /^No /.test(c.next)?c.next:"Next class "+c.next}
+function nextFor(code){var ks=Object.keys(ITEMS).filter(function(k){return ITEMS[k].c===code&&!ITEMS[k].done});if(!ks.length)return null;
+ var up=ks.filter(function(k){var d=days(k);return d!==null&&d>=0}).sort(function(a,b){return days(a)-days(b)});if(up.length)return up[0];
+ var was=ks.filter(function(k){return isWas(k)});if(was.length)return was[0];return ks[0]}
+var WEEKS=[["Course Syllabus","Begins August 24","topic"],["Course Readings","Begins August 24",""],["Week 1 Introduction to Behavioral Decision Making","Begins August 24",""],["Week 2 Goal Setting","Begins August 31",""],["Discussion Leading Group Roster","",""],["Week 3 Expectation, Confirmation Bias, & Motivated Reasoning","Begins September 7",""],["Week 4 & Week 5 Core Principles & Applications of Behavioral Economics in Managerial Decision Making","Begins September 14",""],["Week 6 AI-augmented Product Building","Begins September 28","done"],["Week 7 Processing Fluency","Begins October 12","done"],["Week 8 Color","Begins October 24","done"],["Week 9 Social Influence & Norm","Begins October 26","done"],["Week 10 [SPECIAL] Behavioral Science in Tech: How to Improve the Usability of AI-Augmented Products","Begins November 2","now"]];
+function tint(hex,t){var n=parseInt(hex.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255,m=function(v){return Math.round(v+(255-v)*t)};return "rgb("+m(r)+","+m(g)+","+m(b)+")"}
 function rng(seed){return()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646}}
 const NS="http://www.w3.org/2000/svg";
 const el=(n,a,p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e};
@@ -724,33 +501,6 @@ document.getElementById("tree-text").innerHTML='<summary>Read as text</summary><
 }
 buildTree();
 
-function toast(m){toastEl.textContent=m;toastEl.classList.add("show");clearTimeout(window.__tt);window.__toastAt=Date.now();window.__tt=setTimeout(()=>toastEl.classList.remove("show"),4000)}
-const toastEl=document.createElement("div");toastEl.className="toast2";toastEl.setAttribute("role","status");document.body.appendChild(toastEl);
-function renderHome(){
-  const m=course("MGMT6108");
-  document.getElementById("ns-count").textContent=m.done+" of "+m.total+" in "+m.short;
-  document.getElementById("ns-bar").style.width=Math.round(m.done/m.total*100)+"%";
-  document.getElementById("ns-barwrap").setAttribute("aria-label",m.done+" of "+m.total+" items submitted or attempted");
-  const gb=document.getElementById("bubble-go"),bt=document.getElementById("bubble-text"),ov=document.getElementById("hero-overdue");
-  const fin=ITEMS.final,ide=ITEMS.ideation;
-  if(!fin.done){bt.textContent="Submitted or attempted. Next: Final Submission Folder, due Sun 8 Nov, 11:59 PM (in 2 days).";gb.textContent="Open the Final Submission Folder";gb.setAttribute("href","#/sample/final")}
-  else if(!ide.done){bt.textContent="Submitted or attempted. Next: Ideation, was due Sep 28.";gb.textContent="Open the Ideation folder";gb.setAttribute("href","#/sample/ideation")}
-  else if(!(ITEMS.mock.attempts>0)){bt.textContent="Submitted or attempted. Next: Mock Quiz, 0 / 2 attempts.";gb.textContent="Open the Mock Quiz";gb.setAttribute("href","#/sample/mock")}
-  else{bt.textContent="Everything listed is done.";gb.textContent="Open Assignments";gb.setAttribute("href","#/course/MGMT6108/assignments")}
-  ov.hidden=!(ide.done===0&&fin.done===0);
-  const li=(c,t,when,href,over)=>'<li><span class="icon-dot" style="background:'+c.hex+';color:'+c.ink+'"></span><span><a href="'+href+'" style="text-decoration:none"><b>'+t+'</b></a><br><span class="meta">'+c.short+'</span></span><span class="pill '+(over?'warn':'')+'">'+when+'</span></li>';
-  const soon=[];
-  if(!ITEMS.final.done)soon.push(li(course("MGMT6108"),ITEMS.final.t,"Nov 8 (in 2 days)","#/course/MGMT6108/assignments"));
-  soon.push(li(course("MKT300G12"),"TAKE HOME EXAM","Nov 13 (in 7 days)","#/course/MKT300G12"));
-  document.getElementById("w-soon").innerHTML=soon.join("");
-  const over=[];
-  if(!ITEMS.ideation.done)over.push(li(course("MGMT6108"),ITEMS.ideation.t,"was due Sep 28","#/course/MGMT6108/assignments",1));
-  over.push(li(course("BUS200"),OVER_OTHER.t,"was due Sep 28","#/course/BUS200",1));
-  document.getElementById("w-over").innerHTML=over.join("");
-  document.getElementById("sched").innerHTML=COURSES.filter(c=>c.code!=="MKT300G12").map(c=>'<li><span class="icon-dot" style="background:'+c.hex+';color:'+c.ink+'"></span><span><b>'+c.short+'</b> '+c.name+'<br><span class="meta">'+c.sched+'</span></span><span></span></li>').join("");
-  helperLine();renderCourses();buildTree();
-  document.querySelectorAll(".course").forEach(a=>a.setAttribute("aria-current",a.getAttribute("href")===location.hash.replace(/\/(readings|overview|assignments|quizzes|discussions|people|results)$/,"")?"page":"false"));
-}
 const IC = {
   chart:'<path d="M4 19h16M6 15l4-4 3 3 5-6"/>', check:'<path d="M5 12.5l4.5 4.5L19 7"/>', people:'<circle cx="9" cy="9" r="3"/><path d="M3.5 19c.8-3 3-4.5 5.5-4.5s4.7 1.5 5.5 4.5"/><path d="M15 6.5a3 3 0 0 1 0 5.5M17 14.7c1.6.6 2.8 2 3.3 4.3"/>',
   pen:'<path d="M5 19l1-4L16 5l3 3L9 18z"/>', video:'<rect x="3.5" y="6.5" width="12" height="11" rx="2"/><path d="M15.5 11l5-3v8l-5-3"/>', film:'<rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 5v14M16 5v14M4 9.5h4M16 9.5h4M4 14.5h4M16 14.5h4"/>',
@@ -759,148 +509,351 @@ const IC = {
   file:'<path d="M7 3.5h7l4 4V20H7z"/><path d="M14 3.5V8h4"/>', mail:'<rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7l8 6 8-6"/>', folder:'<path d="M3.5 7h6l2 2h9v9.5h-17z"/>',
   award:'<circle cx="12" cy="9" r="5"/><path d="M9 13.5L8 20l4-2 4 2-1-6.5"/>', star:'<path d="M12 4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z"/>', id:'<rect x="3.5" y="5.5" width="17" height="13" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.5-1.5 1.6-2.2 3-2.2s2.5.7 3 2.2M14 10h4M14 13h3"/>'
 };
-const ico = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg>`;
+const ico = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg>`;
 const EXT = '<svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3h4v4M13 3L7.5 8.5M11 9.5V13H3V5h3.5"/></svg>';
 const RESOURCES = [
-  {group:"Top bar of your WeLearn home", items:[["ePortfolio","folder"],["Locker","folder"],["Competencies","star"],["Awards","award"],["INSIGHT","chart"],["Links","globe"],["Help","info"]]},
-  {group:"Learning tools in a course", items:[["My Results","chart"],["My Attendance","check"],["Peer Evaluation","people"],["Journal","pen"],["INSIGHT","chart"]]},
-  {group:"Other panels from your home", items:[["Peer Tutoring System","people"],["Peer and Self Feedback","people"],["Microsoft 365","mail"],["Google Workspace","file"]]}
+  {group:"Links", items:[["ePortfolio","folder"],["Locker","folder"],["Competencies","star"],["Awards","award"],["INSIGHT","chart"],["User guides","info"],["Documents (sample)","file"],["Calendar","cal"],["Password reset","wrench"],["Student email (sample)","mail"],["Student portal","globe"],["Staff portal","globe"],["Libraries","film"]]},
+  {group:"Tools", items:[["Class progress","chart"],["Media gallery","film"],["Surveys","file"],["Peer tutoring","people"],["Peer and self feedback","people"]]},
+  {group:"Help", items:[["Support","info"],["IT support","wrench"]]}
 ];
 
-const resPanel=document.getElementById("res-panel"), resBtn=document.getElementById("res-btn");
-let resCourse=null;
-function drawResources(){
-  resPanel.innerHTML = RESOURCES.map(g=>`<h3>${g.group==="Course tools"&&resCourse?`Course tools for ${resCourse}`:g.group}</h3><div class="res-grid">${g.items.map(([n,i])=>`<a href="#" target="_blank" rel="noopener">${ico(i)}${n}${EXT}</a>`).join("")}</div>`).join("");
+var KW={"ePortfolio":"portfolio work showcase","Locker":"files storage","Competencies":"skills marks grades","Awards":"badges achievements","INSIGHT":"analytics reports","User guides":"help guide manual","Documents (sample)":"docs files","Calendar":"dates schedule events","Password reset":"login account","Student email (sample)":"email mail inbox","Student portal":"portal records","Staff portal":"staff","Libraries":"library books reading","Class progress":"marks grades results progress","Media gallery":"video media","Surveys":"feedback forms","Peer tutoring":"tutor peers","Peer and self feedback":"review peer","Support":"help contact","IT support":"help computer tech"};
+var resBtn=document.getElementById("res-btn"),resPanel=document.getElementById("rpane"),rq=document.getElementById("rq"),rqx=document.getElementById("rqx"),rlist=document.getElementById("rlist"),rscrim=document.getElementById("rscrim"),rstat=document.getElementById("rstat"),rtitle=document.getElementById("rtitle");
+var resCourse=null,resT=null,curKey=null,curBtn=null;
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function paneData(key){
+  if(key==="msg")return {title:"Messages",ph:"Search messages",none:"No messages match",empty:"None to show",groups:[{group:"Unread discussions",items:[{l:"BUS200-G1",meta:"33 unread",href:"#/course/BUS200",ic:ico("chat"),kw:"entrepreneurship discussions"},{l:"MKT300-G1",meta:"99+ unread",href:"#/course/MKT300G1",ic:ico("chat"),kw:"digital marketing discussions"}]}]};
+  if(key==="upd"){var q=todoCount("quiz");return {title:"Updates",ph:"Search updates",none:"No updates match",empty:"None to show",groups:[{group:"Updates",items:q?[{l:q+" quiz not attempted",meta:"MGMT6108-G1",href:"#/course/MGMT6108/quizzes",ic:ico("check"),kw:"mock quiz attempt"}]:[]}]}}
+  return {title:"Other resources",ph:"Search tools",none:"No tools match",empty:"None to show",groups:RESOURCES.map(function(g){return {group:g.group,items:g.items.map(function(it){return {l:it[0],ic:ico(it[1]),kw:KW[it[0]]||"",ext:1}})}})};
 }
-resBtn.addEventListener("click",()=>{const open=resBtn.getAttribute("aria-expanded")==="true";resBtn.setAttribute("aria-expanded",String(!open));resPanel.hidden=open;if(!open){drawResources();resPanel.querySelector("a")?.focus()}});
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!resPanel.hidden){resPanel.hidden=true;resBtn.setAttribute("aria-expanded","false");resBtn.focus()}});
-document.addEventListener("click",e=>{if(!resPanel.hidden&&!resPanel.contains(e.target)&&!resBtn.contains(e.target)){resPanel.hidden=true;resBtn.setAttribute("aria-expanded","false")}});
+function renderRes(){
+  var d=paneData(curKey),q=rq.value.trim().toLowerCase(),n=0,all=0,html="";
+  d.groups.forEach(function(g){all+=g.items.length;var rows=g.items.filter(function(it){return !q||it.l.toLowerCase().indexOf(q)>-1||(it.kw||"").indexOf(q)>-1});
+    if(!rows.length)return;n+=rows.length;
+    html+='<h3>'+g.group+'</h3>'+rows.map(function(it){var lab=esc(it.l),li=it.l.toLowerCase().indexOf(q);if(q&&li>-1)lab=esc(it.l.slice(0,li))+'<mark>'+esc(it.l.slice(li,li+q.length))+'</mark>'+esc(it.l.slice(li+q.length));
+      var inner=it.ic+'<span class="rl">'+lab+'</span>'+(it.meta?'<span class="rmeta">'+esc(it.meta)+'</span>':'')+(it.ext?EXT:'');
+      return it.href?'<a class="rrow" href="'+it.href+'">'+inner+'</a>':'<a class="rrow" href="#" data-sample="Sample only: '+esc(it.l)+'">'+inner+'</a>'}).join("")});
+  if(!all)html='<div class="rempty"><p>'+d.empty+'</p></div>';
+  else if(!n)html='<div class="rempty"><p>'+d.none+' "'+esc(rq.value.trim())+'"</p><button class="act ghost" id="rclear">Clear search</button></div>';
+  rlist.innerHTML=html;rqx.hidden=!rq.value;rstat.textContent=q?(n?n+" results":"No results"):"";
+}
+function rfocusables(){return [].slice.call(resPanel.querySelectorAll("button,a[href],input")).filter(function(e){return !e.hidden&&e.offsetParent!==null})}
+function rInert(on){[document.querySelector(".top"),document.getElementById("frame"),document.getElementById("skip")].forEach(function(e){if(!e)return;if(on){e.setAttribute("inert","");e.setAttribute("aria-hidden","true")}else{e.removeAttribute("inert");e.removeAttribute("aria-hidden")}})}
+function openPane(key,btn){if(!resPanel.hidden)return;if(typeof closePop==="function")closePop(false);
+  clearTimeout(resT);curKey=key;curBtn=btn;var d=paneData(key);rtitle.textContent=d.title;rq.placeholder=d.ph;rq.setAttribute("aria-label",d.ph);resPanel.setAttribute("aria-label",d.title);
+  rq.value="";renderRes();resPanel.hidden=false;rscrim.style.display="block";void resPanel.offsetWidth;resPanel.classList.add("in");rscrim.classList.add("in");
+  document.body.classList.add("rpane-open");btn.setAttribute("aria-expanded","true");rInert(true);rq.focus()}
+function closeRes(ret){if(resPanel.hidden)return;resPanel.classList.remove("in");rscrim.classList.remove("in");document.body.classList.remove("rpane-open");if(curBtn)curBtn.setAttribute("aria-expanded","false");rInert(false);
+  var quick=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function fin(){resPanel.hidden=true;rscrim.style.display="none"}
+  if(quick)fin();else resT=setTimeout(fin,200);
+  var b=curBtn;if(ret!==false&&b)b.focus()}
+[["res-btn","res"],["msg-btn","msg"],["upd-btn","upd"]].forEach(function(x){var b=document.getElementById(x[0]);b.addEventListener("click",function(e){e.stopPropagation();if(resPanel.hidden)openPane(x[1],b);else closeRes()})});
+document.getElementById("rclose").addEventListener("click",function(){closeRes()});
+rscrim.addEventListener("click",function(){closeRes()});
+rq.addEventListener("input",renderRes);
+rqx.addEventListener("click",function(){rq.value="";renderRes();rq.focus()});
+rlist.addEventListener("click",function(e){if(e.target.id==="rclear"){rq.value="";renderRes();rq.focus()}else if(e.target.closest("a[href]")&&e.target.closest("a").getAttribute("href")!=="#")closeRes(false)});
+rq.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();var a=rlist.querySelector(".rrow");if(a)a.click()}});
+document.addEventListener("keydown",function(e){if(resPanel.hidden||!document.body.classList.contains("rpane-open"))return;
+  if(e.key==="Escape"){e.stopPropagation();closeRes();return}
+  if(e.key==="Tab"){var f=rfocusables();if(!f.length)return;var a=document.activeElement;if(e.shiftKey&&(a===f[0]||!resPanel.contains(a))){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&(a===f[f.length-1]||!resPanel.contains(a))){e.preventDefault();f[0].focus()}}},true);
 
+var NI={home:'<path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/>',courses:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',assign:'<path d="M7 3.5h7l4 4V20H7z"/><path d="M14 3.5V8h4"/>',quiz:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/>',disc:'<path d="M5 5h14v10H10l-5 4z"/>',people:'<circle cx="9" cy="9" r="3"/><path d="M3.5 19c.8-3 3-4.5 5.5-4.5s4.7 1.5 5.5 4.5"/><path d="M15 6.5a3 3 0 0 1 0 5.5M17 14.7c1.6.6 2.8 2 3.3 4.3"/>',content:'<path d="M12 4l8 4-8 4-8-4z"/><path d="M4 12l8 4 8-4M4 16l8 4 8-4"/>',results:'<path d="M4 19h16M6 15l4-4 3 3 5-6"/>',back:'<path d="M14 6l-6 6 6 6"/>',flag:'<path d="M6 21V4M6 5h11l-2 4 2 4H6"/>'};
+function ni(k){return '<svg class="i" viewBox="0 0 24 24">'+NI[k]+'</svg>'}
+var tab="overview",dlFilter=null,tlMode="6w",curCourse=null,userRail=false;
+function todoCount(kind){return Object.keys(ITEMS).filter(function(k){var i=ITEMS[k];return i.c==="MGMT6108"&&i.kind===kind&&!i.done}).length}
+var TABS=[["overview","Overview","home"],["readings","Content","content"],["assignments","Assignments","assign"],["quizzes","Quizzes","quiz"],["discussions","Discussions","disc"],["people","Classlist","people"],["results","My results","results"]];
+function renderNav(){
+  var nav=document.getElementById("nav"),h=location.hash,home=(!curCourse&&h.indexOf("#/course/")!==0&&h.indexOf("#/sample/")!==0&&/^(#|#\/|#\/home.*|#\/courses|#\/resources)?$/.test(h));
+  var out='<a class="cs" href="#/"'+(home?' aria-current="page"':'')+' title="Home"><span class="st hm">'+ni("home")+'</span><span class="txt lbl"><b>Home</b></span></a>';
+  COURSES.forEach(function(c){var pc=c.total?Math.round(c.done/c.total*100):0;
+    out+='<a class="cs" href="#/course/'+c.code+'"'+(curCourse===c.code?' aria-current="page"':'')+' title="'+c.title+'"><span class="st" style="background:'+c.hex+'">'+c.chip+'</span><span class="txt lbl"><b>'+c.short+'</b><small>'+c.name+'</small>'+(c.total?'<span class="mini" aria-hidden="true"><i style="width:'+pc+'%"></i></span><em>'+c.done+' of '+c.total+'</em>':'<em>No items yet</em>')+'</span></a>'});
+  nav.innerHTML=out;
+}
+NI.timeline='<path d="M4 6h9M4 12h16M4 18h6"/>';NI.more='<circle cx="6" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18" cy="12" r="1.4"/>';NI.bulb='<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>';NI.ok='<circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/>';NI.no='<circle cx="12" cy="12" r="8.5"/><path d="M9 9l6 6M15 9l-6 6"/>';NI.down='<path d="M6 9l6 6 6-6"/>';
+var homeTab="overview",resKey=null,HT=[{k:"overview",l:"Overview",i:"home",h:"#/"},{k:"timeline",l:"Timeline",i:"timeline",h:"#/home/timeline"},{k:"courses",l:"Courses",i:"courses",h:"#/home/courses"},{k:"more",l:"More",i:"more",h:"#/home/more"}];
+function tabsHtml(items,cur,label,idp){return '<nav class="tabbar" role="tablist" aria-label="'+label+'">'+items.map(function(t){var sel=t.k===cur;return '<a role="tab" id="'+idp+t.k+'" href="'+t.h+'" aria-selected="'+sel+'" tabindex="'+(sel?0:-1)+'">'+ni(t.i)+t.l+(t.b?'<span class="bd">'+t.b+'</span>':'')+'</a>'}).join("")+'</nav>'}
+function renderHomeTabs(){document.getElementById("hometabs").innerHTML=tabsHtml(HT,homeTab,"Home sections","ht-");HT.forEach(function(t){document.getElementById("hp-"+t.k).hidden=t.k!==homeTab})}
+document.addEventListener("keydown",function(e){var t=e.target.closest&&e.target.closest('[role="tab"]');if(!t||["ArrowRight","ArrowLeft","Home","End"].indexOf(e.key)<0)return;e.preventDefault();var all=[].slice.call(t.parentNode.querySelectorAll('[role="tab"]')),i=all.indexOf(t),n=e.key==="Home"?0:e.key==="End"?all.length-1:(i+(e.key==="ArrowRight"?1:all.length-1))%all.length;window.__refocus=all[n].id;all[n].click()});
+var QZ={q1:{n:10,wrong:[4]},q2:{n:12,wrong:[1,5,9]},q3:{n:10,wrong:[0,3,6]}};
+var QBANK=["A default option mostly works because people tend to","Confirmation bias is best described as","A fixed goal changes behaviour mainly by","Easier-to-read text is usually judged as","Social norms matter most when","A nudge differs from a mandate because","Framing one outcome two ways can","Motivated reasoning shows up when","Processing fluency refers to","Choice architecture means","An AI-assisted product is usable when","Anchoring happens when"];
+var BANDS=[{n:"Excellent",lo:85,hi:100},{n:"Solid",lo:70,hi:84},{n:"Developing",lo:50,hi:69},{n:"Needs work",lo:0,hi:49}];
+function qScore(k){var z=QZ[k];return {n:z.n,s:z.n-z.wrong.length,p:Math.round((z.n-z.wrong.length)/z.n*100)}}
+function resultsPage(k){var z=QZ[k],sc=qScore(k),it=ITEMS[k],band=BANDS.filter(function(b){return sc.p>=b.lo&&sc.p<=b.hi})[0];
+  var pts=[[0,224],[50,168],[70,112],[85,56],[100,0]],d="M"+pts[0][0]+" "+pts[0][1];
+  for(var i=0;i<pts.length-1;i++){var p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;d+=" C"+(p1[0]+(p2[0]-p0[0])/6)+" "+(p1[1]+(p2[1]-p0[1])/6)+" "+(p2[0]-(p3[0]-p1[0])/6)+" "+(p2[1]-(p3[1]-p1[1])/6)+" "+p2[0]+" "+p2[1]}
+  var rows=BANDS.map(function(b){return '<div class="brow'+(b===band?' hit':'')+'"><div class="bl"><b>'+b.n+'</b><small>'+b.lo+'-'+b.hi+'</small></div><div class="bm">'+(b===band?'<span class="dot2"></span><b>You: '+sc.p+'%</b>':'')+'</div></div>'}).join("");
+  var ticks=[0,50,70,85,100].map(function(t){return '<span class="bt" style="left:'+t+'%">'+t+'</span>'}).join("");
+  var ans=QBANK.slice(0,z.n).map(function(q,i){var bad=z.wrong.indexOf(i)>-1;
+    return '<div class="qa"><button class="qh" data-q="'+i+'" aria-expanded="false" aria-controls="qa'+i+'"><span class="qn">'+(i+1)+'</span><span class="qt">'+q+' ...</span><span class="qs '+(bad?'no':'ok')+'">'+ni(bad?'no':'ok')+(bad?'Not correct':'Correct')+'</span>'+ni('down')+'</button><div class="qb" id="qa'+i+'" hidden><span class="small-s">Sample</span><p>'+(bad?'A short note on the idea to review would appear here, with the matching week in Content.':'A short note on why this answer is right would appear here.')+'</p></div></div>'}).join("");
+  return '<div class="card rh"><div><h2 class="rt">'+it.t+'</h2><p class="nx">'+z.n+' questions. <span class="tag">Sample result</span></p></div><div class="rs"><p class="big">Your score: '+sc.s+' of '+sc.n+' ('+sc.p+'%)</p><button class="lnk" id="meanbtn" aria-expanded="false" aria-controls="meanp">What do these numbers mean?</button></div><p class="mean" id="meanp" hidden>Your score is the share of questions you answered correctly. The bands are fixed ranges, the same for every quiz. They are not a ranking and are not compared with anyone else.</p></div>'+
+  '<div class="card"><h3 style="margin:0 0 8px">Score bands</h3><div class="bwrap"><div class="bands">'+rows+'</div></div><p class="small-s" style="margin:8px 0 0">Fixed bands. Sample numbers.</p></div>'+
+  '<div class="card ins">'+ni('bulb')+'<p><b>Next step (sample):</b> '+(sc.p>=85?'Strong across the topics. Keep going with Week 10.':sc.p>=70?'Strong on the Week 6 and Week 7 topics. Review Week 9 Social Influence &amp; Norm before the next quiz.':'Review Week 7 Processing Fluency, then try the Mock Quiz.')+'</p></div>'+
+  '<div class="card qas"><h3 style="margin:0 0 6px">Your answers</h3>'+ans+'</div>'+
+  '<div class="stickbar"><button class="act ghost" data-sample="Sample only: retake quiz">Retake quiz</button><a class="act" href="#/course/MGMT6108/quizzes">Back to quizzes</a></div>';
+}
+function placeDot(){var p=document.getElementById("rc-path"),d=document.getElementById("rc-dot");if(!p||!d)return;var sc=+d.dataset.score,L=p.getTotalLength(),lo=0,hi=L,pt;for(var i=0;i<30;i++){var mid=(lo+hi)/2;pt=p.getPointAtLength(mid);if(pt.x<sc)lo=mid;else hi=mid}pt=p.getPointAtLength((lo+hi)/2);d.style.left=pt.x+"%";d.style.top=pt.y+"px"}
 
-let courseTab="overview";
-const TABS=[["overview","Home"],["readings","Content"],["people","Classlist"],["discussions","Discussions"],["assignments","Assignments"],["quizzes","Quizzes"],["results","My Results"]];
-function itemRow(k){const i=ITEMS[k];const a=i.kind==="quiz";
-  const state=i.done?'<span class="pill ok">'+(a?'Attempted '+(i.att||'1 / 1'):'Submitted (demo only)')+'</span>':'<span class="pill warn">'+(a?(i.attempts+' / '+i.max+' attempts'):(k==="ideation"?'Not Submitted, overdue':'Not Submitted'))+'</span>';
-  const act=(i.done&&!a)?'':((a&&i.attempts>=i.max)?'':'<a class="act" href="#/sample/'+k+'">'+(a?'Start (sample)':'Open folder')+'</a>');
-  return '<li><span class="icon-dot">'+ico(a?'check':'file')+'</span><span><b>'+i.t+'</b><br><span class="meta">'+(i.due||'')+(i.avail?'. '+i.avail:'')+(a&&i.att&&k!=="mock"?'. Feedback: On Attempt':'')+'</span></span><span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end">'+state+(k==="mock"||!i.done?act:'')+'</span></li>'}
+/* ---------------- Practice (sample questions, in memory only) ---------------- */
+var practiceOn=false;
+var PSEC=["Defaults and framing","Goals, feedback and nudges"];
+var PQ=[
+ {sec:0,q:"A form is pre-set to the option most people pick. This is an example of:",o:["A reward","A default option","A deadline","A penalty"],a:1,e:"A default is the pre-selected choice. People often keep it because changing it takes effort."},
+ {sec:0,q:"Which is a framing change, not a change in the facts?",o:["Describing a plan as 90% success instead of 10% failure","Moving the due date","Adding a new option","Removing an option"],a:0,e:"Framing changes how the same facts are described. The facts stay the same."},
+ {sec:0,q:"A designer wants more people to enrol. Which first step is the least intrusive?",o:["Hide the opt-out","Make enrolment the pre-set option and keep opting out easy","Require a long form","Remove the other choices"],a:1,e:"A visible, easy opt-out keeps the choice with the person."},
+ {sec:0,q:"Two descriptions of one outcome lead to different choices. This shows that:",o:["People never compare options","Facts decide everything","Options are always equal","Presentation can shape decisions"],a:3,e:"How an option is presented can change what people choose, even when the facts match."},
+ {sec:1,q:"A clear, specific goal usually helps because it:",o:["Makes the next step easier to judge","Removes all effort","Guarantees success","Replaces feedback"],a:0,e:"A specific goal makes it easier to see what to do next and whether you are on track."},
+ {sec:1,q:"Useful feedback is best when it is:",o:["Rare and general","Timely and tied to a next action","Only about the end result","Hidden until the end of term"],a:1,e:"Feedback works best when it arrives in time to act on and points to a next step."},
+ {sec:1,q:"What separates a nudge from sludge?",o:["The colour used","The length of the text","A nudge helps people reach their own goals; sludge adds needless friction","Nothing"],a:2,e:"A nudge supports what the person wants. Sludge makes it harder for no good reason."},
+ {sec:1,q:"A choice architect should avoid:",o:["Clear labels","Hiding the option people want behind extra steps","Short forms","Plain wording"],a:1,e:"Adding steps in front of a wanted option is friction that works against the person."}
+];
+var PR={screen:"start",ids:[],idx:0,ans:{},note:{},ns:{},timerOn:false,mins:20,t0:0,hist:[{s:5,n:8,d:"30 Oct",x:"Sample"},{s:6,n:8,d:"3 Nov",x:"Sample"}],weak:{},onlyMissed:false,label:"",res:null,reply:null,msg:""};
+var prTimer=null;
+function prAll(){return PQ.map(function(q,i){return i})}
+function prStart(mode,sec){var ids=mode==="weak"?prAll().filter(function(i){return PR.weak[i]}):mode==="sec"?prAll().filter(function(i){return PQ[i].sec===sec}):mode==="retry"?PR.res.missed.slice():prAll();
+  if(!ids.length)return;PR.ids=ids;PR.idx=0;PR.ans={};PR.note={};PR.ns={};PR.screen="quiz";PR.onlyMissed=false;PR.reply=null;PR.msg="";PR.label=mode==="weak"?"Weak spots":mode==="sec"?PSEC[sec]:mode==="retry"?"Retry the ones I missed":"Quick practice";
+  PR.t0=Date.now();prRender("pr-qt")}
+function prClock(){var el=document.getElementById("pr-time");if(!el){clearInterval(prTimer);prTimer=null;return}var sec=Math.floor((Date.now()-PR.t0)/1000),m=Math.floor(sec/60),r=sec%60;el.textContent="Elapsed "+(m<10?"0":"")+m+":"+(r<10?"0":"")+r+". Planned "+PR.mins+" min"}
+function prSubmit(){var miss=[],sc=0,sec=[{s:0,n:0},{s:0,n:0}];PR.ids.forEach(function(i){var ok=PR.ans[i]===PQ[i].a;sec[PQ[i].sec].n++;if(ok){sc++;sec[PQ[i].sec].s++;delete PR.weak[i]}else{miss.push(i);PR.weak[i]=1}});
+  PR.res={s:sc,n:PR.ids.length,sec:sec,missed:miss,ids:PR.ids.slice()};PR.hist.unshift({s:sc,n:PR.ids.length,d:"6 Nov",x:PR.label});PR.screen="results";PR.onlyMissed=false;PR.reply=null;clearInterval(prTimer);prTimer=null;prRender("pr-h")}
+function prStartHtml(){var wk=Object.keys(PR.weak).length;
+  return '<h2 class="rt" id="pr-h" tabindex="-1">Practice <span class="tag">Sample questions</span></h2><p class="nx" style="margin:2px 0 10px">Eight sample questions on decision architecture. Nothing is graded.</p>'+
+  '<div class="card pr-modes"><div class="prm"><div><b>Quick practice</b><small>All 8 questions</small></div><button class="act" data-pr="start" data-mode="all">Start</button></div>'+
+  '<div class="prm"><div><b>Weak spots</b><small>'+(wk?wk+' from your earlier misses':'No misses yet. Finish a practice first.')+'</small></div><button class="act'+(wk?'':' off')+'" data-pr="start" data-mode="weak"'+(wk?'':' disabled')+'>Start</button></div>'+
+  '<div class="prm"><div><b>One section</b><small>Pick a section</small></div><div class="btns"><button class="act ghost" data-pr="start" data-mode="sec" data-sec="0">'+PSEC[0]+'</button><button class="act ghost" data-pr="start" data-mode="sec" data-sec="1">'+PSEC[1]+'</button></div></div>'+
+  '<div class="prm"><div><b>Timer</b><small>Optional. Off by default. It only shows time passed.</small></div><div class="btns">'+'<label class="small-s" id="prminl"'+(PR.timerOn?'':' hidden')+'>Minutes <input type="number" id="prmin" min="5" max="60" value="'+PR.mins+'" aria-label="Planned minutes"></label>'+'<button class="swt" role="switch" aria-checked="'+PR.timerOn+'" data-pr="timer" aria-label="Timer"><i></i></button></div></div></div>'+
+  '<div class="card"><h3 style="margin:0 0 6px">Past attempts</h3><ul class="rows">'+PR.hist.slice(0,5).map(function(h){return '<li><span class="idot">'+ni("quiz")+'</span><span><b>'+h.s+' of '+h.n+'</b><br><span class="meta">'+h.d+(h.x?', '+h.x:'')+'</span></span><span></span></li>'}).join("")+'</ul><p class="small-s" style="margin:8px 0 0">Practice history is kept in memory only and resets on reload.</p></div>'+
+  '<div class="stickbar"><a class="act" href="#/course/MGMT6108/quizzes">Back to quizzes</a></div>';
+}
+function prQuizHtml(){var id=PR.ids[PR.idx],q=PQ[id],n=PR.ids.length;
+  var opts=q.o.map(function(t,i){return '<label class="opt"><input type="radio" name="pro" value="'+i+'"'+(PR.ans[id]===i?' checked':'')+'><span>'+esc(t)+'</span></label>'}).join("");
+  var nav=PR.ids.map(function(k,i){var st=i===PR.idx?"cur":(PR.ans[k]!==undefined?"done":"");return '<button class="nv '+st+'" data-pr="nav" data-i="'+i+'" aria-label="Question '+(i+1)+(PR.ans[k]!==undefined?', answered':', not answered')+(i===PR.idx?', current':'')+'"'+(i===PR.idx?' aria-current="step"':'')+'>'+(i+1)+'</button>'}).join("");
+  var last=PR.idx===n-1;
+  return '<div class="prtop"><p id="pr-prog" class="rt2" aria-live="polite">Question '+(PR.idx+1)+' of '+n+'</p><span class="rp">'+esc(PSEC[q.sec])+'</span>'+(PR.timerOn?'<span class="rp" id="pr-time"></span>':'')+'<span class="small-s">'+esc(PR.label)+'. Sample questions.</span></div>'+
+  '<div class="prgrid"><div class="card"><h2 class="prq" id="pr-qt" tabindex="-1">'+esc(q.q)+'</h2><div class="opts" role="radiogroup" aria-labelledby="pr-qt">'+opts+'</div><div class="navr" role="group" aria-label="Question navigator">'+nav+'</div></div>'+
+  '<div class="card"><h3 style="margin:0 0 6px">Your thinking <span class="small-s">(optional)</span></h3><textarea id="prnote" rows="5" placeholder="Write your reasoning here" aria-label="Your thinking">'+esc(PR.note[id]||"")+'</textarea><label class="ck"><input type="checkbox" id="prns"'+(PR.ns[id]?' checked':'')+'> Not sure</label><p class="small-s" style="margin:6px 0 0">Only you see this. Nothing is saved.</p></div></div>'+
+  '<div class="stickbar"><button class="act ghost" data-pr="prev"'+(PR.idx?'':' disabled')+'>Previous</button>'+(last?'<button class="act" data-pr="check">Check my answers</button>':'<button class="act" data-pr="next">Next</button>')+'</div>';
+}
+function prResHtml(){var r=PR.res,missedSet={};r.missed.forEach(function(i){missedSet[i]=1});
+  var secRows=PSEC.map(function(nm,k){var x=r.sec[k];if(!x.n)return '';return '<div class="secr"><span>'+nm+'</span><div class="bar" aria-hidden="true"><i style="width:'+Math.round(x.s/x.n*100)+'%"></i></div><b>'+x.s+' of '+x.n+'</b></div>'}).join("");
+  var list=r.ids.filter(function(i){return !PR.onlyMissed||missedSet[i]||PR.ns[i]});
+  var acc=list.map(function(i){var q=PQ[i],bad=!!missedSet[i],none=PR.ans[i]===undefined,pos=r.ids.indexOf(i)+1;
+    return '<div class="qa"><button class="qh" data-q="p'+i+'" aria-expanded="false" aria-controls="qap'+i+'"><span class="qn">'+pos+'</span><span class="qt">'+esc(q.q)+'</span>'+(PR.ns[i]?'<span class="rp">Not sure</span>':'')+'<span class="qs '+(bad?'no':'ok')+'">'+ni(bad?'no':'ok')+(none?'No answer':bad?'Not correct':'Correct')+'</span>'+ni('down')+'</button><div class="qb" id="qap'+i+'" hidden><p><b>Your answer:</b> '+(none?'None':esc(q.o[PR.ans[i]]))+'</p><p><b>Correct answer:</b> '+esc(q.o[q.a])+'</p>'+(PR.note[i]?'<p><b>Your thinking:</b> '+esc(PR.note[i])+'</p>':'')+'<p>'+esc(q.e)+'</p><span class="small-s">Sample</span></div></div>'}).join("")||'<p class="nx">Nothing to show with this filter.</p>';
+  var wk=prWeak(r);
+  var para=!r.missed.length?'You answered every question correctly. Try another section next.':wk.kind==="tie"?'Both sections had the same number of misses ('+wk.m0+' each). Start with the one you like less.':wk.kind==="one"?'This practice covered one section: '+r.s+' of '+r.n+'. Review the explanations for your misses, then try Weak spots.':'Your '+PSEC[wk.idx].toLowerCase()+' section had more misses ('+wk.mm+' vs '+wk.lo+'). Review those explanations first, then try Weak spots.';
+  return '<div class="card rh"><h2 class="big" id="pr-h" tabindex="-1" style="margin:0;font-size:28px;font-weight:700">Your practice: '+r.s+' of '+r.n+'</h2><p class="nx" style="margin:0"><span class="tag">Sample questions</span> '+esc(PR.label)+'</p><div class="secs">'+secRows+'</div></div>'+
+  '<div class="card qas"><div class="phead"><h3 style="margin:0">Your answers</h3><label class="ck"><input type="checkbox" data-pr="filter"'+(PR.onlyMissed?' checked':'')+'> Show only missed and not sure</label></div>'+acc+'</div>'+
+  '<div class="card helper2"><h3 style="margin:0 0 4px">Study helper (sample)</h3><p class="small-s" style="margin:0 0 6px">Sample. No AI runs here.</p><p style="margin:0 0 8px">'+para+'</p><div class="chips" role="group" aria-label="Suggestions"><button class="chip-q" data-pr="reply" data-r="review">What should I review?</button><button class="chip-q" data-pr="reply" data-r="explain">Explain my misses</button><button class="chip-q" data-pr="reply" data-r="plan">Plan a short session</button></div>'+(PR.reply?'<div class="reply" role="status" aria-live="polite">'+PR.reply+'</div>':'<div class="reply" role="status" aria-live="polite" hidden></div>')+'</div>'+
+  '<div class="stickbar"><a class="act ghost" href="#/course/MGMT6108/quizzes">Back to quizzes</a><button class="act ghost" data-pr="new">New practice</button>'+(r.missed.length?'<button class="act" data-pr="retry">Retry the ones I missed</button>':'<button class="act off" disabled>Nothing to retry</button>')+'</div>';
+}
+function prWeak(r){var a=r.sec[0],b=r.sec[1];if(!a.n||!b.n)return {kind:"one"};var m0=a.n-a.s,m1=b.n-b.s;if(m0===m1)return {kind:"tie",m0:m0};return {kind:"weak",idx:m0>m1?0:1,mm:Math.max(m0,m1),lo:Math.min(m0,m1)}}
+function prReply(k){var r=PR.res;if(!r.missed.length)return "Nothing missed this time. Try a different section, or Quick practice again.";
+  if(k==="review"){var wk=prWeak(r),lead=wk.kind==="weak"?"Start with "+PSEC[wk.idx].toLowerCase()+" ("+wk.mm+" misses vs "+wk.lo+"). ":wk.kind==="tie"?"Both sections had the same number of misses, so start with the one you like less. ":"";var names=r.missed.map(function(i){return PQ[i].q.replace(/[:?]$/,"").slice(0,48)});return lead+"Review: "+names.slice(0,3).map(function(t,j){return (j+1)+". "+esc(t)+"..."}).join(" ")+" Then start Weak spots."}
+  if(k==="explain")return r.missed.slice(0,3).map(function(i){return "Q"+(r.ids.indexOf(i)+1)+": "+esc(PQ[i].e)}).join(" ");
+  return "Short session (sample): read the explanations for your misses, start Weak spots, then write one line on what you would do differently. You choose when."}
+function prHtml(){return PR.screen==="quiz"?prQuizHtml():PR.screen==="results"?prResHtml():prStartHtml()}
+function prRender(focusId){var w=document.getElementById("prwrap");if(!w)return;w.innerHTML=prHtml();
+  if(PR.screen==="quiz"&&PR.timerOn){clearInterval(prTimer);prClock();prTimer=setInterval(prClock,1000)}
+  var f=focusId&&document.getElementById(focusId);if(f)f.focus()}
+document.addEventListener("click",function(e){var b=e.target.closest("[data-pr]");if(!b||b.disabled)return;var a=b.dataset.pr;
+  if(a==="start"){prStart(b.dataset.mode,+b.dataset.sec);return}
+  if(a==="timer"){PR.timerOn=!PR.timerOn;b.setAttribute("aria-checked",String(PR.timerOn));var ml=document.getElementById("prminl");if(ml)ml.hidden=!PR.timerOn;return}
+  if(a==="next"){PR.idx=Math.min(PR.ids.length-1,PR.idx+1);prRender("pr-qt");return}
+  if(a==="prev"){PR.idx=Math.max(0,PR.idx-1);prRender("pr-qt");return}
+  if(a==="nav"){PR.idx=+b.dataset.i;prRender("pr-qt");return}
+  if(a==="check"){prSubmit();return}
+  if(a==="retry"){prStart("retry");return}
+  if(a==="new"){PR.screen="start";prRender("pr-h");return}
+  if(a==="reply"){PR.reply=prReply(b.dataset.r);prRender();var c=document.querySelector('[data-r="'+b.dataset.r+'"]');if(c)c.focus();return}
+});
+document.addEventListener("change",function(e){var t=e.target;
+  if(t.name==="pro"){PR.ans[PR.ids[PR.idx]]=+t.value;var nv=document.querySelectorAll(".nv")[PR.idx];if(nv){nv.classList.add("done");nv.setAttribute("aria-label","Question "+(PR.idx+1)+", answered, current")}return}
+  if(t.id==="prns"){PR.ns[PR.ids[PR.idx]]=t.checked;return}
+  if(t.id==="prmin"){PR.mins=Math.max(5,Math.min(60,+t.value||20));return}
+  if(t.dataset&&t.dataset.pr==="filter"){PR.onlyMissed=t.checked;prRender();var f=document.querySelector('[data-pr="filter"]');if(f)f.focus()}});
+document.addEventListener("input",function(e){if(e.target.id==="prnote")PR.note[PR.ids[PR.idx]]=e.target.value});
+function typeIcon(i){return ni(i.kind==="quiz"?"quiz":i.ext&&i.t==="Untitled activity"?"assign":"assign")}
+function cardsHtml(codes){
+  var ks=Object.keys(ITEMS).filter(function(k){return !ITEMS[k].done&&(!codes||codes.indexOf(ITEMS[k].c)>-1)});
+  function ord(k){var d=days(k);return d===null?9999:d<0?-10000+d:d}
+  ks.sort(function(a,b){return ord(a)-ord(b)});
+  return ks.map(function(k){var i=ITEMS[k],c=course(i.c),ty=i.kind==="quiz"?"Quiz":(i.t==="Untitled activity"?"Activity":"Assignment");
+    var href=i.ext?"#/course/"+i.c:"#/sample/"+k;
+    return '<a class="card dc" href="'+href+'"><div class="r1"><span class="cp">'+c.short+'</span><span class="rp'+(isWas(k)?' was':'')+'">'+relLabel(k)+'</span></div><b>'+i.t+'</b><span class="m">'+ni(i.kind==="quiz"?"quiz":"assign")+(i.date?ty+', due '+i.ds:ty+', no due date')+'</span></a>'}).join("");
+}
+function cuBlock(codes,limit){
+  var ks=Object.keys(ITEMS).filter(function(k){return !ITEMS[k].done&&(!codes||codes.indexOf(ITEMS[k].c)>-1)});
+  function ord(k){var d=days(k);return d===null?9999:d<0?-10000+d:d}
+  ks.sort(function(a,b){return ord(a)-ord(b)});if(limit)ks=ks.slice(0,limit);
+  var rows=ks.map(function(k){var i=ITEMS[k],c=course(i.c),href=i.ext?"#/course/"+i.c:"#/sample/"+k;
+    return '<a class="cur" href="'+href+'"><span class="ct">'+ni(i.kind==="quiz"?"quiz":"assign")+'<span class="tt"><b>'+i.t+'</b><small>'+c.short+'</small></span></span><span class="rp'+(isWas(k)?' was':'')+'">'+relLabel(k)+'</span><span class="dd">'+(i.date?i.ds.split(",")[0]:"No date")+'</span></a>'}).join("");
+  return '<div class="cu-h"><h2>Coming up</h2><a href="#/course/MGMT6108/assignments">All deliverables</a></div>'+(rows||'<p class="nx" style="padding:8px 16px">Nothing due.</p>');
+}
+function tlHtml(codes,title){
+  var W=tlMode==="6w"?{s:new Date(2026,9,26),e:new Date(2026,11,7),t:[[2026,9,26],[2026,10,2],[2026,10,9],[2026,10,16],[2026,10,23],[2026,10,30]]}:{s:new Date(2026,7,24),e:new Date(2026,11,20),t:[[2026,7,24],[2026,8,14],[2026,9,5],[2026,9,26],[2026,10,16],[2026,11,7]]};
+  var MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  function pct(d){return (d-W.s)/(W.e-W.s)*100}
+  var ticks=W.t.map(function(a){var d=new Date(a[0],a[1],a[2]);return {p:pct(d),l:d.getDate()+" "+MN[d.getMonth()]}});
+  var tp=pct(TODAY);
+  var rows=COURSES.filter(function(c){return !codes||codes.indexOf(c.code)>-1}).map(function(c){
+    var mk=Object.keys(ITEMS).filter(function(k){var i=ITEMS[k];if(i.c!==c.code||!i.date)return false;var p=pct(dparse(i.date));return p>=0&&p<=100}).map(function(k){var i=ITEMS[k],p=pct(dparse(i.date)),st=i.done?"done":isWas(k)?"was":"todo";
+      var link=i.ext?"#/course/"+i.c:"#/course/MGMT6108/"+(i.kind==="quiz"?"quizzes":"assignments");
+      return '<a class="mk '+(i.kind==="quiz"?"square":"circle")+" "+st+'" style="left:'+p.toFixed(2)+'%" href="'+link+'" aria-label="'+i.t+', '+({done:"done",was:"was due",todo:"to do"})[st]+', '+i.ds+'" title="'+i.t+'"></a>'+(tlMode==="6w"?'<span class="ml" style="left:'+p.toFixed(2)+'%">'+i.t.replace("Comprehensive ","")+'</span>':'')}).join("");
+    var grid=ticks.map(function(t){return '<i style="position:absolute;top:0;bottom:0;width:1px;background:#EDF1F5;left:'+t.p.toFixed(2)+'%"></i>'}).join("");
+    return '<div class="tl-row"><div class="lab"><span class="cp">'+c.short+'</span><span class="n">'+c.name+'</span></div><div class="plot">'+grid+mk+'</div></div>'}).join("");
+  return '<div class="tl-head"><div><h3 style="font-size:17px;margin:0">'+title+'</h3><p class="small-s">Quizzes and assignments. Tap a marker to open it.</p></div><div class="seg" role="group" aria-label="Time range"><button data-tl="6w" aria-pressed="'+(tlMode==="6w")+'">Next 6 weeks</button><button data-tl="term" aria-pressed="'+(tlMode==="term")+'">Whole term</button></div></div>'+
+   '<div class="tl"><div class="tl-axis"><div></div><div class="plot">'+ticks.map(function(t){return '<span class="tick" style="left:'+t.p.toFixed(2)+'%">'+t.l+'</span>'}).join("")+'</div></div>'+rows+'<div class="today" style="left:calc(var(--lw) + (100% - var(--lw)) * '+(tp/100).toFixed(4)+')"><span>Today</span></div></div>'+
+   '<div class="lg"><span><i style="border-radius:50%;background:#8FA9C4"></i>Done</span><span><i style="border-radius:50%"></i>To do</span><span><i style="border-radius:50%;background:#fff;border:2px solid #7B8794"></i>Was due</span><span><i style="border-radius:50%"></i>Assignment</span><span><i style="border-radius:3px"></i>Quiz</span></div>';
+}
+function mcHtml(){
+  return COURSES.map(function(c){var m=/^(\D+)(\d+)/.exec(c.short),nk=nextFor(c.code),pc=c.total?Math.round(c.done/c.total*100):0;
+    var nx=nk?'<b>'+ITEMS[nk].t+'</b><small>'+(ITEMS[nk].date?(isWas(nk)?relLabel(nk):ITEMS[nk].ds.split(",")[0]):'No due date')+'</small>':'<b>Nothing due</b>';
+    return '<a class="mcr" href="#/course/'+c.code+'"><div class="ctile" aria-hidden="true">'+m[1]+'<b>'+m[2]+'</b></div><div><strong>'+c.name+'</strong><small>'+c.short+(c.when?', '+c.when:'')+'</small></div><div class="pg"><small>'+(c.total?c.done+' of '+c.total+' submitted or attempted':'No items yet')+'</small><div class="bar" aria-hidden="true"><i style="width:'+pc+'%"></i></div></div><div class="nxt"><small>Next</small>'+nx+'</div>'+ni("back").replace('class="i"','class="i chev" style="transform:scaleX(-1)"')+'</a>'}).join("");
+}
+function itemRow(k){var i=ITEMS[k],q=i.kind==="quiz";
+  var state=i.done?'<span class="pill ok">'+(q?'Attempted '+(i.att||'1 / 1'):'Submitted (demo)')+'</span>':'<span class="rp'+(isWas(k)?' was':'')+'">'+relLabel(k)+'</span>';
+  var act=(!i.done||(q&&i.attempts<i.max&&k==="mock"))?'<a class="act" href="#/sample/'+k+'">'+(q?'Start (sample)':'Open')+'</a>':(q&&k!=="mock"?'<a class="act ghost" href="#/course/MGMT6108/results/'+k+'">View results</a>':'<span></span>');
+  var sub=(q?"Quiz":"Assignment")+(i.date?", due "+i.ds:", no due date")+(q&&k==="mock"?". "+i.attempts+" / "+i.max+" attempts":"");
+  return '<div class="dlr"><span class="idot">'+ni(q?"quiz":"assign")+'</span><div><b>'+i.t+'</b><small>'+sub+'</small></div>'+state+act+'</div>'}
+function dlPage(){
+  var ks=Object.keys(ITEMS).filter(function(k){return ITEMS[k].c==="MGMT6108"});
+  var na=ks.filter(function(k){return ITEMS[k].kind==="assignment"}).length,nq=ks.length-na;
+  var f=dlFilter||(tab==="quizzes"?"quiz":"assignment");
+  var sel=ks.filter(function(k){return f==="all"||ITEMS[k].kind===f});
+  var g1=sel.filter(function(k){return isWas(k)}),g2=sel.filter(function(k){return !ITEMS[k].done&&!isWas(k)}),g3=sel.filter(function(k){return ITEMS[k].done});
+  function grp(t,a){return a.length?'<h2 class="grp">'+t+'<small>'+a.length+'</small></h2><div class="card dl">'+a.map(itemRow).join("")+'</div>':''}
+  return '<div class="sgm" role="group" aria-label="Filter">'+[["all","All",ks.length],["assignment","Assignments",na],["quiz","Quizzes",nq]].map(function(x){return '<button data-f="'+x[0]+'" aria-pressed="'+(f===x[0])+'">'+x[1]+'<span class="n">'+x[2]+'</span></button>'}).join("")+'</div>'+grp("Was due",g1)+grp("To do",g2)+grp("Done",g3);
+}
 function coursePage(code){
-  const c=course(code),m=code==="MGMT6108";let body="";
-  const todo=(k)=>Object.keys(ITEMS).filter(x=>ITEMS[x].kind===k&&!ITEMS[x].done).length;
+  var c=course(code),m=code==="MGMT6108",body="";
+  var sub=c.short+", August Term 2026-27";
+  var head='<div class="ph"><div><h1 class="pt">'+c.name+'</h1><p class="sub">'+sub+'</p></div><div class="btns"><button class="act ghost" data-sample="Sample only: online lesson">Online lesson (sample)</button></div></div>';
   if(!m){
-    body='<div class="goal"><b>'+(c.total?c.done+' of '+c.total+' items submitted or attempted':'No items yet')+'</b><span>'+c.sched+'</span></div>'+(c.dueLine?'<ul class="rows"><li><span class="icon-dot">'+ico('file')+'</span><span><b>'+c.dueLine+'</b></span><span class="pill warn">Not Submitted</span></li></ul>':'')+(c.unread?'<p class="note">'+(c.unread>99?'99+':c.unread)+' unread discussions.</p>':'')+'<p class="sample">Sample only.</p>';
-  } else if(courseTab==="overview"){
-    body='<div class="goal"><b>'+c.done+' of '+c.total+' submitted or attempted</b><div class="bar" aria-hidden="true"><i style="width:'+Math.round(c.done/c.total*100)+'%"></i></div></div>'+
-    '<div class="ov"><div class="tile main"><h3>Next up ('+todo("quiz")+' Quizzes Not Attempted)</h3><p>'+(ITEMS.final.done?'Final Submission Folder is marked as submitted.':'[Group Term-Paper Project] Final Submission Folder, Due Nov 8, 11:59 PM')+'</p><a class="act" href="#/course/MGMT6108/assignments">Go to Assignments</a></div>'+
-    '<div class="tile"><h3>Learning Tools</h3><div class="tools-row"><a href="#" data-sample="Sample only: My Attendance">My Attendance</a><a href="#/course/MGMT6108/results">My Results</a><a href="#" data-sample="Sample only: Peer Evaluation">Peer Evaluation</a><a href="#" data-sample="Sample only: Journal">Journal</a><a href="#" data-sample="Sample only: INSIGHT">INSIGHT</a></div></div>'+
-    '<div class="tile ann2"><h3>Announcements</h3><p>There are no announcements to display.</p></div>'+
-    '<div class="tile"><h3>Calendar</h3><p>Nov 8, 11:59 PM: Final Submission Folder due</p></div>'+
-    '<div class="tile"><h3>Online lesson</h3><a class="act ghost" href="#" data-sample="Sample only: Zoom">Zoom</a></div></div>'+
-    '<details class="card" style="margin:14px 0 0;background:#f1f4f0"><summary><b>Copyright and Code of Academic Integrity</b></summary><p>Course materials are for your own use only. Cheating, plagiarism and fabrication carry serious penalties.</p></details>';
-  } else if(courseTab==="readings"){
-    body='<div class="goal"><b>'+c.done+' of '+c.total+' submitted or attempted</b><div class="bar" aria-hidden="true"><i style="width:'+Math.round(c.done/c.total*100)+'%"></i></div></div><ul class="rows">'+
-    WEEKS.map(w=>'<li'+(w[2]==="now"?' class="here"':'')+'><span class="icon-dot">'+ico(w[2]==="topic"?'file':'folder')+'</span><span><b>'+w[0]+'</b>'+(w[1]?'<br><span class="meta">'+w[1]+'</span>':'')+(w[2]==="topic"?'<br><span class="meta">MGMT6108_Syllabus, PDF. Opened</span>':'')+'</span>'+(w[2]==="done"?'<span class="pill">No tasks left in this module</span>':w[2]==="topic"?'<span class="pill">Opened</span>':w[2]==="now"?'<span class="pill warn">This week</span>':'<span></span>')+'</li>').join("")+'</ul>';
-  } else if(courseTab==="assignments"){
-    body='<ul class="rows">'+['final','ideation'].map(itemRow).join("")+'</ul>';
-  } else if(courseTab==="quizzes"){
-    body='<h3 style="margin:0 0 6px">Current Quizzes (Attempts)</h3><ul class="rows">'+itemRow('mock')+'</ul><h3 style="margin:16px 0 6px">Past Quizzes (Attempts)</h3><ul class="rows">'+['q3','q2','q1'].map(itemRow).join("")+'</ul>';
-  } else if(courseTab==="discussions"){
-    body='<ul class="rows"><li><span class="icon-dot">'+ico("chat")+'</span><span><b>General Discussion</b><br><span class="meta">0 threads, 0 posts. No posts yet.</span></span><a class="act" href="#" data-sample="Sample only: starting a thread">Start a thread</a></li></ul>';
-  } else if(courseTab==="people"){
-    const PL=[["Alex Tan (you)","Student"],["Dr Sample Instructor","Instructor"],["Sample TA","TA (Content, Quiz, Assignment)"],["Sample Student 1","Student"],["Sample Student 2","Student"],["Sample Student 3","Student"]];
-    body='<ul class="rows">'+PL.map(p=>'<li><span class="icon-dot">'+ico("people")+'</span><span><b>'+p[0]+'</b><br><span class="meta">'+p[1]+'</span></span><a class="act ghost" href="#" data-sample="Sample only: email">Email</a></li>').join("")+'</ul>';
-  } else {
-    body='<div class="strip" role="list"><div class="got" role="listitem">Quizzes attempted<b>'+['q1','q2','q3'].filter(k=>ITEMS[k].done).length+' of 4</b></div><div class="'+(ITEMS.final.done?'got':'nos')+'" role="listitem">Final Submission Folder<b>'+(ITEMS.final.done?'Submitted (demo only)':'Not Submitted')+'</b></div><div class="'+(ITEMS.ideation.done?'got':'nos')+'" role="listitem">Ideation<b>'+(ITEMS.ideation.done?'Submitted (demo only)':'Not Submitted')+'</b></div><div role="listitem">Mock Quiz<b>'+ITEMS.mock.attempts+' / 2 attempts</b></div></div>';
+    body='<p class="sample"><b>Sample only.</b> The rest of this course is not part of the prototype.</p><div class="stat3"><div class="card"><small>Submitted or attempted</small><b>'+(c.total?c.done+' / '+c.total:'No items yet')+'</b></div><div class="card"><small>Class</small><b style="font-size:16px">'+(c.when||"No class time")+'</b></div><div class="card"><small>Room</small><b style="font-size:16px">'+(c.sched.split(", ")[1]||"None listed")+'</b></div></div>'+(c.total?'<div class="card cu">'+cuBlock([code])+'</div>':'');
+    return head+body;
   }
-  const tabs=TABS.map(([k,l])=>'<button class="tab" role="tab" aria-selected="'+(k===courseTab)+'" data-tab="'+k+'">'+l+'</button>').join("");
-  return (m?'<div class="tabs" role="tablist" aria-label="Course sections" style="--cct:'+tint(c.hex,.78)+'">'+tabs+'</div>':'')+'<div class="cp-head" style="--cc:'+c.hex+';--cci:'+c.ink+'">'+chipHtml(c,true)+'<div><h1>'+c.title+'</h1><p>'+nc(c)+'</p>'+(c.dueLine?'':'')+'</div></div>'+'<div class="panel" style="--cc:'+c.hex+';--cci:'+c.ink+';--cct:'+tint(c.hex,.78)+'">'+body+'</div>';
+  var tabbar=tabsHtml(TABS.map(function(t){return {k:t[0],l:t[1],i:t[2],h:'#/course/MGMT6108'+(t[0]==="overview"?"":"/"+t[0]),b:t[0]==="assignments"?todoCount("assignment"):t[0]==="quizzes"?todoCount("quiz"):0}}),tab,"Course sections","ct-");
+  if(tab==="overview"){
+    var nk=nextFor("MGMT6108");
+    body='<div class="card sum"><b>'+c.done+' of '+c.total+' submitted or attempted</b><div class="bar" aria-hidden="true"><i style="width:'+Math.round(c.done/c.total*100)+'%"></i></div><span>Next due '+(nk&&ITEMS[nk].date?ITEMS[nk].ds.split(",")[0]:"none")+'</span></div>'+
+    '<div class="card cu">'+cuBlock(["MGMT6108"])+'</div><div class="card" id="tl-course" style="margin-top:12px">'+tlHtml(["MGMT6108"],"Timeline")+'</div>'+
+    '<details class="card more-home"><summary>More</summary><section class="ms"><h3>Learning tools</h3><p class="tl-links"><a href="#" data-sample="Sample only: My Attendance">My Attendance</a> <a href="#/course/MGMT6108/results">My results</a> <a href="#" data-sample="Sample only: Peer Evaluation">Peer Evaluation</a> <a href="#" data-sample="Sample only: Journal">Journal</a> <a href="#" data-sample="Sample only: INSIGHT">INSIGHT</a></p></section><section class="ms"><h3>Announcements</h3><p class="nx">None to display.</p></section><section class="ms"><h3>Calendar</h3><p class="nx">Nov 8, 11:59 PM: Final Submission Folder due</p></section></details>';
+  } else if(tab==="readings"){
+    body='<div class="card"><ul class="rows">'+WEEKS.map(function(w){return '<li'+(w[2]==="now"?' class="here"':'')+'><span class="idot">'+ni(w[2]==="topic"?"assign":"content")+'</span><span><b>'+w[0]+'</b>'+(w[1]?'<br><span class="meta">'+w[1]+(w[2]==="topic"?'. MGMT6108_Syllabus, PDF':'')+'</span>':'')+'</span>'+(w[2]==="done"?'<span class="pill">No tasks left</span>':w[2]==="topic"?'<span class="pill">Opened</span>':w[2]==="now"?'<span class="pill ok">This week</span>':'<span></span>')+'</li>'}).join("")+'</ul></div>';
+  } else if(tab==="assignments"||tab==="quizzes"){
+    body=(tab==="quizzes"&&practiceOn)?'<div id="prwrap">'+prHtml()+'</div>':(tab==="quizzes"?'<div class="prbtn"><a class="act" href="#/course/MGMT6108/quizzes/practice">Practice</a><span class="small-s">Sample questions, no grade</span></div>':"")+dlPage();
+  } else if(tab==="discussions"){
+    body='<div class="card"><ul class="rows"><li><span class="idot">'+ni("disc")+'</span><span><b>General Discussion</b><br><span class="meta">0 threads, 0 posts</span></span><button class="act" data-sample="Sample only: starting a thread">Start a thread</button></li></ul></div>';
+  } else if(tab==="people"){
+    var PL=[["Alex Tan (you)","Student"],["Dr Sample Instructor","Instructor"],["Sample TA","TA (Content, Quiz, Assignment)"],["Sample Student 1","Student"],["Sample Student 2","Student"],["Sample Student 3","Student"]];
+    body='<div class="card"><ul class="rows">'+PL.map(function(p){return '<li><span class="idot">'+ni("people")+'</span><span><b>'+p[0]+'</b><br><span class="meta">'+p[1]+'</span></span><button class="act ghost" data-sample="Sample only: email">Email</button></li>'}).join("")+'</ul></div><div class="card" style="margin-top:12px"><h3>Groups</h3><p class="nx">None listed. <a href="#" data-sample="Sample only: groups">Open groups (sample)</a></p></div>';
+  } else if(resKey&&QZ[resKey]){
+    body=resultsPage(resKey);
+  } else {
+    var rr=["q1","q2","q3"].map(function(k){var sc=qScore(k);return '<div class="dlr"><span class="idot">'+ni("quiz")+'</span><div><b>'+ITEMS[k].t+'</b><small>Sample result: '+sc.s+' of '+sc.n+' ('+sc.p+'%)</small></div><span class="pill ok">Attempted '+ITEMS[k].att+'</span><a class="act ghost" href="#/course/MGMT6108/results/'+k+'">View results</a></div>'}).join("");
+    body='<div class="card dl">'+rr+'<div class="dlr"><span class="idot">'+ni("quiz")+'</span><div><b>Mock Quiz</b><small>'+ITEMS.mock.attempts+' / 2 attempts</small></div><span class="rp">'+(ITEMS.mock.attempts?"Attempted":"Not attempted")+'</span><span></span></div><div class="dlr"><span class="idot">'+ni("assign")+'</span><div><b>Final Submission Folder</b><small>'+(ITEMS.final.done?"Submitted (demo)":"Not submitted")+'</small></div><span></span><span></span></div><div class="dlr"><span class="idot">'+ni("assign")+'</span><div><b>Ideation</b><small>'+(ITEMS.ideation.done?"Submitted (demo)":"Not submitted")+'</small></div><span></span><span></span></div></div><div class="card" style="margin-top:12px"><h3>Grades</h3><p class="nx">No grades shown. <a href="#" data-sample="Sample only: grades">Open grades (sample)</a> <a href="#" data-sample="Sample only: class progress">Class progress (sample)</a></p></div>';
+  }
+  return head+tabbar+'<div role="tabpanel" aria-labelledby="ct-'+tab+'">'+body+'</div>';
 }
-function samplePage(k){const i=ITEMS[k],a=i.kind==="quiz";
-  return '<div class="cp-head" style="--cc:#5b7cff;--cci:#fff"><div><h1>'+i.t+'</h1><p>'+(i.due||'')+'</p></div></div><div class="panel"><p class="sample"><b>Sample only.</b> Nothing is saved or sent.</p><div class="btns"><button class="go" id="mark" data-k="'+k+'">'+(a?'Mark one attempt (demo, not saved)':'Mark as submitted (demo, not saved)')+'</button><a class="later" style="text-decoration:none" href="#/course/MGMT6108/'+(a?'quizzes':'assignments')+'">Back</a></div></div>'}
-const later=document.getElementById("bubble-later"), remind=document.getElementById("remind");
-const SLOTS=["Tonight, 6:00 PM","Tonight, 8:00 PM","Tomorrow, Sat 7 Nov, 9:00 AM","Sun 8 Nov, 10:00 AM"];
-later.addEventListener("click",()=>{const open=remind.hidden;remind.hidden=!open;later.setAttribute("aria-expanded",String(open));
-  if(open){remind.innerHTML='<p id="rp">Pick a time. Nothing is chosen for you.</p><div class="slots" role="group" aria-labelledby="rp">'+SLOTS.map((t,i)=>'<button class="slot" data-i="'+i+'">'+t+'</button>').join("")+'</div>';remind.querySelector(".slot").focus()}});
-remind.addEventListener("click",e=>{
-  const b=e.target.closest(".slot"); if(b){const t=SLOTS[+b.dataset.i];remind.innerHTML='<p role="status">Reminder set for '+t+'. <button class="undo" id="undo">Undo</button></p>';later.textContent="Change reminder";document.getElementById("undo").focus();return}
+function samplePage(k){var i=ITEMS[k],q=i.kind==="quiz";
+  return '<h1 class="pt">'+i.t+'</h1><p class="sub">'+(i.date?"Due "+i.ds:"No due date")+'</p><div class="card"><p class="sample"><b>Sample only.</b> Nothing is saved or sent.</p><div class="btns"><button class="go" id="mark" data-k="'+k+'">'+(q?'Mark one attempt (demo, not saved)':'Mark as submitted (demo, not saved)')+'</button><a class="later" style="text-decoration:none" href="#/course/MGMT6108/'+(q?'quizzes':'assignments')+'">Back</a></div></div>'}
+var toastEl=document.createElement("div");toastEl.className="toast2";toastEl.setAttribute("role","status");document.body.appendChild(toastEl);
+function toast(m){toastEl.textContent=m;toastEl.classList.add("show");clearTimeout(window.__tt);window.__toastAt=Date.now();window.__tt=setTimeout(function(){toastEl.classList.remove("show")},4000)}
+function renderHome(){
+  var m=course("MGMT6108");
+  document.getElementById("ns-count").textContent=m.done+" of "+m.total+" in "+m.short;
+  document.getElementById("ns-bar").style.width=Math.round(m.done/m.total*100)+"%";
+  document.getElementById("ns-barwrap").setAttribute("aria-label",m.done+" of "+m.total+" submitted or attempted");
+  var gb=document.getElementById("bubble-go"),bt=document.getElementById("bubble-text"),ov=document.getElementById("hero-overdue"),fin=ITEMS.final,ide=ITEMS.ideation;
+  if(!fin.done){bt.textContent="Submitted or attempted. Next: Final Submission Folder, due Sun 8 Nov, 11:59 PM (in 2 days).";gb.textContent="Open the Final Submission Folder";gb.setAttribute("href","#/sample/final")}
+  else if(!ide.done){bt.textContent="Submitted or attempted. Next: Ideation, was due Sep 28.";gb.textContent="Open the Ideation folder";gb.setAttribute("href","#/sample/ideation")}
+  else if(!(ITEMS.mock.attempts>0)){bt.textContent="Submitted or attempted. Next: Mock Quiz, 0 / 2 attempts.";gb.textContent="Open the Mock Quiz";gb.setAttribute("href","#/sample/mock")}
+  else{bt.textContent="Everything listed is done.";gb.textContent="Open Assignments";gb.setAttribute("href","#/course/MGMT6108/assignments")}
+  ov.hidden=!(!ide.done&&!fin.done);
+  document.getElementById("cards").innerHTML=cuBlock(null,3);
+  document.getElementById("tl-home").innerHTML=tlHtml(null,"Deliverables timeline");
+  document.getElementById("mc").innerHTML=mcHtml();
+  document.getElementById("sched").innerHTML=COURSES.filter(function(c){return c.code!=="MKT300G12"}).map(function(c){return '<li><span class="idot" style="background:'+c.hex+'"></span><span><b>'+c.short+'</b> '+c.name+'<br><span class="meta">'+c.sched+'</span></span><span></span></li>'}).join("");
+  helperLine();buildTree();fillPops();
+}
+var later=document.getElementById("bubble-later"),remind=document.getElementById("remind");
+var SLOTS=["Tonight, 6:00 PM","Tonight, 8:00 PM","Tomorrow, Sat 7 Nov, 9:00 AM","Sun 8 Nov, 10:00 AM"];
+later.addEventListener("click",function(){var open=remind.hidden;remind.hidden=!open;later.setAttribute("aria-expanded",String(open));
+  if(open){remind.innerHTML='<p id="rp">Pick a time. Nothing is chosen for you.</p><div class="slots" role="group" aria-labelledby="rp">'+SLOTS.map(function(t,i){return '<button class="slot" data-i="'+i+'">'+t+'</button>'}).join("")+'</div>';remind.querySelector(".slot").focus()}});
+remind.addEventListener("click",function(e){
+  var b=e.target.closest(".slot");if(b){var t=SLOTS[+b.dataset.i];remind.innerHTML='<p role="status">Reminder set for '+t+'. <button class="undo" id="undo">Undo</button></p>';later.textContent="Change reminder";document.getElementById("undo").focus();return}
   if(e.target.id==="undo"){remind.hidden=true;remind.innerHTML="";later.textContent="Remind me";later.setAttribute("aria-expanded","false");later.focus();toast("Reminder removed")}
 });
-document.addEventListener("click",e=>{
+var hl=document.getElementById("helper-line"),hr=document.getElementById("helper-reply");
+function helperLine(){hl.textContent=!ITEMS.final.done?"Start with the Final Submission Folder, due Sun 8 Nov.":!ITEMS.ideation.done?"Start with the Ideation folder, was due Sep 28.":"Next: the Mock Quiz."}
+var REPLIES={due:function(){return (ITEMS.final.done?"":"Final Submission Folder, Sun 8 Nov. ")+"TAKE HOME EXAM, Fri 13 Nov."+(ITEMS.ideation.done?"":" 1 overdue: Ideation.")},next:function(){return "MGMT6108-G1, Mon 9 Nov, 12:00 PM."},tools:function(){return '<a href="#" data-sample="Sample only: email and documents">Email and documents (sample)</a>, <a href="#" data-sample="Sample only: documents and storage">Documents and storage (sample)</a>, <a href="#" data-sample="Sample only: Calendar">Calendar</a>'}};
+document.getElementById("helper").addEventListener("click",function(e){var c=e.target.closest(".chip-q");if(c){hr.hidden=false;hr.innerHTML=REPLIES[c.dataset.r]();return}if(e.target.id==="helper-hide"){document.getElementById("helper").hidden=true;toast("Study helper hidden")}});
+document.addEventListener("click",function(e){
   if(toastEl.classList.contains("show")&&Date.now()-(window.__toastAt||0)>400){toastEl.classList.remove("show");clearTimeout(window.__tt)}
-  const a=e.target.closest('a[href="#"],[data-sample]');
+  var a=e.target.closest('a[href="#"],[data-sample]');
   if(a){e.preventDefault();toast((a.dataset&&a.dataset.sample)||"Sample only: this link does not go anywhere in the prototype");return}
-  if(e.target.closest(".tool,.avatar"))toast("Sample only: this button does nothing in the prototype");
-  const mk=e.target.closest("#mark");
-  if(mk){const i=ITEMS[mk.dataset.k];if(i.kind==="quiz"){i.attempts=Math.min(i.max,i.attempts+1);i.done=1;i.att=i.attempts+" / "+i.max}else i.done=1;syncCounts();renderHome();toast("Marked as done (demo only, not saved). Count is now "+course("MGMT6108").done+" of "+course("MGMT6108").total);window.__keepToast=true;location.hash="#/course/MGMT6108/"+(i.kind==="quiz"?"quizzes":"assignments")}
+  
+  var tb=e.target.closest("[data-tl]");if(tb){tlMode=tb.dataset.tl;rerenderTl();return}
+  var fb=e.target.closest("[data-f]");if(fb){dlFilter=fb.dataset.f;var s=document.getElementById("view-course");s.innerHTML=coursePage(curCourse);return}
+  var qh=e.target.closest(".qh");if(qh){var open=qh.getAttribute("aria-expanded")==="true";qh.setAttribute("aria-expanded",String(!open));document.getElementById(qh.getAttribute("aria-controls")).hidden=open;return}
+  var mb=e.target.closest("#meanbtn");if(mb){var o2=mb.getAttribute("aria-expanded")==="true";mb.setAttribute("aria-expanded",String(!o2));document.getElementById("meanp").hidden=o2;return}
+  var mk=e.target.closest("#mark");
+  if(mk){var i=ITEMS[mk.dataset.k];if(i.kind==="quiz"){i.attempts=Math.min(i.max,i.attempts+1);i.done=1;i.att=i.attempts+" / "+i.max}else i.done=1;syncCounts();renderHome();toast("Marked as done (demo only, not saved). Count is now "+course("MGMT6108").done+" of "+course("MGMT6108").total);window.__keepToast=true;dlFilter=null;location.hash="#/course/MGMT6108/"+(i.kind==="quiz"?"quizzes":"assignments")}
 });
-const viewHome=document.getElementById("view-home"), viewCourse=document.getElementById("view-course"), crumbs=document.querySelector(".crumbs");
+function rerenderTl(){var h=document.getElementById("tl-home");if(!document.getElementById("view-home").hidden)h.innerHTML=tlHtml(null,"Deliverables timeline");var t=document.getElementById("tl-course");if(t)t.innerHTML=tlHtml(["MGMT6108"],"Timeline")}
+var viewHome=document.getElementById("view-home"),viewCourse=document.getElementById("view-course"),crumbs=document.getElementById("crumbs");
 function route(){
   if(window.__keepToast){window.__keepToast=false}else{toastEl.classList.remove("show");clearTimeout(window.__tt)}
-  const h=location.hash.replace(/AVG403/,"MGMT6108");
-  if(h!==location.hash){location.replace(h);return}
-  const sm=h.match(/^#\/sample\/(\w+)/);
-  if(sm&&ITEMS[sm[1]]){viewHome.hidden=true;viewCourse.hidden=false;viewCourse.innerHTML=samplePage(sm[1]);crumbs.innerHTML='<a href="#/">Home</a><span aria-hidden="true">›</span><a href="#/course/MGMT6108">MGMT6108-G1</a><span aria-hidden="true">›</span><a href="#/course/MGMT6108/'+(ITEMS[sm[1]].kind==="quiz"?'quizzes':'assignments')+'">'+(ITEMS[sm[1]].kind==="quiz"?'Quizzes':'Assignments')+'</a>';document.title="MGMT6108-G1 | WeLearn";return}
-  const m=h.match(/^#\/course\/(\w+)(?:\/(\w+))?/);
-  if(m&&course(m[1])){
-    resCourse=m[1]; courseTab=TABS.some(t=>t[0]===m[2])?m[2]:"overview"; viewHome.hidden=true; viewCourse.hidden=false; viewCourse.innerHTML=coursePage(m[1]);
-    crumbs.innerHTML='<a href="#/">Home</a><span aria-hidden="true">›</span><span aria-current="page">'+course(m[1]).short+'</span>';
-    document.title=course(m[1]).short+" | WeLearn";
-  } else if(h&&!["#","#/","#/resources"].includes(h)){resCourse=null;viewHome.hidden=true;viewCourse.hidden=false;viewCourse.innerHTML='<div class="panel"><h1 style="margin:0 0 8px;font-size:22px">No such page</h1><p>That page is not part of this prototype.</p><p><a class="act" href="#/">Go to Home</a></p></div>';crumbs.innerHTML='<a href="#/">Home</a>';document.title="No such page | WeLearn"
-  } else {resCourse=null;viewHome.hidden=false;viewCourse.hidden=true;crumbs.innerHTML='<span aria-current="page">Home</span>';document.title="Home | WeLearn"}
-  document.querySelectorAll(".course").forEach(a=>a.setAttribute("aria-current",a.getAttribute("href")===h.replace(/\/(readings|overview|assignments|quizzes|discussions|people|results)$/,"")?"page":"false"));
+  var h=location.hash.replace(/AVG403/,"MGMT6108");if(h!==location.hash){location.replace(h);return}
+  var sm=h.match(/^#\/sample\/(\w+)/),m=h.match(/^#\/course\/(\w+)(?:\/(\w+))?(?:\/(\w+))?/),hm=h.match(/^#\/home(?:\/(\w+))?/);resKey=null;practiceOn=false;
+  curCourse=null;tab="overview";
+  if(sm&&ITEMS[sm[1]]&&!ITEMS[sm[1]].ext){curCourse="MGMT6108";tab=ITEMS[sm[1]].kind==="quiz"?"quizzes":"assignments";viewHome.hidden=true;viewCourse.hidden=false;viewCourse.innerHTML=samplePage(sm[1]);crumbs.innerHTML='<a href="#/">Home</a><span aria-hidden="true">›</span><a href="#/course/MGMT6108">MGMT6108-G1</a>';document.title="MGMT6108-G1 | WeLearn"}
+  else if(m&&course(m[1])){curCourse=m[1];tab=TABS.some(function(t){return t[0]===m[2]})?m[2]:"overview";if(m[1]!=="MGMT6108")tab="overview";dlFilter=null;resKey=(tab==="results"&&m[3])?m[3]:null;practiceOn=(tab==="quizzes"&&m[3]==="practice");if(practiceOn&&!window.__inPractice){PR.screen="start";clearInterval(prTimer);prTimer=null}viewHome.hidden=true;viewCourse.hidden=false;viewCourse.innerHTML=coursePage(m[1]);resCourse=m[1];crumbs.innerHTML='<a href="#/">Home</a><span aria-hidden="true">›</span><span aria-current="page">'+course(m[1]).short+'</span>';document.title=course(m[1]).short+" | WeLearn"}
+  else if(h&&!hm&&["#","#/","#/resources","#/courses"].indexOf(h)<0){viewHome.hidden=true;viewCourse.hidden=false;viewCourse.innerHTML='<div class="card nf"><h1 class="pt">No such page</h1><p>That page is not part of this prototype.</p><a class="act" href="#/">Go to Home</a></div>';crumbs.innerHTML='<a href="#/">Home</a>';document.title="No such page | WeLearn"}
+  else{viewHome.hidden=false;viewCourse.hidden=true;crumbs.innerHTML="";document.title="Home | WeLearn";homeTab=(hm&&HT.some(function(t){return t.k===hm[1]}))?hm[1]:(h==="#/courses"?"courses":"overview");renderHomeTabs()}
+  window.__inPractice=practiceOn;renderNav();placeDot();if(practiceOn){var phh=document.getElementById("pr-h")||document.getElementById("pr-qt");if(phh)phh.focus()}
+  if(window.__refocus){var rf=document.getElementById(window.__refocus);if(rf)rf.focus();window.__refocus=null}
   if(h==="#/resources"&&resPanel.hidden)resBtn.click();
 }
-viewCourse.addEventListener("click",e=>{const t=e.target.closest(".tab");if(t)location.hash="#/course/"+resCourse+"/"+t.dataset.tab});
-const hl=document.getElementById("helper-line"),hr=document.getElementById("helper-reply");
-function helperLine(){const f=ITEMS.final,i=ITEMS.ideation;hl.textContent=!f.done?"Start with the Final Submission Folder, due Sun 8 Nov.":!i.done?"Start with the Ideation folder, was due 28 Sep.":"Next: the Mock Quiz."}
-const REPLIES={due:()=>(ITEMS.final.done?"":"Final Submission Folder, Sun 8 Nov. ")+"TAKE HOME EXAM, Fri 13 Nov."+(ITEMS.ideation.done?"":" 1 overdue: Ideation."),
- next:()=>"MGMT6108-G1, Mon 9 Nov, 12:00 PM.",
- tools:()=>'<a href="#" data-sample="Sample only: Microsoft 365">Microsoft 365</a>, <a href="#" data-sample="Sample only: Google Workspace">Google Workspace</a>, <a href="#" data-sample="Sample only: Calendar">Calendar</a>'};
-document.getElementById("helper").addEventListener("click",e=>{
-  const c=e.target.closest(".chip-q");if(c){hr.hidden=false;hr.innerHTML=REPLIES[c.dataset.r]();return}
-  if(e.target.id==="helper-hide"){document.getElementById("helper").hidden=true;toast("Study helper hidden")}
-});
-const appEl=document.querySelector(".app");
-let userCollapsed=null;
-document.getElementById("nav-collapse").addEventListener("click",()=>setTimeout(()=>{userCollapsed=appEl.classList.contains("collapsed")},0));
-function bp(){const w=innerWidth;if(w<=700)appEl.classList.remove("collapsed");else if(w<1000)appEl.classList.add("collapsed");else if(userCollapsed===null)appEl.classList.remove("collapsed")}
-addEventListener("resize",()=>{bp();if(innerWidth>700)closeDrawer()});
-const burger=document.getElementById("nav-drawer");
-function closeDrawer(){appEl.classList.remove("drawer-open");document.body.classList.remove("drawer-open-body");burger.setAttribute("aria-expanded","false")}
-burger.addEventListener("click",()=>{const o=!appEl.classList.contains("drawer-open");appEl.classList.toggle("drawer-open",o);document.body.classList.toggle("drawer-open-body",o);burger.setAttribute("aria-expanded",String(o))});
-document.getElementById("scrim").addEventListener("click",closeDrawer);
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer()});
-document.querySelector(".courses").addEventListener("click",e=>{if(e.target.closest("a.course"))closeDrawer()});
-bp();setTimeout(bp,0);addEventListener("load",bp);
+document.getElementById("skip").addEventListener("click",function(e){e.preventDefault();var g=document.getElementById("bubble-go");if(!viewHome.hidden)g.focus();else document.getElementById("main").focus()});
+document.getElementById("main").setAttribute("tabindex","-1");
+var POP=null;
+function fillPops(){
+  var q=todoCount("quiz"),n=document.getElementById("upd-n");n.hidden=!q;n.textContent=q;
+  document.getElementById("upd-btn").setAttribute("aria-label",q?"Updates, "+q+" new":"Updates");
+}
+function place(p,a){var r=a.getBoundingClientRect();p.style.cssText="";
+  if(a.closest("#side")){var rail=r.width<80;p.style.left=Math.max(8,rail?r.right+8:r.left)+"px";p.style.bottom=Math.max(8,innerHeight-r.bottom)+"px"}
+  else{p.style.top=(r.bottom+6)+"px";p.style.right=Math.max(8,innerWidth-r.right)+"px"}}
+function openPop(id,a){closePop(false);if(typeof closeRes==="function")closeRes(false);
+  fillPops();var p=document.getElementById(id);p.hidden=false;place(p,a);a.setAttribute("aria-expanded","true");POP={p:p,a:a};var f=p.querySelector("button,a");if(f)f.focus()}
+function closePop(ret){if(!POP)return;POP.p.hidden=true;POP.a.setAttribute("aria-expanded","false");var a=POP.a;POP=null;if(ret!==false)a.focus()}
+[["me-btn","pop-me"]].forEach(function(x){var b=document.getElementById(x[0]);b.addEventListener("click",function(e){e.stopPropagation();if(POP&&POP.a===b)closePop();else openPop(x[1],b)})});
+document.addEventListener("keydown",function(e){if(!POP)return;
+  if(e.key==="Escape"){e.stopPropagation();closePop();return}
+  if(e.key==="Tab"){var f=[].slice.call(POP.p.querySelectorAll("button,a")),a=document.activeElement;if(!f.length)return;if(e.shiftKey&&a===f[0]){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&a===f[f.length-1]){e.preventDefault();f[0].focus()}}
+  if(e.key==="ArrowDown"||e.key==="ArrowUp"){var f2=[].slice.call(POP.p.querySelectorAll("button,a")),i=f2.indexOf(document.activeElement);if(i>-1){e.preventDefault();f2[(i+(e.key==="ArrowDown"?1:f2.length-1))%f2.length].focus()}}},true);
+document.addEventListener("click",function(e){if(POP&&!POP.p.contains(e.target)&&!POP.a.contains(e.target))closePop(false);else if(POP&&POP.p.contains(e.target)&&e.target.closest("a,button"))closePop(false)},true);
+addEventListener("resize",function(){closePop(false)});
+var frame=document.getElementById("frame");
+function bp(){frame.classList.toggle("rail",(innerWidth<1200&&innerWidth>500)||(userRail&&innerWidth>500));if(innerWidth>500)closeDrawer(false);var b=document.getElementById("nav-collapse");b.setAttribute("aria-expanded",String(!frame.classList.contains("rail")))}
+var burger=document.getElementById("nav-drawer"),side=document.getElementById("side");
+function focusables(){return Array.prototype.slice.call(side.querySelectorAll("a[href],button:not([disabled])")).filter(function(e){return e.offsetParent!==null})}
+function setInert(on){[document.querySelector(".top"),document.getElementById("main"),document.getElementById("skip")].forEach(function(e){if(!e)return;if(on){e.setAttribute("inert","");e.setAttribute("aria-hidden","true")}else{e.removeAttribute("inert");e.removeAttribute("aria-hidden")}})}
+function openDrawer(){document.body.classList.add("drawer-open");burger.setAttribute("aria-expanded","true");side.setAttribute("role","dialog");side.setAttribute("aria-modal","true");side.setAttribute("aria-label","Menu");setInert(true);var f=focusables();(f[0]||side).focus()}
+function closeDrawer(ret){var was=document.body.classList.contains("drawer-open");document.body.classList.remove("drawer-open");burger.setAttribute("aria-expanded","false");side.removeAttribute("role");side.removeAttribute("aria-modal");side.removeAttribute("aria-label");setInert(false);if(was&&ret!==false)burger.focus()}
+burger.addEventListener("click",function(){if(document.body.classList.contains("drawer-open"))closeDrawer();else openDrawer()});
+document.getElementById("scrim").addEventListener("click",function(){closeDrawer()});
+document.addEventListener("keydown",function(e){if(!document.body.classList.contains("drawer-open"))return;
+  if(e.key==="Escape"){closeDrawer();return}
+  if(e.key==="Tab"){var f=focusables();if(!f.length)return;var first=f[0],last=f[f.length-1],a=document.activeElement;
+    if(e.shiftKey&&(a===first||!side.contains(a))){e.preventDefault();last.focus()}else if(!e.shiftKey&&(a===last||!side.contains(a))){e.preventDefault();first.focus()}}});
+side.addEventListener("click",function(e){if(e.target.closest("a"))closeDrawer()});
+document.getElementById("nav-collapse").addEventListener("click",function(){userRail=!userRail;bp()});
+addEventListener("resize",bp);
 window.addEventListener("hashchange",route);
-renderHome();route();
-/* ---------------- masthead time of day (student's own clock; ?time= to preview) ---------------- */
-(function(){const c=document.querySelector(".courses"),b=document.getElementById("mob-toggle");
-  c.classList.add("listclosed");
-  b.addEventListener("click",()=>{const open=c.classList.toggle("listclosed")===false;b.setAttribute("aria-expanded",String(open));b.textContent=open?"Hide my courses":"Show my courses (4)"});
-  document.getElementById("skip").addEventListener("click",e=>{e.preventDefault();document.getElementById("bubble-go").focus()});
-})();
-const forced=new URLSearchParams(location.search).get("time");
-const h=new Date().getHours();
-const phase=forced||(h>=6&&h<17?"day":h>=17&&h<19?"dusk":"night");
-document.getElementById("masthead").dataset.time=phase;
-const icons={day:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/></svg>',dusk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 18h16M7 18a5 5 0 0 1 10 0M12 7v3M5.6 11.6l1.4 1.4M18.4 11.6L17 13"/></svg>',night:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5z"/></svg>'};
-document.getElementById("sky").innerHTML=icons[phase]+({day:"Good afternoon",dusk:"Good evening",night:"Working late"})[phase];
-if(!forced&&phase==="day"&&h<12)document.getElementById("sky").lastChild.textContent="Good morning";
-
-/* ---------------- collapsible side pane (remembers the choice) ---------------- */
-(function(){
-  const app=document.querySelector(".app"), btn=document.getElementById("nav-collapse");
-  function set(c){
-    app.classList.toggle("collapsed",c);
-    btn.setAttribute("aria-expanded",String(!c));
-    const t=c?"Expand the side pane":"Collapse the side pane";
-    btn.setAttribute("aria-label",t); btn.title=t;
-    try{localStorage.setItem("lrn-nav-collapsed",c?"1":"0")}catch(e){}
-  }
-  let start=false; try{start=localStorage.getItem("lrn-nav-collapsed")==="1"}catch(e){}
-  set(start);
-  btn.addEventListener("click",()=>set(!app.classList.contains("collapsed")));
-})();
+bp();renderHome();route();
 </script>
 </body>
 </html>

@@ -180,6 +180,8 @@
 
   var seen = false;
   try { seen = sessionStorage.getItem(CONSENT) === "1" || localStorage.getItem(CONSENT) === "1"; } catch (e) {}
+  /* Local preview only (author review on this computer): no consent screen. Any other host still shows it. */
+  if (location.hostname === "127.0.0.1" || location.hostname === "localhost") seen = true;
   if (seen) { load(); return; }
   document.getElementById("consent").hidden = false;
   document.getElementById("go").addEventListener("click", function (e) {
