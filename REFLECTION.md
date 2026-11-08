@@ -1,6 +1,6 @@
 # REFLECTION.md - WeLearn (Super Management University) · Group 15
 
-**Members:** CC = Chak, [AB = name], [CD = name], [EF = name], [GH = name]
+**Members:** CC = Chak,Ashwin, [CD = name], [EF = name], [GH = name]
 **Length:** about 1,000-1,500 words for the group. Each member initials the parts they wrote, e.g. (CC, AB). Initials not yet known are shown as [initials]; the group must replace them with the true authors before commit.
 **Status:** DRAFT. Drafted by Stick (AI) from the project files; every sentence needs a member to confirm it is true before it is initialled.
 
@@ -52,3 +52,5 @@ Two results would change the group's mind. If returns rise while answers to the 
 The AI did most of the typing: it rebuilt variant A as HTML, built variant B, drafted the audit and the paper, and ran four role-split agents (coordinator, compliance checker, designer, adversarial reviewer). Members decided what the product and scope were, what names to use, which AI suggestions to overrule, and what counts as sludge.
 
 The cost was also visible. A prompt to delete the old variant A also removed the A arm the A/B test needs, so A had to be rebuilt as a standalone page and linked back (PROMPTS.md). Credits ran out during the first multi-agent attempt, which changed the route. Review shifted from "does it work" to "does each element trace to a finding", and that check, done by a separate agent, found more problems than the builder did (CC, [initials]).
+
+From my perspective, AI changed my role from producing every element myself to setting direction and reviewing the results. I learned that detailed prompts alone are not enough; I had to keep checking whether the output matched the project scope and the evidence. I wanted Version B to remain comparable with Version A while improving clarity and navigation, and I pushed for a responsive experience across desktop, tablet, and mobile. When engagement features were proposed, I learned to ask whether they helped students make better study decisions or simply encouraged more clicks. AI could build and phrase ideas quickly, but it could not tell us whether students would find them useful, whether a claim was true, or whether a feature might create pressure. Next time, I would set the evidence, privacy, and testing criteria earlier, then validate the design with students. I would judge the work by meaningful learning and decision quality, not by the number of features or how polished the prototype looks. (Ashwin)
