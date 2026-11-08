@@ -165,3 +165,29 @@
 - Open question 4 (A showed a real student's reading status) no longer applies to the new A, which uses masked sample data. Whether the new A can serve as the M1 baseline has not been checked.
 - Decision for the group: to run the pilot, link or re-add A to the page, or compare B with the standalone A some other way.
 - Variant B was checked after the change: all 54 screens show the same text as before the edit, with no console errors.
+
+### 2026-11-08 - what changed after the audit
+Nothing above the "Added after building" heading was edited. The earlier entries in the audit that name "SMU Learn" and the real platform are superseded by the names below.
+
+**One site, two variants.** The page at `/` serves `?v=A` and `?v=B` (random assignment when no `?v`). The consent screen is shown once per browser on the live site and is skipped on localhost. The Finish button opens the debrief, which names the variant. A keyboard toggle (Shift+V) switches arms for review and is not meant for participants.
+
+**Variant A.** A is renamed WeLearn and is Aarti's rebuild of the platform: names masked, MGMT6108 plus three placeholder courses (XXX101 to XXX103). The earlier screenshot version of A and the `version-a-elearn` folder no longer exist in the repo.
+
+**Variant B.** B was rebuilt on A's content and rearranged (count and next deadline first, one primary action, course tabs below the masthead). B has an equivalent for every A screen: a parity check of 149 A identifiers found 109 exact, 40 partial (kept on purpose: A's grades error page, five external tools sharing one sample page, global Awards and Competencies mapped to course pages, MGMT6108 modules shown inline on Content) and 0 missing. The three XXX courses in B's tree carry invented sample numbers, labelled as sample.
+
+**Features in B that were not in the audited elements and are outside M1 to M3** (each is a design decision made after the audit, not a finding of F1 to F10):
+- Growing tree: one branch per subject, a leaf per reading read, a fruit per quiz result; clicking it opens the progress.
+- XP and a bonus apple: XP only for real actions; about one real action in three may show an apple that pays the same XP again. It is the group's own design decision (from CC's Figma comments), graded GREY with a sludge risk in `deliverables/ux/stick_gamification_sludge_check.md` (the sources give no benefit of a variable schedule to the student's own goal). Limits: nothing expires or is taken away, no timer, no sound, no ranking, no streak reset, and a Rewards On/Off switch that turns the apple and XP messages off.
+- Practice tab with mock quizzes per subject: no AI runs, all questions are pre-written and labelled as sample.
+- Course Readings page: 18 readings, starting at 0 read; opening a reading does not mark it read.
+- Global announcement banner under the masthead, with a popup for the full text.
+- Master search (Cmd/Ctrl+K), and 38 extra screens built to match the pages described in the team's Word documents.
+
+**Effect on the test.** B now differs from A by the audited repairs plus a reward layer, so a B result cannot be credited to the repairs alone. M3 (opens the reading list) and G2 (time in session) are the most exposed and are read with that caveat; M1 and M2 stay valid if the progress figures are true. Where the sample allows, B with Rewards Off against B with Rewards On is the cleaner comparison (proposal: the sample size for three arms is not set). Prediction that could fail (proposal, to be agreed): turning Rewards On does not change M1 by more than 5 points against Rewards Off, raises G1 (felt pressure) by no more than 0.5 and G2 by no more than 30%; the apple is dropped if any of these fails.
+
+**Notes to "Where our own B could turn into sludge"** (appended here because that section sits above the heading and does not change):
+- The bonus apple is the least defensible item: intermittent reward serves engagement, and no source shows it serves the student. It is disclosed as grey and limited as above.
+- The tree could read as failure when mostly bare (a half-done term): every item shows as a leaf or a bud or a fruit and nothing wilts.
+- Announcements and the banner must stay calm information with no urgency, timer or loss wording.
+- The Practice tab must not imply an AI is marking the answers; it states that no AI runs.
+- Active days has no streak counter, no flame and no reset.

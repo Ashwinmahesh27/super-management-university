@@ -4,10 +4,7 @@ Agreed scope (CC, 2026-09-28): **Home, Course page, PGPD registration.** Everyth
 The brief warns that a whole super-app is a weak candidate ("too many decisions at once", slide 11), so we audit one decision across three screens.
 
 ## How variant A is shown
-**Update 2026-11-07:** the four screenshots in `public/a/` were deleted and variant A was replaced by a standalone page, `version-a-elearn/elearn_version_a.html`: the as-is LMS rebuilt in HTML from the live site, with masked sample data, 76 screens at phone, tablet and desktop widths. Its notes and build scripts are in `version-a-elearn/`. The deployed page (`public/index.html`) now shows variant B only and no longer links to A.
-
-**Earlier approach (replaced):** variant A was four screenshots of the live LMS, captured 2026-09-28, with the student name and a slide password removed. They were in `public/a/` (deleted 2026-11-07): `home.jpg`, `course-home.jpg`, `course-readings.jpg`, `pgpd.jpg`. Clickable areas: Home → the course tile and the PGPD tile; course home → Content; any page → My Home. Everything else in the screenshots is not clickable (ignored).
-Why screenshots: the LMS sits behind the university's Microsoft 365 sign-in with multi-factor authentication, so the tools could not load it to rebuild an accurate copy.
+**Current:** variant A is `public/a.html`, Aarti's rebuild of the platform in HTML with masked sample data (MGMT6108 plus three placeholder courses XXX101 to XXX103), served at `/?v=A`. The earlier screenshot version of A (`public/a/`) and the `version-a-elearn/` folder were removed. Why a rebuild: the real platform sits behind the university's Microsoft 365 sign-in with multi-factor authentication, so the build tools could not load it.
 
 ## In scope
 | Screen in the prototype | Real screen it copies (captured 2026-09-28) | Screenshot file |
@@ -42,7 +39,10 @@ These appear as links or tabs in variant A so the layout looks right, but they d
 | File | Required by the brief | Status |
 |---|---|---|
 | `AUDIT.md` | Yes, committed **before** any prompt for B | Draft. Severities blank, predictions to agree |
-| `PROMPTS.md` | Yes, written as we work | Started, entries 1 to 4 |
-| `REFLECTION.md` | Yes, after the pilot | Template only |
+| `PROMPTS.md` | Yes, written as we work | Entries 1 to 64 logged (Entry 65 is the next template) |
+| `REFLECTION.md` | Yes, after the pilot | Draft written; members to verify and initial |
 | `SCOPE.md` | No (our own) | This file |
 | `README.md` | No | Short run and deploy notes; updated 2026-11-07 for the new variant A location |
+
+## Added beyond the agreed three screens
+Variant B and the rebuilt A grew past Home, Course page and PGPD registration. The additions are listed in `AUDIT.md` under "Added after building" (2026-11-08): growing tree, XP and bonus apple, Practice tab with mock quizzes, Course Readings page, global announcement banner, master search (Cmd/Ctrl+K), 38 extra screens for pages in the team's Word documents, and parity with every Version A screen. They are outside the audited elements and outside M1 to M3.

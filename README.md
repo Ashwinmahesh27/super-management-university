@@ -1,11 +1,14 @@
 # WeLearn (Super Management University) - class prototype
 
-A term-paper prototype for MGMT 6108 Decision Architecture for Managers: one site that shows the as-is LMS (version A) and a redesign (version B). Names, courses, dates and people are fictional samples.
+A term-paper prototype for MGMT 6108: one site with an as-is learning platform (Version A) and a redesign (Version B). Names, courses, dates and people are fictional samples.
 
-- One address: `/?v=A` shows version A, `/?v=B` shows version B. With no `?v`, a version is picked at random and kept for the visit. A consent screen comes first, and the Finish button opens the debrief.
-- Version B is rebuilt on version A's own content (same courses, announcement, due items, schedule and course tabs), rearranged so the audited elements stand out: a visible "x of y" count, the next deadline, and one primary action.
-- Front end only: no server, no database, no API keys, no login.
+- `public/index.html`: router, consent screen and debrief. `/?v=A` shows Version A, `/?v=B` shows Version B; with no `?v` one is picked at random and remembered.
+- `public/a.html`: Version A (WeLearn as it is, rebuilt with masked sample data).
+- `public/b.html`: Version B (the redesign, built on A's content).
+- `AUDIT.md`, `PROMPTS.md`, `REFLECTION.md`, `SCOPE.md`: the audit, prompt log, reflection and scope notes.
 
-Files: `public/index.html` (router, consent, debrief), `public/a.html` (version A), `public/b.html` (version B), `AUDIT.md`, `PROMPTS.md`, `REFLECTION.md`, `SCOPE.md`, `vercel.json`.
+Consent is shown once per browser on the live site and skipped on localhost. The Finish button opens the debrief, which names the variant seen. Shift+V shows an A/B switch; it is a prototype review aid, not for participants.
 
-Live: https://super-management-university.vercel.app (Vercel, static, no build step; every push to main by the project owner redeploys).
+Front end only: no server, database, API keys or login. No AI model runs in the prototype; the Practice quizzes and the study helper use pre-written text.
+
+Live: https://super-management-university.vercel.app (Vercel, static, no build step).
