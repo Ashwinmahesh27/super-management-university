@@ -748,4 +748,39 @@ This part shouldn't hit the Overview button
 
 ---
 
-## Entry 65 - [next prompt] · [date, time] · sent by [initials] · [tool]
+## Entry 68 - revise proposed redesign from paper comments and latest Version B · [2026-11-08, about 23:45 SGT (approx; exact time not captured)] · sent by [SP] · Aside
+
+~~~~text
+Use my comments in the paper to revise the proposed redesign. Update only the comment-marked material from “Proposed Redesign” onward. Do not change the executive summary, introduction, product design, or ideation sections, which I have already revised.
+
+Use the latest Version B as the reference. Keep the paper consistent with what is actually present in Version B. Do not describe planned, unbuilt, or unverified features as implemented.
+
+Address the comments as follows:
+
+1. Make the evaluation consistent across all seven screens. Explain all seven screens covered by the table, not just a few. Review the table before discussing user flow, and make sure the flow is represented consistently in the table and surrounding text.
+
+2. Remove repeated or redundant sentences, including the repeated reference to the full ten-heuristic evaluation being in Appendix F. Remove the phrase “not interview quotations” where marked, and make the writing concise.
+
+3. Distinguish an AI-generated artifact from a software tool. Do not describe an artifact created by Claude as a tool. Replace or expand the marked text where the comments assign Chak or Aarti to do so, but do not invent missing details.
+
+4. Check every citation for whether it is peer-reviewed where appropriate, relevant to the claim, and used accurately. Use the SMU library portal when available. Cite the published study or source itself, not lecture slides. If a source or website is inaccessible or unauthorized, tell me before making assumptions from it. You may inspect publicly accessible Brightspace/D2L blogs, manuals, FAQs, help pages, and community discussions for relevant pain points, but use only information that can be verified and is relevant.
+
+5. Incorporate the Version B design comments accurately:
+- Retain the chat bubble on the right. It should open a contextual side pane within the content area and identify the relevant week’s content. The intended use is to discuss that week’s PPT with the AI.
+- Make changing the language to Chinese easier to find. Add an explicit “Language” label and icon in the profile-picture popover. Reflect the current steps accurately: profile icon, then “SMU,” then the language-selection modal.
+- State that AI notifications can be opted out of.
+- Keep the vXP and progress visualization on the Home page only.
+
+6. Manually verify anything marked for manual checking, including whether a proposed feature is in the requirements. If it cannot be verified, label it as unverified rather than presenting it as fact.
+
+7. Update any marked dependent or summary text only after the other requested revisions are complete. Do not alter the protected sections unless a comment specifically requires it.
+
+Before finishing, provide a brief comment-by-comment checklist showing what was changed, what was manually verified, and what remains unverified.
+~~~~
+
+**What came back:** [Fill in after the revisions are actually made. Summarize changes and verification without claiming checks that were not completed.]
+
+**Our judgement, and what we changed next:** [Add the team’s judgement and next steps.]
+
+**Principle check:** Accuracy, traceable evidence, and alignment between the paper and the implemented Version B.
+
