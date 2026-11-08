@@ -503,7 +503,7 @@ Art - too much options on the sidepane; just keep it Home and the subjects on th
 Compare this against the Vercel site we have deployed. I love this much better. Except for the side pane, I don't want to see home there again, and then when I click on a course, I see home again, Keep only 1. And there are too many cards in particular to this screenshot. Can we kind of do something about it? And the copyright and academic integrity, I don't think it needs to be shown at the bottom over there. And
 ```
 (Attached: a screenshot of B's course Home tab with the tab bar, three stat tiles, Coming up cards, Timeline, Learning tools, Announcements and the Copyright block. The message ends after "And".)
-**What came back:** Pending (Art round 12). Reading of the message: Home appears in the sidebar and again as the first course tab, so only one stays. The sidebar keeps Home and the course tab becomes "Overview". Cards are cut to at most 4 bordered blocks on the course Overview, and the copyright and integrity block goes from every B screen.
+**What came back:** Pending (Art round 12). Reading of the message: Home appears in the sidebar and again as the first course tab, so only one stays. The sidebarhttps://github.com/c-c-for-code/super-management-university/blob/main/PROMPTS.md keeps Home and the course tab becomes "Overview". Cards are cut to at most 4 bordered blocks on the course Overview, and the copyright and integrity block goes from every B screen.
 **Our judgement, and what we changed next:** The unfinished last sentence was reported to the user. The comparison to the deployed site: the local version has the reference layout, a short sidebar, tab bar under the course header and the timeline; the deployed version is still the earlier blue and white build.
 **Principle check:** W1 choice overload and fluency (fewer blocks per screen).
 
@@ -748,4 +748,111 @@ This part shouldn't hit the Overview button
 
 ---
 
-## Entry 65 - [next prompt] · [date, time] · sent by [initials] · [tool]
+## ## Entry 65 - Version B ClassList and student profiles · [date from your records] · sent by [Ashwin] · [Aside]
+
+~~~~text
+Do not change anything in Version A. Make the following changes only in Version B.
+
+Version A has ClassList and Groups inside the class information tab, but Version B is missing this tab. Add a new Version B tab named ClassList that combines the ClassList and Groups experience.
+
+Retain the ClassList page and student roster. When a user clicks a student's name, open a detailed profile within the same page instead of redirecting to Outlook or another browser page. Use a nested profile view, expandable panel, or another intuitive layout that preserves access to the ClassList.
+
+Include these profile sections:
+
+A. Personal and Academic Information
+- Full name and profile photograph
+- Degree programme and academic specialisation
+- University email address and phone number, where available
+- LinkedIn profile and personal portfolio
+- Academic year, graduation date, and other relevant academic details
+
+B. Academic History
+- Courses previously taken
+- Current courses and relevant academic interests
+- Academic projects, research, and achievements, where available
+
+C. Class Groups and Collaboration
+- Class groups, project teams, or study groups the student belongs to
+- Names of other students in each group
+- Current projects and collaboration interests
+- Skills the student can contribute to group projects
+- Areas where the student is interested in collaborating with others
+
+D. Personal and Professional Interests
+- Career goals and professional interests
+- Skills and areas of expertise
+- Extracurricular activities and interests
+- Optional social media accounts and other relevant professional links
+
+E. Communication and Networking
+- Clearly accessible email and contact options
+- Ways to connect with classmates through relevant channels
+- A clear distinction between publicly visible profile information and private contact details
+~~~~
+
+## Entry 66 - Version B behavioural science and student engagement · 2026-11-08, about 22:05 SGT (approx; exact time not captured)· sent by [Ashwin] · [Aside]
+~~~~text
+Do not change anything in Version A. Make the following changes only in Version B.
+
+Upgrade Version B with behavioural design that encourages students to reflect on their assumptions, engage meaningfully with learning materials, and maintain progress towards academic commitments. Preserve Version B's current functionality, visual identity, navigation, and working interactions unless a change is requested below. Behavioural-science terms are for documentation only. Do not show them as student-facing labels or content.
+
+1. Optional reflection prompts
+Add relevant, open-ended questions at selected points in the portal. Vary their order. Make answering optional, and let students navigate and complete tasks without responding. Do not use blocking pop-ups, forced responses, or mandatory checkpoints. Present questions subtly, such as in reflection cards or expandable sections. Example: “What is one assumption you currently hold about this topic? What evidence might challenge it?”
+
+2. Processing feedback
+Show contextual indicators while the portal is actually processing an action, such as “Preparing your learning materials...” or “Updating your progress...”. Connect indicators to real application states and remove them when processing finishes. Do not simulate processing, add artificial delays, or imply that the system is reasoning when it is not.
+
+3. Incremental learning progress
+Add a progress indicator within the existing Content tab. Base it on actual completion data and update it as students complete lessons or activities. Where appropriate, show the change from previous progress with concise messages.
+
+4. Dashboard for pending academic commitments
+Add a Dashboard tab that brings together pending content lessons, assignments, quizzes, and other academic activities. Show available task names, statuses, deadlines, and remaining effort. Include a non-intrusive indicator of outstanding work that updates as tasks are completed. Use neutral, supportive language. Do not fabricate deadlines, penalties, or consequences, and do not restrict access to other features.
+
+5. Navigation
+Move ClassList so it appears immediately below Discussions. Preserve the relative order of other existing tabs unless specified otherwise. Add Dashboard while keeping existing tabs and functionality.
+
+6. Consistency and validation
+Keep Version B's visual identity, accessibility, and responsive behavior. Implement these changes only in Version B and leave Version A untouched. Verify that reflection prompts are optional, processing indicators reflect real activity, progress is based on real completion, Dashboard information updates correctly, and navigation is in the requested order.
+
+Initial design notes in the source document also proposed open-ended questions to challenge assumptions, visible progress in Content, processing messages, and a Dashboard progress view. Keep the final interface optional, evidence-based, and non-coercive.
+~~~~
+
+## Entry 67 - Discussions and ClassList redesign · 2026-11-08, about 22:10 SGT (approx; exact time not captured)· sent by [Ashwin] · [Aside]
+
+~~~~text
+Act as a senior UX/UI and product designer specialising in learning management systems. Redesign the Discussions and ClassList tabs to make them more intuitive and usable while retaining existing functionality and academic context.
+
+1. Discussions
+Keep the existing Discussions landing page and forum list. Inside a forum, replace the small fixed-position thread and content boxes with one larger, organised interface. Use a nested thread-and-reply layout, or a two-panel layout with thread navigation on the left and the selected discussion on the right. Provide enough space for long discussions and adapt to different screen sizes.
+
+Make it easy to move between threads without losing the user's place. Include search, sorting, filtering, reply functionality, and clear indicators for unread discussions, new replies, and the selected thread.
+
+Show overdue and approaching-deadline notifications in the website's main notification area, not only inside a course. Also make it easy to enrol in new classes, modules, and workshops.
+
+2. ClassList and profiles
+Keep the ClassList roster. When a user selects a student's name, open that student's profile within the same page instead of redirecting to Outlook or another browser page. Include:
+- Personal and academic information, such as programme, specialisation, academic year, and relevant contact or portfolio details where available
+- Academic history, current courses, interests, projects, research, and achievements where available
+- Class groups, project teams, collaboration interests, and skills the student can contribute
+- Personal and professional interests, skills, activities, and relevant links
+- Communication options, with a clear distinction between public profile information and private contact details
+
+3. UX and visual requirements
+Use a clean, professional university design with consistent styling across both tabs. Prioritise readability, accessibility, spacing, visual hierarchy, and intuitive navigation. Support desktop, tablet, and mobile. Avoid unnecessary pop-ups, clutter, and excessive navigation. Use realistic sample data and do not expose sensitive information. Show profile fields only when the information is available and the student has permission to share it.
+
+4. Prototype deliverable
+Create a high-fidelity interactive prototype with a redesigned Discussions landing page, an improved forum view, navigable nested threads, a searchable ClassList, in-page student profiles, and functional navigation between Discussions and ClassList. Demonstrate working interactions, not just static mock-ups. Keep it a practical upgrade to eLearn rather than an entirely different platform.
+
+5. Behaviour, social norms, and collaboration
+Encourage participation, knowledge sharing, constructive feedback, and collaborative problem-solving through non-intrusive nudges. Reduce cognitive load and help students take small steps towards academic and collaborative goals.
+
+Use positive social norms carefully. Highlight helpful contributions and thoughtful feedback, but avoid public rankings, excessive competition, or pressure that could discourage students. Make new and less-active students feel welcome.
+
+Help students find classmates with complementary skills, shared interests, and similar goals. Support discussion with follow-up questions, constructive response prompts, and opportunities to share different perspectives. Support individual and collaborative learning.
+
+6. Colour and implementation
+Use a light, professional academic palette with accessible contrast. Use colour consistently for selected items, unread discussions, collaboration opportunities, and successful interactions. Avoid excessive colours, heavy gradients, dark backgrounds, and distracting elements.
+
+Build these principles into real prototype interactions. For each major design decision, explain the student challenge it addresses, the principle used, and how it helps without unnecessary pressure or manipulation.
+~~~~
+
